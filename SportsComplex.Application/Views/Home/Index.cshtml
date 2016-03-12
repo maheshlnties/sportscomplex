@@ -1,0 +1,175 @@
+﻿@using SportsComplex.Application.ViewModels
+@model HomeViewModel
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="col-sm-3">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <div class="panel-title">Login</div>
+            <div style="float: right; font-size: 80%; position: relative; top: -10px">
+                <a href="#">Forgot password?</a>
+            </div>
+        </div>
+        <div style="padding-top: 15px" class="panel-body">
+            <div style="display: none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "loginform", @class = "form-horizontal" }))
+            {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div style="margin-bottom: 15px" class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    @Html.TextBoxFor(m => m.LoginViewModel.Username, new { maxlength = 50, id = "login-username", @class = "form-control", @placeholder = "Username" })
+                    @Html.ValidationMessageFor(m => m.LoginViewModel.Username, "", new { @class = "text-danger" })
+                </div>
+                <div style="margin-bottom: 15px" class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    @Html.PasswordFor(m => m.LoginViewModel.Password, new { maxlength = 50, id = "login-password", @class = "form-control", @placeholder = "Password" })
+                    @Html.ValidationMessageFor(m => m.LoginViewModel.Password, "", new { @class = "text-danger" })
+                </div>
+                <div class="input-group">
+                    <div class="checkbox">
+                        <label>
+                            <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
+                        </label>
+                    </div>
+                </div>
+                if (!string.IsNullOrEmpty(@ViewBag.Error))
+                {
+                    <br />
+                     <div class="text-danger">
+                         @ViewBag.Error
+                     </div>
+                 }
+                <div style="margin-top: 10px" class="form-group">
+                    <!-- Button -->
+                    <div class="col-sm-12 controls">
+                        <a id="btn-login" href="javascript:$('#loginform').submit();" class="btn btn-success">Login </a>
+                        <a id="btn-fblogin" href="@Url.Action("Register", "Home")" class="btn btn-primary">Register</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <div class="panel-title">Search Employee</div>
+        </div>
+        <div style="padding-top: 15px" class="panel-body">
+            <div style="display: none" id="search-alert" class="alert alert-danger col-sm-12"></div>
+            <form id="searchform" class="form-horizontal" role="form">
+                <div style="margin-bottom: 15px" class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    <input id="search-username" type="text" class="form-control" name="Name" value="" placeholder="Name or Email">
+                </div>
+                <div style="margin-bottom: 15px" class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
+                    <input id="search-password" type="text" class="form-control" name="Number" placeholder="Number">
+                </div>
+                <div style="margin-bottom: 15px" class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></span>
+                    <input id="search-extension" type="text" class="form-control" name="Extension" placeholder="Extension">
+                </div>
+                <div style="margin-top: 10px" class="form-group">
+                    <div class="col-sm-12 controls">
+                        <a id="btn-Search" href="#" class="btn btn-success">Search </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-sm-6">
+    @{ Html.RenderPartial("_NewsPanel", new List<NewsViewModel>()); }
+</div>
+
+
+<div class="col-sm-3">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <div class="panel-title">Gallery</div>
+        </div>
+        <div style="margin: -12px; padding: -15px" class="panel-body">
+            <div class="carousel slide" style="margin-bottom:0px;height:300px" id="galleryCarousel">
+                <!-- Carousel items -->
+                <div class="carousel-inner" style="height: 300px">
+                    <div class="active item" data-slide-number="0">
+                        <img src="http://placehold.it/470x480&text=zero" style="height:300px">
+                    </div>
+
+                    <div class="item" data-slide-number="1">
+                        <img src="http://placehold.it/470x480&text=1" style="height:300px">
+                    </div>
+
+                    <div class="item" data-slide-number="2">
+                        <img src="http://placehold.it/470x480&text=2" style="height:300px">
+                    </div>
+
+                    <div class="item" data-slide-number="3">
+                        <img src="http://placehold.it/470x480&text=3" style="height:300px">
+                    </div>
+
+                    <div class="item" data-slide-number="4">
+                        <img src="http://placehold.it/470x480&text=4" style="height:300px">
+                    </div>
+
+                    <div class="item" data-slide-number="5">
+                        <img src="http://placehold.it/470x480&text=5" style="height:300px">
+                    </div>
+
+                    <div class="item" data-slide-number="6">
+                        <img src="http://placehold.it/470x480&text=6" style="height:300px">
+                    </div>
+
+                    <div class="item" data-slide-number="7">
+                        <img src="http://placehold.it/470x480&text=7" style="height:300px">
+                    </div>
+
+                    <div class="item" data-slide-number="8">
+                        <img src="http://placehold.it/470x480&text=8" style="height:300px">
+                    </div>
+
+                    <div class="item" data-slide-number="9">
+                        <img src="http://placehold.it/470x480&text=9" style="height:300px">
+                    </div>
+
+                    <div class="item" data-slide-number="10">
+                        <img src="http://placehold.it/470x480&text=10" style="height:300px">
+                    </div>
+
+                    <div class="item" data-slide-number="11">
+                        <img src="http://placehold.it/470x480&text=11" style="height:300px">
+                    </div>
+
+                    <div class="item" data-slide-number="12">
+                        <img src="http://placehold.it/470x480&text=12" style="height:300px">
+                    </div>
+
+                    <div class="item" data-slide-number="13">
+                        <img src="http://placehold.it/470x480&text=13" style="height:300px">
+                    </div>
+
+                    <div class="item" data-slide-number="14">
+                        <img src="http://placehold.it/470x480&text=14" style="height:300px">
+                    </div>
+
+                    <div class="item" data-slide-number="15">
+                        <img src="http://placehold.it/470x480&text=15" style="height:300px">
+                    </div>
+                </div>
+                <!-- Carousel nav -->
+                <a class="left carousel-control" href="#galleryCarousel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#galleryCarousel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
