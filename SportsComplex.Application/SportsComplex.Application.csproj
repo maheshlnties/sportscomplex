@@ -200,6 +200,7 @@
     <Content Include="Images\Badminton.jpg" />
     <Content Include="Images\Gym.jpg" />
     <Content Include="Images\logo_larsen_toubro.jpg" />
+    <Content Include="Images\myCharges.ico" />
     <Content Include="Images\report_button.ico" />
     <Content Include="Images\resourceBook_button.ico" />
     <Content Include="Images\tournament_button.ico" />
@@ -256,6 +257,7 @@
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Shared\_EmployeeLayout.cshtml" />
+    <Content Include="Views\Employee\ResourceBooking.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

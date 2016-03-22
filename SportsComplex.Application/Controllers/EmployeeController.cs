@@ -14,6 +14,11 @@ namespace SportsComplex.Application.Controllers
             return View();
         }
 
+        public ActionResult ResourceBooking()
+        {
+            return View();
+        }
+
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
