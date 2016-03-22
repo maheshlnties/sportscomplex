@@ -169,6 +169,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Filters\UserAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -195,6 +196,8 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\admin_button.ico" />
+    <Content Include="Images\badmintonResource.ico" />
+    <Content Include="Images\billiardsResource.ico" />
     <Content Include="Images\gallery_button.ico" />
     <Content Include="Images\gym_button.ico" />
     <Content Include="Images\Badminton.jpg" />
@@ -257,7 +260,7 @@
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Shared\_EmployeeLayout.cshtml" />
-    <Content Include="Views\Employee\ResourceBooking.cshtml" />
+    <Content Include="Views\Module\ResourceBooking.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

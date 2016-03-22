@@ -1,4 +1,5 @@
-﻿using System.Security.Principal;
+﻿using System.Linq;
+using System.Security.Principal;
 using SportsComplex.Models;
 using SportsComplex.Utilities;
 
@@ -10,8 +11,12 @@ namespace SportsComplex.Application.Helper
 
         public bool IsInRole(string role)
         {
-            var result = EnumHelper.TryParse<UserRoles>(role);
-            return result != UserRoles.Anonymous && result == Role;
+            if (string.IsNullOrEmpty(role)) return false;
+
+            var roles = role.Split(',');
+            return
+                roles.Select(eachRole => EnumHelper.TryParse<UserRoles>(eachRole))
+                    .Any(result => result != UserRoles.Anonymous && result == Role);
         }
 
         public CustomPrincipal(string username)
