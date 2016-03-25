@@ -1,5 +1,7 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using SportsComplex.Application.Filters;
+using SportsComplex.Application.ViewModels;
 
 namespace SportsComplex.Application.Controllers
 {
@@ -15,17 +17,58 @@ namespace SportsComplex.Application.Controllers
 
         //
         // GET: /Module/
+        [HttpGet]
+        [ActionName("Badminton")]
         public ActionResult Badminton()
         {
-            return View();
+            var resourceViewModel = new ResourceViewModel
+            {
+                Headers = new List<string>
+                {
+                    "5PM - 6PM",
+                    "6PM - 7PM",
+                    "7PM - 8PM",
+                    "8PM - 9PM"
+                },
+                Rows = 3
+            };
+            return View(resourceViewModel);
         }
 
+        [HttpPost]
+        [ActionName("Badminton")]
+        public ActionResult BadmintonPost(ResourceViewModel resourceViewModel)
+        {
+            //var resourceViewModel = new ResourceViewModel
+            //{
+            //    Headers = new List<string>
+            //    {
+            //        "5PM - 6PM",
+            //        "6PM - 7PM",
+            //        "7PM - 8PM",
+            //        "8PM - 9PM"
+            //    },
+            //    Rows = 3
+            //};
+            return View(resourceViewModel);
+        }
 
         //
         // GET: /Module/
         public ActionResult Billiards()
         {
-            return View();
+            var resourceViewModel = new ResourceViewModel
+            {
+                Headers = new List<string>
+                {
+                    "5PM - 6PM",
+                    "6PM - 7PM",
+                    "7PM - 8PM",
+                    "8PM - 9PM"
+                },
+                Rows = 6
+            };
+            return View(resourceViewModel);
         }
 	}
 }
