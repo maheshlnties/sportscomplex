@@ -37,22 +37,27 @@ namespace SportsComplex.Application.Controllers
 
         [HttpPost]
         [ActionName("Badminton")]
-        public ActionResult BadmintonPost(ResourceViewModel resourceViewModel)
+        public ActionResult BadmintonPost(ResourceViewModel resources)
         {
-            //var resourceViewModel = new ResourceViewModel
-            //{
-            //    Headers = new List<string>
-            //    {
-            //        "5PM - 6PM",
-            //        "6PM - 7PM",
-            //        "7PM - 8PM",
-            //        "8PM - 9PM"
-            //    },
-            //    Rows = 3
-            //};
+            var resourceViewModel = new ResourceViewModel
+            {
+                Headers = new List<string>
+                {
+                    "5PM - 6PM",
+                    "6PM - 7PM",
+                    "7PM - 8PM",
+                    "8PM - 9PM"
+                },
+                Rows = 3
+            };
             return View(resourceViewModel);
         }
 
+        public class Demo
+        {
+            public string Headers { get; set; }
+            public string Rows { get; set; }
+        }
         //
         // GET: /Module/
         public ActionResult Billiards()

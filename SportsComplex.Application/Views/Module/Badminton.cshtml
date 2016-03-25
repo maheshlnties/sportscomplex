@@ -18,16 +18,33 @@
 {
     <link href="~/Content/largeButton.css" rel="stylesheet"/>
     <script type="text/javascript">
-        $(function() {
-            $(":button").click(function(event) {
-                event.preventDefault();
-                if (confirm("Are you sure you want to submit ?")) {
-                    $.post("/Module/Badminton", null, function(data) {});
-                } else
-                    alert("clicked cancel");
-                return false;
-            });
+    $(function () {
+        $(":button").click(function (event) {
+            event.preventDefault();
+            if (confirm("Are you sure you want to submit ?")) {
+
+                @*Headers: ['@(string.Join(@"\',\'", Model.Headers))'],
+                    Rows: @(Model.Rows)*@
+                var resources = {
+                    Headers: ['1', '2'],
+                    Rows: 3
+                }
+                $.ajax({
+                    type: "POST",
+                    url: '/Module/Badminton',
+                    //data: JSON.Stringify({ 'Headers': "['1', '2']", 'Rows': '3' }),
+                    data: JSON.stringify({ Headers: ['1', '2'], Rows: '3' }),
+                    contentType: 'application/json',
+                    datatype: "json",
+                    traditional: true
+                });
+                //$.post("/Module/Badminton", JSON.stringify(), function (data) { });
+            }
+            else
+                alert("clicked cancel");
+            return false;
         });
+    });
     </script>
 }
 
