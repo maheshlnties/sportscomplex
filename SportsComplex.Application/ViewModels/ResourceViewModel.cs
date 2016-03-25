@@ -4,8 +4,8 @@ namespace SportsComplex.Application.ViewModels
 {
     public class ResourceViewModel
     {
-        public List<string> Headers;
+        public List<string> Headers { get; set; }
 
-        public int Rows;
+        public int Rows { get; set; }
     }
 }
