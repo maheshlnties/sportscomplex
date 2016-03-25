@@ -12,5 +12,20 @@ namespace SportsComplex.Application.Controllers
         {
             return View();
         }
+
+        //
+        // GET: /Module/
+        public ActionResult Badminton()
+        {
+            return View();
+        }
+
+
+        //
+        // GET: /Module/
+        public ActionResult Billiards()
+        {
+            return View();
+        }
 	}
 }

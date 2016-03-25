@@ -102,7 +102,7 @@ namespace SportsComplex.Application.Controllers
                     user.Name,
                     DateTime.Now,
                     DateTime.Now.AddMinutes(15),
-                    false,
+                    loginViewModel.RememberMe,
                     userData);
 
                 var encryptTicket = FormsAuthentication.Encrypt(authTicket);

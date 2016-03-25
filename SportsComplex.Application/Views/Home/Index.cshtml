@@ -31,7 +31,7 @@
                 <div class="input-group">
                     <div class="checkbox">
                         <label>
-                            <input id="login-remember" type="checkbox" name="remember" value="1"> Remember me
+                            @Html.CheckBoxFor(m => m.LoginViewModel.RememberMe, new { maxlength = 50, id = "login-remember" }) Remember me
                         </label>
                     </div>
                 </div>
