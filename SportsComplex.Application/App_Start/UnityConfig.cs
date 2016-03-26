@@ -19,7 +19,8 @@ namespace SportsComplex.Application
             // e.g. container.RegisterType<ITestService, TestService>();
             container.RegisterType<IUserService, UserService>();
             container.RegisterType<IAdminService, AdminService>();
-            container.RegisterType<IEmployeeService, IEmployeeService>();
+            container.RegisterType<IEmployeeService, EmployeeService>();
+            container.RegisterType<IModuleService, ModuleService>();
             container.RegisterInstance(typeof(IMapper), MapperConfig.RegisterMappers());
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

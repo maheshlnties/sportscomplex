@@ -1,13 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using SportsComplex.Application.Filters;
 using SportsComplex.Application.ViewModels;
+using SportsComplex.DatabaseService.Interface;
+using SportsComplex.Models;
 
 namespace SportsComplex.Application.Controllers
 {
     [UserAuthorize(Roles = "Admin , Employee")]
     public class ModuleController : Controller
     {
+        private readonly IModuleService _moduleService;
+        public ModuleController(IModuleService moduleService)
+        {
+            _moduleService = moduleService;
+        }
+
         //
         // GET: /Module/
         public ActionResult ResourceBooking()
@@ -21,57 +31,44 @@ namespace SportsComplex.Application.Controllers
         [ActionName("Badminton")]
         public ActionResult Badminton()
         {
+            var resource = _moduleService.GetBadmintonResource();
             var resourceViewModel = new ResourceViewModel
             {
-                Headers = new List<string>
-                {
-                    "5PM - 6PM",
-                    "6PM - 7PM",
-                    "7PM - 8PM",
-                    "8PM - 9PM"
-                },
-                Rows = 3
+                Headers = resource.Headers,
+                Rows = resource.Rows,
+                BookedList = resource.BookedList
             };
             return View(resourceViewModel);
         }
 
         [HttpPost]
         [ActionName("Badminton")]
-        public ActionResult BadmintonPost(ResourceViewModel resources)
+        public ActionResult BadmintonPost(ResourceViewModel resource, string id)
         {
-            var resourceViewModel = new ResourceViewModel
+            var existingBookedList=_moduleService.GetBookedBadmintonList(DateTime.Today);
+            resource.BookedList = existingBookedList ?? new List<BookingItem>(); 
+
+            if (resource.BookedList.Any(x => x.Item != id))
+                resource.BookedList.Add(new BookingItem { Item = id, BookedBy = "Yogesh" });
+
+            var resourceModel = new Resource
             {
-                Headers = new List<string>
-                {
-                    "5PM - 6PM",
-                    "6PM - 7PM",
-                    "7PM - 8PM",
-                    "8PM - 9PM"
-                },
-                Rows = 3
+                Headers = resource.Headers,
+                Rows = resource.Rows,
+                BookedList = resource.BookedList
             };
-            return View(resourceViewModel);
+            _moduleService.BookBadmintonResource(resourceModel);
+            return View(resource);
         }
 
-        public class Demo
-        {
-            public string Headers { get; set; }
-            public string Rows { get; set; }
-        }
-        //
-        // GET: /Module/
         public ActionResult Billiards()
         {
+            var resource = _moduleService.GetBilliardResource();
             var resourceViewModel = new ResourceViewModel
             {
-                Headers = new List<string>
-                {
-                    "5PM - 6PM",
-                    "6PM - 7PM",
-                    "7PM - 8PM",
-                    "8PM - 9PM"
-                },
-                Rows = 6
+                Headers = resource.Headers,
+                Rows = resource.Rows,
+                BookedList = resource.BookedList
             };
             return View(resourceViewModel);
         }

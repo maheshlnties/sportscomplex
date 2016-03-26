@@ -1,5 +1,6 @@
 ﻿@using SportsComplex.Application.Helper
 @using SportsComplex.Models
+@using System.Linq
 @{
     var principal = (CustomPrincipal)HttpContext.Current.User;
     switch (principal.Role)
@@ -27,7 +28,7 @@
                     {
                         @:jsonArray.push("@eachHeader");
                     }
-                    var resources = {
+                    var resource = {
                         Headers: jsonArray,
                         Rows: @(Model.Rows)
                     };
@@ -35,8 +36,10 @@
                         type: "POST",
                         url: '/Module/Badminton',
                         contentType: 'application/json; charset=utf-8',
-                        //data: JSON.stringify({ "Headers": ["1", "2"] , "Rows" : 3 })
-                        data: JSON.stringify(resources)
+                        data: JSON.stringify({"resource": resource,"id": this.id}),
+                        success: function (data) {
+                            window.location.reload(true);
+                    }
                     });
                 } else
                     alert("clicked cancel");
@@ -47,7 +50,7 @@
 
 
 <div class="container" style="margin-top: 50px">
-    <table class="table table-bordered">
+    <table id="tableEle" class="table table-bordered">
         <thead>
             <tr>
                 <th style="text-align: center">Sports Resource</th>
@@ -62,9 +65,11 @@
             {
                 <tr>
                     <td style="text-align: center">Badminton @(i + 1) </td>
-                    @for (int j = 0; j < Model.Headers.Count; j++)
+                    @for (var j = 0; j < Model.Headers.Count; j++)
                     {
-                        <td style="text-align: center"><button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Badminton @(i + 1) , @Model.Headers[j]">Book</button></td>
+                        <td style="text-align: center">
+                            <button type="button" @(Model.IsBooked(Model.GetElementId("Badminton " + (i + 1), Model.Headers[j])) ? "disabled" : "") class="btn btn-primary" id="@Model.GetElementId("Badminton " + (i + 1),Model.Headers[j])" data-toggle="tooltip" data-placement="top" title="Badminton @(i + 1) , @Model.Headers[j]">Book</button>
+                        </td>
                     }
                 </tr>
             }
