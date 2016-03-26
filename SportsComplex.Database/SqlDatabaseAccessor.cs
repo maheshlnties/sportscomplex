@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using SportsComplex.Models;
+using SportsComplex.Models.Database;
+
 namespace SportsComplex.Database
 {
     public class SqlDatabaseAccessor
@@ -96,5 +99,99 @@ namespace SportsComplex.Database
         }
 
         #endregion
+
+        #region Module Operations
+
+        public List<ResourceSettings> GetResourceSettings()
+        {
+            var resourceSettings = new List<ResourceSettings>();
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectResourceSettings), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    while (datareader.Read())
+                    {
+                        resourceSettings.Add(new ResourceSettings
+                        {
+                            Name = (ResourceSettingKeys)Convert.ToInt32(datareader["Name"]),
+                            Value = datareader["Value"].ToString()
+                        });
+                    }
+                }
+            }
+            return resourceSettings;
+        }
+
+        public ResourceBookModel GetBookedBadmintonList(DateTime? date)
+        {
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectBadmintonResource, date.HasValue?date.Value.Date:DateTime.Today), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    if (datareader.Read())
+                    {
+                        var resourceBookModel=new ResourceBookModel
+                        {
+                            BookDate = Convert.ToDateTime(datareader["BookDate"]),
+                            Items = datareader["Items"].ToString()
+                        };
+                        return resourceBookModel;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public ResourceBookModel GetBookedBilliardList(DateTime? date)
+        {
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectBilliardResource, date.HasValue ? date.Value.Date : DateTime.Today), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    if (datareader.Read())
+                    {
+                        var resourceBookModel = new ResourceBookModel
+                        {
+                            BookDate = Convert.ToDateTime(datareader["BookDate"]),
+                            Items = datareader["Items"].ToString()
+                        };
+                        return resourceBookModel;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public bool BookBadmintonResource(ResourceBookModel resourceBookModel)
+        {
+            if (resourceBookModel == null) return false;
+            using (var cmd = new SqlCommand("sp_BookBadmintonResource"))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@BookDate", SqlDbType.Date).Value = resourceBookModel.BookDate.Date;
+                cmd.Parameters.Add("@Items", SqlDbType.VarChar).Value = resourceBookModel.Items;
+                return SqlHelper.ExecuteNonQueryCommand(cmd);
+            }
+        }
+
+        #endregion
+
+        public bool BookBilliardResource(ResourceBookModel resourceBookModel)
+        {
+            if (resourceBookModel == null) return false;
+            using (var cmd = new SqlCommand("sp_BookBilliardResource"))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@BookDate", SqlDbType.Date).Value = resourceBookModel.BookDate.Date;
+                cmd.Parameters.Add("@Items", SqlDbType.VarChar).Value = resourceBookModel.Items;
+                return SqlHelper.ExecuteNonQueryCommand(cmd);
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace SportsComplex.Models
                 BookedBy = split[1];
             }
         }
-
+        
         public string Item { get; set; }
 
         public string BookedBy { get; set; }
