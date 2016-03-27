@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Web.Mvc;
 using SportsComplex.Application.Filters;
 using SportsComplex.Application.ViewModels;
 using SportsComplex.DatabaseService.Interface;
 using SportsComplex.Models;
+using SportsComplex.Utilities;
 
 namespace SportsComplex.Application.Controllers
 {
@@ -58,7 +60,8 @@ namespace SportsComplex.Application.Controllers
                 BookedList = resource.BookedList,
                 Date = DateTime.Today
             };
-            _moduleService.BookBadmintonResource(resourceModel);
+            if (_moduleService.BookBadmintonResource(resourceModel))
+                EmailHandler.SendMail(new MailMessage("test@gmail.com", "maheshniec@gmail.com", "test", "hello test"));//TODO change template and TO address
             return View(resource);
         }
 
@@ -93,7 +96,8 @@ namespace SportsComplex.Application.Controllers
                 BookedList = resource.BookedList,
                 Date = DateTime.Today
             };
-            _moduleService.BookBilliardResource(resourceModel);
+            if(_moduleService.BookBilliardResource(resourceModel))
+                EmailHandler.SendMail(new MailMessage("test@gmail.com", "maheshniec@gmail.com", "test", "hello test"));//TODO change template and TO address
             return View(resource);
         }
 	}
