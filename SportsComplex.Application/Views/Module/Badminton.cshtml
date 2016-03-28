@@ -36,13 +36,17 @@
                         type: "POST",
                         url: '/Module/Badminton',
                         contentType: 'application/json; charset=utf-8',
-                        data: JSON.stringify({"resource": resource,"id": this.id}),
-                        success: function (data) {
+                        data: JSON.stringify({ "resource": resource, "id": this.id }),
+                        success: function(data) {
                             window.location.reload(true);
-                    }
+                        },
+                        error: function(data) {
+                            if (data != null) {
+                                alert(data.statusText);
+                            }
+                        }
                     });
-                } else
-                    alert("clicked cancel");
+                } 
             });
         });
     </script>

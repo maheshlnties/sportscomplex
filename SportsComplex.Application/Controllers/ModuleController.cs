@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using SportsComplex.Application.Filters;
 using SportsComplex.Application.ViewModels;
@@ -45,6 +46,9 @@ namespace SportsComplex.Application.Controllers
         [ActionName("Badminton")]
         public ActionResult BadmintonPost(ResourceViewModel resource, string id)
         {
+            if (DateTime.Now.Hour < 16 || DateTime.Now.Hour > 21)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Booking can be done only between 4PM to 9PM");
+
             var existingBookedList=_moduleService.GetBookedBadmintonList(DateTime.Today);
             resource.BookedList = existingBookedList ?? new List<BookingItem>();
 
@@ -80,6 +84,9 @@ namespace SportsComplex.Application.Controllers
         [ActionName("Billiards")]
         public ActionResult BilliardsPost(ResourceViewModel resource, string id)
         {
+            if (DateTime.Now.Hour < 16 || DateTime.Now.Hour > 21)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Booking can be done only between 4PM to 9PM");
+
             var existingBookedList = _moduleService.GetBookedBilliardList(DateTime.Today);
             resource.BookedList = existingBookedList ?? new List<BookingItem>();
 
