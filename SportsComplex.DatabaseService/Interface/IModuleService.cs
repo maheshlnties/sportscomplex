@@ -17,5 +17,11 @@ namespace SportsComplex.DatabaseService.Interface
         List<BookingItem> GetBookedBadmintonList(DateTime date);
 
         List<BookingItem> GetBookedBilliardList(DateTime date);
+
+        bool UploadImages(List<Image> images);
+
+        List<Image> GetGalleryImages();
+
+        bool DeleteImages(List<Image> images);
     }
 }

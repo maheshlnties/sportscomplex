@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Web;
 using System.Web.Mvc;
 using SportsComplex.Application.Filters;
 using SportsComplex.Application.ViewModels;
@@ -107,5 +109,54 @@ namespace SportsComplex.Application.Controllers
                 EmailHandler.SendMail(new MailMessage("test@gmail.com", "maheshniec@gmail.com", "test", "hello test"));//TODO change template and TO address
             return View(resource);
         }
-	}
+
+        [HttpGet]
+        public ActionResult Gallery()
+        {
+            var images=_moduleService.GetGalleryImages();
+            var imageViewModels = images.Select(eachImages => new ImageViewModel
+            {
+                Name = eachImages.Name,
+                EncodedImage = eachImages.EncodedImage,
+                UploadedOn = eachImages.UploadedOn,
+                IsSelected = true
+            }).ToList();
+            
+            return View(imageViewModels);
+        }
+
+        [HttpGet]
+        public ActionResult UploadImage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UploadImageMethod()
+        {
+            var result = false;
+            if (Request.Files.Count != 0)
+            {
+                var images = new List<Image>();
+                for (var i = 0; i < Request.Files.Count; i++)
+                {
+                    var file = Request.Files[i];
+                    if (file == null) continue;
+                    images.Add(new Image
+                    {
+                        Name = file.FileName,
+                        EncodedImage = string.Concat(Constants.Base64Extender, StreamHelper.ToBase64String(file.InputStream)),
+                        UploadedOn = DateTime.Now.ToShortDateString()
+                    });
+                }
+                result = _moduleService.UploadImages(images);
+            }
+            return Content(result ? "success" : "failed");
+        }
+
+        public ActionResult DeleteImage()
+        {
+            return View("Gallery");
+        }
+    }
 }

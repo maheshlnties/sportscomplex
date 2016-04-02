@@ -178,6 +178,7 @@
     <Compile Include="Helper\CustomPrincipal.cs" />
     <Compile Include="ViewModels\EmployeeViewModels.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\ImageViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\NewsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -190,7 +191,17 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\carousel.css" />
     <Content Include="Content\customMenu.css" />
+    <Content Include="Content\fancybox\blank.gif" />
+    <Content Include="Content\fancybox\fancybox_buttons.png" />
+    <Content Include="Content\fancybox\fancybox_loading%402x.gif" />
+    <Content Include="Content\fancybox\fancybox_loading.gif" />
+    <Content Include="Content\fancybox\fancybox_overlay.png" />
+    <Content Include="Content\fancybox\fancybox_sprite%402x.png" />
+    <Content Include="Content\fancybox\fancybox_sprite.png" />
     <Content Include="Content\gallery.css" />
+    <Content Include="Content\jquery.fancybox-buttons.css" />
+    <Content Include="Content\jquery.fancybox-thumbs.css" />
+    <Content Include="Content\jquery.fancybox.css" />
     <Content Include="Content\largeButton.css" />
     <Content Include="Content\scrolling-nav.css" />
     <Content Include="favicon.ico" />
@@ -231,6 +242,12 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.bootstrap.newsbox.min.js" />
+    <Content Include="Scripts\jquery.fancybox-buttons.js" />
+    <Content Include="Scripts\jquery.fancybox-media.js" />
+    <Content Include="Scripts\jquery.fancybox-thumbs.js" />
+    <Content Include="Scripts\jquery.fancybox.js" />
+    <Content Include="Scripts\jquery.fancybox.pack.js" />
+    <Content Include="Scripts\jquery.mousewheel-3.0.6.pack.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -241,6 +258,14 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\scrolling-nav.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Upload_Files\173_7373_1024x768.jpg" />
+    <Content Include="Upload_Files\389807_304852796222253_371344580_n.jpg" />
+    <Content Include="Upload_Files\77.jpg" />
+    <Content Include="Upload_Files\arms008.jpg" />
+    <Content Include="Upload_Files\arms020.jpg" />
+    <Content Include="Upload_Files\birds-147a.jpg" />
+    <Content Include="Upload_Files\birds-151a.jpg" />
+    <Content Include="Upload_Files\birds-152a.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -265,6 +290,8 @@
     <Content Include="Views\Module\ResourceBooking.cshtml" />
     <Content Include="Views\Module\Badminton.cshtml" />
     <Content Include="Views\Module\Billiards.cshtml" />
+    <Content Include="Views\Module\Gallery.cshtml" />
+    <Content Include="Views\Module\UploadImage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
