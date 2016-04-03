@@ -65,11 +65,14 @@
             @foreach (var image in Model)
             {
                 <div style="margin: 10px; display: inline-block; text-align: center; overflow: hidden;">
-                    <input data-val="true" style="margin-bottom: 5px" id="imageSelected" name="imageSelected" type="checkbox" value="@image.IsSelected" />
+                    @if (principal.Role == UserRoles.Admin)
+                    {
+                        <input data-val="true" style="margin-bottom: 5px" id="imageSelected" name="imageSelected" type="checkbox" value="@image.IsSelected"/>
+                    }
                     <div>
                         <a id="ShowImage" class="fancybox-button" data-rel="fancybox-button" title="@image.Name" href="@Url.Content(image.EncodedImage)">
                             <div class="zoom">
-                                <img src="@image.EncodedImage" class="imgBox" />
+                                <img src="@image.EncodedImage" class="imgBox"/>
                                 @if (principal.Role == UserRoles.Admin)
                                 {
                                     <div>

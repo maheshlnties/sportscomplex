@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -24,7 +26,7 @@ namespace SportsComplex.Application.Controllers
 
         public ActionResult Index()
         {
-            if (User!=null)
+            if (User != null)
             {
                 switch (User.Role)
                 {
@@ -34,8 +36,21 @@ namespace SportsComplex.Application.Controllers
                         return RedirectToAction("Index", "Employee");
                 }
             }
+            var images = _userService.GetGalleryImages();
+            var imageViewModels = images != null
+                ? images.Select(eachImages => new ImageViewModel
+                {
+                    Name = eachImages.Name,
+                    EncodedImage = eachImages.EncodedImage,
+                    UploadedOn = eachImages.UploadedOn
+                }).ToList()
+                : new List<ImageViewModel>();
+            return View(new HomeViewModel
+            {
+                LoginViewModel = new LoginViewModel(),
+                Images = imageViewModels ?? new List<ImageViewModel>()
+            });
 
-            return View(new HomeViewModel {LoginViewModel = new LoginViewModel()});
         }
 
         public ActionResult About()

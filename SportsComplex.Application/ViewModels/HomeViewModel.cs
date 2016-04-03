@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SportsComplex.Application.ViewModels
 {
@@ -9,5 +10,7 @@ namespace SportsComplex.Application.ViewModels
 
         //[Required]
         public NewsViewModel NewsViewModel { get; set; }
+
+        public List<ImageViewModel> Images { get; set; }
     }
 }

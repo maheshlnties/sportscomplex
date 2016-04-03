@@ -258,14 +258,6 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\scrolling-nav.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Upload_Files\173_7373_1024x768.jpg" />
-    <Content Include="Upload_Files\389807_304852796222253_371344580_n.jpg" />
-    <Content Include="Upload_Files\77.jpg" />
-    <Content Include="Upload_Files\arms008.jpg" />
-    <Content Include="Upload_Files\arms020.jpg" />
-    <Content Include="Upload_Files\birds-147a.jpg" />
-    <Content Include="Upload_Files\birds-151a.jpg" />
-    <Content Include="Upload_Files\birds-152a.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
