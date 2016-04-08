@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -79,6 +80,47 @@ namespace SportsComplex.Application.Controllers
         public ActionResult DeleteNews(List<NewsViewModel> newsViewModels)
         {
             return View("ManageNews");
+        }
+        
+        [HttpGet]
+        public ActionResult Tournment()
+        {
+            var tournments = new List<TournmentViewModel>();
+            for (var i = 0; i < 5; i++)
+            {
+                tournments.Add(new TournmentViewModel
+                {
+                    Name = "Tournment" + i,
+                    Fees = 50,
+                    LastDate = DateTime.Now.AddDays(i),
+                    IsEnrolled = i%2 == 0
+                });
+            }
+            return View(tournments);
+        }
+
+        [HttpGet]
+        [ActionName("AddTournment")]
+        public ActionResult AddTournment()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ActionName("AddTournment")]
+        public ActionResult AddTournmentPost(TournmentViewModel tournment)
+        {
+            if (!ModelState.IsValid)
+                return View(tournment);
+
+            return View();
+        }
+
+        [HttpDelete]
+        [ActionName("Tournment")]
+        public ActionResult DeletTournmentPost()
+        {
+            return View();
         }
     }
 }
