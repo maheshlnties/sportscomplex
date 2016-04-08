@@ -284,6 +284,8 @@
     <Content Include="Views\Module\Billiards.cshtml" />
     <Content Include="Views\Module\Gallery.cshtml" />
     <Content Include="Views\Module\UploadImage.cshtml" />
+    <Content Include="Views\Admin\ManageNews.cshtml" />
+    <Content Include="Views\Admin\AddNews.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

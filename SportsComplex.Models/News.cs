@@ -1,4 +1,6 @@
-﻿namespace SportsComplex.Models
+﻿using System;
+
+namespace SportsComplex.Models
 {
     public class News
     {
@@ -8,6 +10,8 @@
 
         public string Image { get; set; }
 
-        public string PostedOn { get; set; }
+        public DateTime PostedOn { get; set; }
+
+        public DateTime ExpiresOn { get; set; }
     }
 }
