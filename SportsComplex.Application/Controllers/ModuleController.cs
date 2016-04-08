@@ -154,9 +154,16 @@ namespace SportsComplex.Application.Controllers
             return Content(result ? "success" : "failed");
         }
 
+        [HttpDelete]
         public ActionResult DeleteImage()
         {
             return View("Gallery");
+        }
+
+        [HttpGet]
+        public ActionResult Gym()
+        {
+            return View(new GymViewModel(){Jonined = true});
         }
     }
 }

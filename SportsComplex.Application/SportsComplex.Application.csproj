@@ -176,7 +176,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\CustomPrincipal.cs" />
-    <Compile Include="ViewModels\EmployeeViewModels.cs" />
+    <Compile Include="ViewModels\EmployeeViewModel.cs" />
+    <Compile Include="ViewModels\GymViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\ImageViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -217,6 +218,7 @@
     <Content Include="Images\Gym.jpg" />
     <Content Include="Images\logo_larsen_toubro.jpg" />
     <Content Include="Images\myCharges.ico" />
+    <Content Include="Images\news.ico" />
     <Content Include="Images\report_button.ico" />
     <Content Include="Images\resourceBook_button.ico" />
     <Content Include="Images\tournament_button.ico" />
@@ -286,6 +288,7 @@
     <Content Include="Views\Module\UploadImage.cshtml" />
     <Content Include="Views\Admin\ManageNews.cshtml" />
     <Content Include="Views\Admin\AddNews.cshtml" />
+    <Content Include="Views\Module\Gym.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

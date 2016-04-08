@@ -11,5 +11,7 @@ namespace SportsComplex.DatabaseService.Interface
         Task<bool> RegisterEmployee(Employee employee);
 
         List<Image> GetGalleryImages();
+
+        List<News> GetNews();
     }
 }

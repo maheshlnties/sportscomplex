@@ -94,7 +94,6 @@ namespace SportsComplex.Database
                     }
                 }
             }
-           
             return employee;
         }
 

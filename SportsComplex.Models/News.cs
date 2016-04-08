@@ -10,6 +10,8 @@ namespace SportsComplex.Models
 
         public string Image { get; set; }
 
+        public bool Highlight { get; set; }
+
         public DateTime PostedOn { get; set; }
 
         public DateTime ExpiresOn { get; set; }

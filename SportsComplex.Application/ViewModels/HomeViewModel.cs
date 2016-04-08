@@ -8,8 +8,7 @@ namespace SportsComplex.Application.ViewModels
         [Required]
         public LoginViewModel LoginViewModel { get; set; }
 
-        //[Required]
-        public NewsViewModel NewsViewModel { get; set; }
+        public List<NewsViewModel> News { get; set; }
 
         public List<ImageViewModel> Images { get; set; }
     }

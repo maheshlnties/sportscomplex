@@ -45,6 +45,7 @@
     <Compile Include="Database\ResourceBookModel.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="Gender.cs" />
+    <Compile Include="Gym.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="News.cs" />
     <Compile Include="PrincipalModel.cs" />

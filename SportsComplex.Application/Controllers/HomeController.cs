@@ -36,8 +36,20 @@ namespace SportsComplex.Application.Controllers
                         return RedirectToAction("Index", "Employee");
                 }
             }
+           
+            return View(new HomeViewModel
+            {
+                LoginViewModel = new LoginViewModel(),
+                Images = GetGallery(),
+                News = GetNews()
+            });
+
+        }
+
+        private List<ImageViewModel> GetGallery()
+        {
             var images = _userService.GetGalleryImages();
-            var imageViewModels = images != null
+            return images != null
                 ? images.Select(eachImages => new ImageViewModel
                 {
                     Name = eachImages.Name,
@@ -45,12 +57,14 @@ namespace SportsComplex.Application.Controllers
                     UploadedOn = eachImages.UploadedOn
                 }).ToList()
                 : new List<ImageViewModel>();
-            return View(new HomeViewModel
-            {
-                LoginViewModel = new LoginViewModel(),
-                Images = imageViewModels ?? new List<ImageViewModel>()
-            });
+        }
 
+        private List<NewsViewModel> GetNews()
+        {
+            var news = _userService.GetNews();
+            return news != null
+                ? news.Select(eachNews => _mapper.Map<News, NewsViewModel>(eachNews)).ToList()
+                : new List<NewsViewModel>();
         }
 
         public ActionResult About()

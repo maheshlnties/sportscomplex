@@ -13,6 +13,8 @@ namespace SportsComplex.Application.ViewModels
 
         public string Image { get; set; }
 
+        public bool Highlight { get; set; }
+
         public string IsSelected { get; set; }
 
         [Display(Name = "Posted On*")]

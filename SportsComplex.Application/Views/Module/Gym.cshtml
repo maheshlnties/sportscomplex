@@ -1,0 +1,44 @@
+﻿@using SportsComplex.Application.Helper
+@using SportsComplex.Models
+@model SportsComplex.Application.ViewModels.GymViewModel
+@{
+    var principal = (CustomPrincipal)HttpContext.Current.User;
+    switch (principal.Role)
+    {
+        case UserRoles.Employee:
+            Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
+            break;
+        case UserRoles.Admin:
+            Layout = "~/Views/Shared/_AdminLayout.cshtml";
+            break;
+    }
+}
+
+@section scripts
+{
+    <link href="~/Content/largeButton.css" rel="stylesheet" />
+}
+
+
+<div class="container" style="margin-left: 20px; min-height: 350px">
+    <div class="row" style="margin-left: 20px; margin-top: 20px; font-weight: bold">
+        Gym Membership
+    </div>
+    <br />
+    @if (Model.Jonined)
+    {
+        <text>
+            <p style="margin-left: 20px;">
+                Your gym membership is active <a style="font-weight: bold; text-decoration: underline; cursor: pointer">Leave</a>
+            </p>
+        </text>
+    }
+    else
+    {
+        <text>
+            <p style="margin-left: 20px;">
+                You do not have gym membership <a style="font-weight: bold; text-decoration: underline; cursor: pointer">Join</a>
+            </p>
+        </text>
+    }
+</div>

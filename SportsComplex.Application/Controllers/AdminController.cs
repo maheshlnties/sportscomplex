@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
+using AutoMapper;
 using SportsComplex.Application.Filters;
 using SportsComplex.Application.ViewModels;
 using SportsComplex.DatabaseService.Interface;
+using SportsComplex.Models;
 
 namespace SportsComplex.Application.Controllers
 {
@@ -12,10 +14,12 @@ namespace SportsComplex.Application.Controllers
     public class AdminController : BaseController
     {
         private readonly IAdminService _adminService;
+        private readonly IMapper _mapper;
 
-        public AdminController(IAdminService adminService)
+        public AdminController(IAdminService adminService, IMapper mapper)
         {
             _adminService = adminService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -33,18 +37,13 @@ namespace SportsComplex.Application.Controllers
 
         public ActionResult ManageNews()
         {
-            var listNews = new List<NewsViewModel>();
-            for (int i = 0; i < 5; i++)
-            {
-                listNews.Add(new NewsViewModel
-                {
-                    Content = "Wish you a very happy ugadi" + i,
-                    PostedOn = DateTime.Today,
-                    ExpiresOn = DateTime.Today.AddDays(2)
-                });
-            }
-            
-            return View(listNews);
+            var listNewsViewModel= new List<NewsViewModel>();
+            var newsList = _adminService.GetNews();
+
+            if (newsList != null)
+                listNewsViewModel.AddRange(newsList.Select(eachNews => _mapper.Map<News, NewsViewModel>(eachNews)));
+
+            return View(listNewsViewModel);
         }
 
         [HttpGet]
@@ -66,9 +65,10 @@ namespace SportsComplex.Application.Controllers
                 ViewBag.Message = "Expire date can not be before than posting date";
                 return View(newsViewModel);
             }
-            //var employee = _mapper.Map<EmployeeViewModel, Employee>(employeeViewModel);
-            //var result = await _userService.RegisterEmployee(employee).ConfigureAwait(false);
-            ViewBag.Message = true
+            
+            var news = _mapper.Map<NewsViewModel, News>(newsViewModel);
+            var result = _adminService.AddNews(news);
+            ViewBag.Message = result
                 ? "Posted successfully"
                 : "Some problem occured while posting. Try again later.";
             return View(new NewsViewModel());
