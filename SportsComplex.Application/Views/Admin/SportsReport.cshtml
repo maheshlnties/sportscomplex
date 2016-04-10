@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@section scripts
+{
+    <link href="~/Content/largeButton.css" rel="stylesheet" />
+}
+<div class="container">
+    <div class="row" style="text-align: center; margin-top: 10px; font-weight: bold">
+        Please select charge sheet to be viewed
+    </div>
+    <div style="text-align: center">
+        <div class="row">
+            <a href="@Url.Action("ChargeResource")" class="btn btn-xlarge">
+                <img src="~/Images/myCharges.ico" class="btn-xlarge-img">
+                <br/>
+                Resource Charges
+            </a>
+            +
+            <a href="@Url.Action("ChargeGym")" class="btn btn-xlarge">
+                <img src="~/Images/myCharges.ico" class="btn-xlarge-img">
+                <br/>
+                Gym Charges
+            </a>
+            +
+            <a href="@Url.Action("ChargeTournment")" class="btn btn-xlarge">
+                <img src="~/Images/myCharges.ico" class="btn-xlarge-img">
+                <br/>
+                Tournment Charges
+            </a>
+            =
+            <a href="@Url.Action("AllCharges")" class="btn btn-xlarge">
+                <img src="~/Images/billiardsResource.ico" class="btn-xlarge-img">
+                <br/>
+                All Charges
+            </a>
+        </div>
+    </div>
+</div>

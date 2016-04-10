@@ -176,6 +176,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\CustomPrincipal.cs" />
+    <Compile Include="ViewModels\ChargeSheetViewModel.cs" />
+    <Compile Include="ViewModels\ChargeViewModel.cs" />
     <Compile Include="ViewModels\EmployeeViewModel.cs" />
     <Compile Include="ViewModels\GymViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
@@ -292,6 +294,12 @@
     <Content Include="Views\Module\Gym.cshtml" />
     <Content Include="Views\Admin\Tournment.cshtml" />
     <Content Include="Views\Admin\AddTournment.cshtml" />
+    <Content Include="Views\Employee\Tournment.cshtml" />
+    <Content Include="Views\Admin\SportsReport.cshtml" />
+    <Content Include="Views\Admin\ChargeResource.cshtml" />
+    <Content Include="Views\Admin\ChargeGym.cshtml" />
+    <Content Include="Views\Admin\ChargeTournment.cshtml" />
+    <Content Include="Views\Admin\AllCharges.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

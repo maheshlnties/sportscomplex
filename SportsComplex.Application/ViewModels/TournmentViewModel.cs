@@ -24,5 +24,7 @@ namespace SportsComplex.Application.ViewModels
         public bool IsEnrolled { get; set; }
 
         public bool IsSelected { get; set; }
+
+        public bool IsEnabled { get; set; }
     }
 }

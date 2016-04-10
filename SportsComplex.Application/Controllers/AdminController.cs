@@ -122,5 +122,83 @@ namespace SportsComplex.Application.Controllers
         {
             return View();
         }
+        
+        [HttpGet]
+        public ActionResult SportsReport()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult AllCharges()
+        {
+            var list = new List<ChargeViewModel>();
+            for (var i = 0; i < 20; i++)
+            {
+                list.Add(new ChargeViewModel
+                {
+                    Name = "employee" + i,
+                    PsNumber = "ps" + i,
+                    Charges = 500 + i,
+                    StartDate = DateTime.Today,
+                    EndDate = DateTime.Today.AddDays(i)
+                });
+            }
+            return View(new ChargeSheetViewModel { Charges = list });
+        }
+
+        [HttpGet]
+        public ActionResult ChargeTournment()
+        {
+            var list = new List<ChargeViewModel>();
+            for (var i = 0; i < 20; i++)
+            {
+                list.Add(new ChargeViewModel
+                {
+                    Name = "employee" + i,
+                    PsNumber = "ps" + i,
+                    Charges = 500 + i,
+                    StartDate = DateTime.Today,
+                    EndDate = DateTime.Today.AddDays(i)
+                });
+            }
+            return View(new ChargeSheetViewModel { Charges = list });
+        }
+
+        [HttpGet]
+        public ActionResult ChargeGym()
+        {
+            var list=new List<ChargeViewModel>();
+            for (var i = 0; i < 20; i++)
+            {
+                list.Add(new ChargeViewModel
+                {
+                    Name = "employee" + i,
+                    PsNumber = "ps" + i,
+                    Charges = 500 + i,
+                    StartDate = DateTime.Today,
+                    EndDate = DateTime.Today.AddDays(i)
+                });
+            }
+            return View(new ChargeSheetViewModel {Charges = list});
+        }
+
+        [HttpGet]
+        public ActionResult ChargeResource()
+        {
+            var list = new List<ChargeViewModel>();
+            for (var i = 0; i < 20; i++)
+            {
+                list.Add(new ChargeViewModel
+                {
+                    Name = "employee" + i,
+                    PsNumber = "ps" + i,
+                    Charges = 500 + i,
+                    StartDate = DateTime.Today,
+                    EndDate = DateTime.Today.AddDays(i)
+                });
+            }
+            return View(new ChargeSheetViewModel { Charges = list });
+        }
     }
 }
