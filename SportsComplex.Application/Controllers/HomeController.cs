@@ -151,5 +151,14 @@ namespace SportsComplex.Application.Controllers
             ViewBag.Error = "Incorrect username and/or password";
             return View("Index",homeVewModel);
         }
+
+        [HttpGet]
+        public ActionResult Search()
+        {
+            var list = _userService.Search("", "", "");
+            var listEmployeeVm = list.Select(eachEmp => _mapper.Map<Employee, EmployeeViewModel>(eachEmp)).ToList();
+
+            return View(listEmployeeVm);
+        }
     }
 }

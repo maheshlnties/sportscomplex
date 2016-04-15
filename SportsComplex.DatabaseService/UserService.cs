@@ -40,6 +40,23 @@ namespace SportsComplex.DatabaseService
             }
             return listNews;
         }
+        
+        public List<Employee> Search(string name, string psNumber, string extn)
+        {
+            var list = new List<Employee>();
+            for (var i = 0; i < 20; i++)
+            {
+                list.Add(new Employee
+                {
+                    Name = "Punith"+i,
+                    PsNumber = "34345354" +i,
+                    Mobile = "435345",
+                    Email = "punith@yo.com"
+                });
+            }
+
+            return list;
+        }
 
         public List<Image> GetGalleryImages()
         {
@@ -57,5 +74,6 @@ namespace SportsComplex.DatabaseService
             }
             return images;
         }
+
     }
 }

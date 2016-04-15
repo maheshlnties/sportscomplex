@@ -13,5 +13,7 @@ namespace SportsComplex.DatabaseService.Interface
         List<Image> GetGalleryImages();
 
         List<News> GetNews();
+
+        List<Employee> Search(string name,string psNumber, string extn);
     }
 }
