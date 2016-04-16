@@ -38,7 +38,7 @@ namespace SportsComplex.Application.Controllers
 
         public ActionResult ManageNews()
         {
-            var listNewsViewModel= new List<NewsViewModel>();
+            var listNewsViewModel = new List<NewsViewModel>();
             var newsList = _adminService.GetNews();
 
             if (newsList != null)
@@ -66,7 +66,7 @@ namespace SportsComplex.Application.Controllers
                 ViewBag.Message = "Expire date can not be before than posting date";
                 return View(newsViewModel);
             }
-            
+
             var news = _mapper.Map<NewsViewModel, News>(newsViewModel);
             var result = _adminService.AddNews(news);
             ViewBag.Message = result
@@ -74,29 +74,52 @@ namespace SportsComplex.Application.Controllers
                 : "Some problem occured while posting. Try again later.";
             return View(new NewsViewModel());
         }
-        
+
         [HttpDelete]
         [ActionName("ManageNews")]
         public ActionResult DeleteNews(List<NewsViewModel> newsViewModels)
         {
+            if (newsViewModels.Count == 0)
+            {
+                return View("ManageNews");
+            }
+            var listNews = new List<News>();
+            foreach (var eachNews in newsViewModels)
+            {
+                listNews.Add(_mapper.Map<NewsViewModel, News>(eachNews));
+            }
+            var result = _adminService.DeleteNews(listNews);
+            ViewBag.Message = result
+               ? "Deleted successfully"
+               : "Some problem occured while deleting. Try again later.";
             return View("ManageNews");
         }
-        
+
         [HttpGet]
         public ActionResult Tournment()
         {
-            var tournments = new List<TournmentViewModel>();
-            for (var i = 0; i < 5; i++)
+            //var tournments = new List<TournmentViewModel>();
+            //for (var i = 0; i < 5; i++)
+            //{
+            //    tournments.Add(new TournmentViewModel
+            //    {
+            //        Name = "Tournment" + i,
+            //        Fees = 50,
+            //        LastDate = DateTime.Now.AddDays(i),
+            //        IsEnrolled = i%2 == 0
+            //    });
+            //}
+
+            var tournments = _adminService.GetTournments();
+            var tournmentViewModels = new List<TournmentViewModel>();
+            if (tournments != null)
             {
-                tournments.Add(new TournmentViewModel
+                foreach (var eachTournment in tournments)
                 {
-                    Name = "Tournment" + i,
-                    Fees = 50,
-                    LastDate = DateTime.Now.AddDays(i),
-                    IsEnrolled = i%2 == 0
-                });
+                    tournmentViewModels.Add(_mapper.Map<Tournment, TournmentViewModel>(eachTournment));
+                }
             }
-            return View(tournments);
+            return View(tournmentViewModels);
         }
 
         [HttpGet]
@@ -108,27 +131,40 @@ namespace SportsComplex.Application.Controllers
 
         [HttpPost]
         [ActionName("AddTournment")]
-        public ActionResult AddTournmentPost(TournmentViewModel tournment)
+        public ActionResult AddTournmentPost(TournmentViewModel tournmentViewModel)
         {
             if (!ModelState.IsValid)
-                return View(tournment);
+                return View(tournmentViewModel);
 
-            return View();
-        }
-
-        [HttpDelete]
-        public ActionResult DeleteTournment(IList<TournmentViewModel> tournments)
-        {
-            return View("Tournment");
+            var tournment = _mapper.Map<TournmentViewModel, Tournment>(tournmentViewModel);
+            bool result = _adminService.AddTournment(tournment);
+            ViewBag.Message = result
+                ? "Added new tournment successfully"
+                : "Some problem occured while creating new tournment. Try again later.";
+            return View(new TournmentViewModel());
         }
 
         [HttpDelete]
         [ActionName("Tournment")]
-        public ActionResult DeletTournmentPost()
+        public ActionResult DeleteTournment(IList<TournmentViewModel> tournmentViewModels)
         {
+            if (tournmentViewModels.Count == 0)
+            {
+                return View();
+            }
+            var listTournments = new List<Tournment>();
+            foreach (var eachTournment in tournmentViewModels)
+            {
+                listTournments.Add(_mapper.Map<TournmentViewModel, Tournment>(eachTournment));
+            }
+            bool result = _adminService.DeleteTournments(listTournments);
+            ViewBag.Message = result
+               ? "Deleted successfully"
+               : "Some problem occured while deleting. Try again later.";
+
             return View();
         }
-        
+
         [HttpGet]
         public ActionResult SportsReport()
         {
@@ -150,7 +186,7 @@ namespace SportsComplex.Application.Controllers
                     EndDate = DateTime.Today.AddDays(i)
                 });
             }
-            return View(new ChargeSheetViewModel { Charges = list });
+            return View(new ChargeSheetViewModel { });
         }
 
         [HttpGet]
@@ -168,13 +204,13 @@ namespace SportsComplex.Application.Controllers
                     EndDate = DateTime.Today.AddDays(i)
                 });
             }
-            return View(new ChargeSheetViewModel { Charges = list });
+            return View(new ChargeSheetViewModel { TournmentCharges = list });
         }
 
         [HttpGet]
         public ActionResult ChargeGym()
         {
-            var list=new List<ChargeViewModel>();
+            var list = new List<ChargeViewModel>();
             for (var i = 0; i < 20; i++)
             {
                 list.Add(new ChargeViewModel
@@ -186,7 +222,7 @@ namespace SportsComplex.Application.Controllers
                     EndDate = DateTime.Today.AddDays(i)
                 });
             }
-            return View(new ChargeSheetViewModel {Charges = list});
+            return View(new ChargeSheetViewModel { GymCharges = list });
         }
 
         [HttpGet]
@@ -204,7 +240,7 @@ namespace SportsComplex.Application.Controllers
                     EndDate = DateTime.Today.AddDays(i)
                 });
             }
-            return View(new ChargeSheetViewModel { Charges = list });
+            return View(new ChargeSheetViewModel { ResourceCharges = list });
         }
     }
 }

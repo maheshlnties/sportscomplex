@@ -51,7 +51,7 @@ namespace SportsComplex.Application.Controllers
                     EndDate = DateTime.Today.AddDays(i)
                 });
             }
-            return View(new ChargeSheetViewModel { Charges = list });
+            return View(new ChargeSheetViewModel {  });
         }
     }
 }

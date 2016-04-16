@@ -10,7 +10,11 @@ namespace SportsComplex.Application.ViewModels
 
         [Display(Name = "Select Year")]
         public int SelectedYear { get; set; }
+        
+        public List<ChargeViewModel> ResourceCharges { get; set; }
 
-        public List<ChargeViewModel> Charges { get; set; }
+        public List<ChargeViewModel> GymCharges { get; set; }
+
+        public List<ChargeViewModel> TournmentCharges { get; set; }
     }
 }

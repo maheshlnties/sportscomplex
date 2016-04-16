@@ -42,6 +42,10 @@
   <ItemGroup>
     <Compile Include="BookingItem.cs" />
     <Compile Include="BuisnessUnit.cs" />
+    <Compile Include="Charges\ChargeBase.cs" />
+    <Compile Include="Charges\GymCharge.cs" />
+    <Compile Include="Charges\ResourceCharge.cs" />
+    <Compile Include="Charges\TournmentCharge.cs" />
     <Compile Include="Database\ResourceBookModel.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="Gender.cs" />
@@ -55,6 +59,7 @@
     <Compile Include="Tournment.cs" />
     <Compile Include="UserRoles.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

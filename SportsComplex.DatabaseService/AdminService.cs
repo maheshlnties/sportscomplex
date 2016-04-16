@@ -32,5 +32,20 @@ namespace SportsComplex.DatabaseService
         {
             return true;
         }
+        
+        public IList<Tournment> GetTournments()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AddTournment(Tournment tournment)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteTournments(List<Tournment> listTournments)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
