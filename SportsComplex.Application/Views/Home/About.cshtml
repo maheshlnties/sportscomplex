@@ -1,7 +1,15 @@
 ﻿@{
     ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<h2>@ViewBag.Title</h2>
+<h3>About Us</h3>
 
-<p>Use this area to provide additional information.</p>
+<p>L&T’s 40 acre Mysore Campus located in the state of Karnataka in South India houses the manufacturing facility and warehouse of E&A’s Metering & Protection Systems (MPS) business unit - a market leader in electronic energy meters, tri-vector meters and protective relays. The building area is around 18,244 sq. mtrs spread across five modules. <br/><br/>
+    The campus has a NABL-accredited test laboratory and is certified for ISO 9001:2008 (Quality Management System), ISO 14001:2004 (Environmental Management System), OHSAS 18001:2007 (Occupational Health & Safety Assessment Series), ISO 13485, BIS, CE, FDA, AS9000 & CMMI. The campus is ecofriendly and works on the conservation of natural resources with several green initiatives like solar heaters, rain water harvesting, carbon foot mapping, kitchen waste bio gas plant, vermicomposting, etc. <br/><br/>
+    Mysore also houses L&T’s Technology Services and L&T Infotech offices.
+</p>
+
+<div>
+    @Html.ActionLink("Back to Login", "Index")
+</div>

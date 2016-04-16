@@ -18,7 +18,7 @@ namespace SportsComplex.Application.Controllers
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public HomeController(IUserService userService,IMapper mapper)
+        public HomeController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
             _mapper = mapper;
@@ -36,7 +36,7 @@ namespace SportsComplex.Application.Controllers
                         return RedirectToAction("Index", "Employee");
                 }
             }
-           
+
             return View(new HomeViewModel
             {
                 LoginViewModel = new LoginViewModel(),
@@ -69,14 +69,11 @@ namespace SportsComplex.Application.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
 
@@ -100,7 +97,7 @@ namespace SportsComplex.Application.Controllers
                 return View(employeeViewModel);
             }
             var employee = _mapper.Map<EmployeeViewModel, Employee>(employeeViewModel);
-            var result =await _userService.RegisterEmployee(employee).ConfigureAwait(false);
+            var result = await _userService.RegisterEmployee(employee).ConfigureAwait(false);
             ViewBag.Message = result
                 ? "Registered successfully"
                 : "Some problem occured while registering. Try again later.";
@@ -149,7 +146,7 @@ namespace SportsComplex.Application.Controllers
                 }
             }
             ViewBag.Error = "Incorrect username and/or password";
-            return View("Index",homeVewModel);
+            return View("Index", homeVewModel);
         }
 
         [HttpGet]

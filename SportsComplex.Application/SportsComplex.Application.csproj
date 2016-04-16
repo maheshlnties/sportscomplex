@@ -301,6 +301,7 @@
     <Content Include="Views\Admin\ChargeTournment.cshtml" />
     <Content Include="Views\Admin\AllCharges.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Employee\MyCharges.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

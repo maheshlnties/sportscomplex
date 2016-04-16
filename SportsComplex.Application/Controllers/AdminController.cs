@@ -117,6 +117,12 @@ namespace SportsComplex.Application.Controllers
         }
 
         [HttpDelete]
+        public ActionResult DeleteTournment(IList<TournmentViewModel> tournments)
+        {
+            return View("Tournment");
+        }
+
+        [HttpDelete]
         [ActionName("Tournment")]
         public ActionResult DeletTournmentPost()
         {

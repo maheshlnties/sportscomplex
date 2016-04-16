@@ -1,0 +1,46 @@
+﻿@model SportsComplex.Application.ViewModels.ChargeSheetViewModel
+    @{
+        ViewBag.Title = "Home Page";
+        Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
+    }
+    @section scripts
+    {
+               <script src="https://cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+               <link rel="stylesheet" href="https://cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css">
+               <script>
+                   $(document).ready(function () {
+                       $('#table_id').dataTable();
+                   });
+               </script>
+    }
+    
+    <div class="container" style="margin-top: 20px; min-height: 350px">
+        <div class="table-responsive">
+            <table id="table_id"
+                   class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center">PS Number</th>
+                        <th class="text-center">Employee Name</th>
+                        <th class="text-center">Start Date</th>
+                        <th class="text-center">End Date</th>
+                        <th class="text-center" style="width: 180px">Charges</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var eachModel in Model.Charges)
+                    {
+                        <tr>
+                            <td class="text-center">@eachModel.PsNumber</td>
+                            <td class="text-center">@eachModel.Name</td>
+                            <td class="text-center">@eachModel.StartDate</td>
+                            <td class="text-center">@eachModel.EndDate</td>
+                            <td class="text-center">@eachModel.Charges</td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
