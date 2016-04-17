@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using SportsComplex.Models;
 
@@ -16,6 +17,9 @@ namespace SportsComplex.Application.ViewModels
         public DateTime Date { get; set; }
 
         public List<BookingItem> BookedList { get; set; }
+
+        [Display(Name = "P.S. Number*")]
+        public string PsNumber { get; set; }
 
         public bool IsBooked(string id)
         {
