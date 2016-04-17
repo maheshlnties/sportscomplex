@@ -186,7 +186,7 @@ namespace SportsComplex.Application.Controllers
                     EndDate = DateTime.Today.AddDays(i)
                 });
             }
-            return View(new ChargeSheetViewModel { });
+            return View(new ChargeSheetViewModel { ResourceCharges = list, GymCharges = list, TournmentCharges = list });
         }
 
         [HttpGet]

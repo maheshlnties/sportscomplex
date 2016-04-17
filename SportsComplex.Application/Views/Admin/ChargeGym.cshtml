@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css">
     <script>
         $(document).ready(function () {
-            $('#table_id').dataTable();
+            $('#table_id').dataTable({ "lengthMenu": [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "All"]] });
         });
     </script>
 }
@@ -59,8 +59,8 @@
             </div>
         </div>
     }
-    
-    
+
+
     <table id="table_id"
            class="table table-bordered">
         <thead>
@@ -87,4 +87,8 @@
         </tbody>
 
     </table>
+    <hr />
+    <div style="display:block; font-weight:bold">
+        Total charges for the month : @Model.AllTotalCharges
+    </div>
 </div>

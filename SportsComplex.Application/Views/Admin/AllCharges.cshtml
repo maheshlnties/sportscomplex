@@ -11,10 +11,15 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css">
     <script>
         $(document).ready(function () {
-            $('#table_id').dataTable();
+            $('#resource_table').dataTable({
+                "lengthMenu": [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "All"]]
+            });
+            $('#gym_table').dataTable({ "lengthMenu": [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "All"]] });
+            $('#tournment_table').dataTable({ "lengthMenu": [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "All"]] });
         });
     </script>
 }
+
 <div class="container" style="margin-top: 20px">
 
     @using (Html.BeginForm("AddTournment", "Admin", FormMethod.Post))
@@ -60,8 +65,12 @@
         </div>
     }
 
-
-    <table id="table_id"
+    <hr />
+        <div style="display:block;background-color: #277991;color: white; padding: 5px; font-weight:bold">
+        Resource Charges (Total Resource charges in the month : @Model.ResourceTotalCharges)
+    </div>
+    <br/>
+    <table id="resource_table"
            class="table table-bordered">
         <thead>
             <tr>
@@ -74,17 +83,80 @@
         </thead>
 
         <tbody>
-            @foreach (var eachModel in Model.Charges)
+            @foreach (var eachModel in Model.ResourceCharges)
             {
                 <tr>
                     <td class="text-center">@eachModel.PsNumber</td>
                     <td class="text-center">@eachModel.Name</td>
-                    <td class="text-center">@eachModel.StartDate</td>
-                    <td class="text-center">@eachModel.EndDate</td>
+                    <td class="text-center">@eachModel.ResourceName</td>
+                    <td class="text-center">@eachModel.Slot</td>
                     <td class="text-center">@eachModel.Charges</td>
                 </tr>
             }
         </tbody>
-
     </table>
+
+    <hr />
+    <div style="display:block;background-color: #277991;color: white; padding: 5px; font-weight:bold">
+        Gym Charges (Total Gym charges in the month : @Model.GymTotalCharges)
+    </div>
+    <br />
+    <table id="gym_table"
+           class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="text-center">PS Number</th>
+                <th class="text-center">Employee Name</th>
+                <th class="text-center">Start Date</th>
+                <th class="text-center">End Date</th>
+                <th class="text-center" style="width: 180px">Charges</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var eachModel in Model.GymCharges)
+            {
+                <tr>
+                    <td class="text-center">@eachModel.PsNumber</td>
+                    <td class="text-center">@eachModel.Name</td>
+                    <td class="text-center">@eachModel.ResourceName</td>
+                    <td class="text-center">@eachModel.Slot</td>
+                    <td class="text-center">@eachModel.Charges</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr />
+    <div style="display:block;background-color: #277991;color: white; padding: 5px; font-weight:bold">
+        Tournment Charges (Total Tourment charges in the month : @Model.TournmentTotalCharges)
+    </div>
+    <br />
+    <table id="tournment_table"
+           class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="text-center">PS Number</th>
+                <th class="text-center">Employee Name</th>
+                <th class="text-center">Start Date</th>
+                <th class="text-center">End Date</th>
+                <th class="text-center" style="width: 180px">Charges</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var eachModel in Model.TournmentCharges)
+            {
+                <tr>
+                    <td class="text-center">@eachModel.PsNumber</td>
+                    <td class="text-center">@eachModel.Name</td>
+                    <td class="text-center">@eachModel.ResourceName</td>
+                    <td class="text-center">@eachModel.Slot</td>
+                    <td class="text-center">@eachModel.Charges</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <hr />
+    <div style="display:block; font-weight:bold">
+        Total charges for the month : @Model.AllTotalCharges
+    </div>
 </div>
