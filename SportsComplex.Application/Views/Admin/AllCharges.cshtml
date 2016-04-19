@@ -161,7 +161,8 @@
 
     </table>
     <hr />
-    <div style="display:block; font-weight:bold">
+    <div style="display: block; font-weight: bold">
         Total charges for the month : @Model.AllTotalCharges
     </div>
+    @Html.ActionLink("Download CSV", "ExportAllCharges", Model, new { @class = "btn btn-primary", @style = "margin-top: 10px" })
 </div>

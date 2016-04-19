@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -264,5 +265,46 @@ namespace SportsComplex.Application.Controllers
                     ResourceCharges = resourceCharges
                 });
         }
+
+        public CsvActionResult<ChargeViewModel> ExportAllCharges()
+        {
+            var list=new List<ChargeViewModel>();
+            var resourceCharges =
+                ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(1,1));
+            var gymCharges = ModelConverters.FromGymChargesList(_adminService.GetGymCharges(1, 1));
+            var tournmentCharges =
+                ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(1, 1));
+            list.AddRange(resourceCharges);
+            list.AddRange(gymCharges);
+            list.AddRange(tournmentCharges);
+            return new CsvActionResult<ChargeViewModel>(list) {FileDownloadName = "AllCharges.csv"};
+        }
+
+        public CsvActionResult<ChargeViewModel> ExportGymCharges()
+        {
+            var list = new List<ChargeViewModel>();
+            var gymCharges = ModelConverters.FromGymChargesList(_adminService.GetGymCharges(1, 1));
+            list.AddRange(gymCharges);
+            return new CsvActionResult<ChargeViewModel>(list) { FileDownloadName = "GymCharges.csv" };
+        }
+
+        public CsvActionResult<ChargeViewModel> ExportResourceCharges()
+        {
+            var list = new List<ChargeViewModel>();
+            var resourceCharges =
+                ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(1, 1));
+            list.AddRange(resourceCharges);
+            return new CsvActionResult<ChargeViewModel>(list) { FileDownloadName = "ResourceCharges.csv" };
+        }
+
+        public CsvActionResult<ChargeViewModel> ExportTournmentCharges()
+        {
+            var list = new List<ChargeViewModel>();
+            var tournmentCharges =
+                ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(1, 1));
+            list.AddRange(tournmentCharges);
+            return new CsvActionResult<ChargeViewModel>(list) { FileDownloadName = "TournmentCharges.csv" };
+        }
+
     }
 }

@@ -88,7 +88,8 @@
 
     </table>
     <hr />
-    <div style="display:block; font-weight:bold">
+    <div style="display: block; font-weight: bold">
         Total Gym charges for the month : @Model.GymTotalCharges
     </div>
+    @Html.ActionLink("Download CSV", "ExportGymCharges", Model, new { @class = "btn btn-primary", @style = "margin-top: 10px" })
 </div>

@@ -72,7 +72,6 @@
             <th class="text-center" style="width: 180px">Charges</th>
         </tr>
         </thead>
-
         <tbody>
         @foreach (var eachModel in Model.TournmentCharges)
         {
@@ -85,10 +84,10 @@
             </tr>
         }
         </tbody>
-
     </table>
     <hr />
-    <div style="display:block; font-weight:bold">
+    <div style="display: block; font-weight: bold">
         Total Tournment charges for the month : @Model.TournmentTotalCharges
     </div>
+    @Html.ActionLink("Download CSV", "ExportTournmentCharges", Model, new { @class = "btn btn-primary", @style = "margin-top: 10px" })
 </div>
