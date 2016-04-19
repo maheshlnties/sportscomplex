@@ -1,4 +1,6 @@
-﻿namespace SportsComplex.Models
+﻿using System;
+
+namespace SportsComplex.Models
 {
     public class Tournment
     {
@@ -8,10 +10,10 @@
 
         public int Fees { get; set; }
 
-        public int CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
 
-        public int LastDate { get; set; }
+        public DateTime LastDate { get; set; }
 
-        public int IsEnrolled { get; set; }
+        public bool IsEnrolled { get; set; }
     }
 }

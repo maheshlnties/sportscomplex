@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 using AutoMapper;
 using SportsComplex.Application.Filters;
+using SportsComplex.Application.Helper;
 using SportsComplex.Application.ViewModels;
 using SportsComplex.DatabaseService.Interface;
 using SportsComplex.Models;
@@ -83,11 +83,7 @@ namespace SportsComplex.Application.Controllers
             {
                 return View("ManageNews");
             }
-            var listNews = new List<News>();
-            foreach (var eachNews in newsViewModels)
-            {
-                listNews.Add(_mapper.Map<NewsViewModel, News>(eachNews));
-            }
+            var listNews = newsViewModels.Select(eachNews => _mapper.Map<NewsViewModel, News>(eachNews)).ToList();
             var result = _adminService.DeleteNews(listNews);
             ViewBag.Message = result
                ? "Deleted successfully"
@@ -98,26 +94,11 @@ namespace SportsComplex.Application.Controllers
         [HttpGet]
         public ActionResult Tournment()
         {
-            //var tournments = new List<TournmentViewModel>();
-            //for (var i = 0; i < 5; i++)
-            //{
-            //    tournments.Add(new TournmentViewModel
-            //    {
-            //        Name = "Tournment" + i,
-            //        Fees = 50,
-            //        LastDate = DateTime.Now.AddDays(i),
-            //        IsEnrolled = i%2 == 0
-            //    });
-            //}
-
             var tournments = _adminService.GetTournments();
             var tournmentViewModels = new List<TournmentViewModel>();
             if (tournments != null)
             {
-                foreach (var eachTournment in tournments)
-                {
-                    tournmentViewModels.Add(_mapper.Map<Tournment, TournmentViewModel>(eachTournment));
-                }
+                tournmentViewModels.AddRange(tournments.Select(eachTournment => _mapper.Map<Tournment, TournmentViewModel>(eachTournment)));
             }
             return View(tournmentViewModels);
         }
@@ -152,12 +133,8 @@ namespace SportsComplex.Application.Controllers
             {
                 return View();
             }
-            var listTournments = new List<Tournment>();
-            foreach (var eachTournment in tournmentViewModels)
-            {
-                listTournments.Add(_mapper.Map<TournmentViewModel, Tournment>(eachTournment));
-            }
-            bool result = _adminService.DeleteTournments(listTournments);
+            var listTournments = tournmentViewModels.Select(eachTournment => _mapper.Map<TournmentViewModel, Tournment>(eachTournment)).ToList();
+            var result = _adminService.DeleteTournments(listTournments);
             ViewBag.Message = result
                ? "Deleted successfully"
                : "Some problem occured while deleting. Try again later.";
@@ -174,73 +151,118 @@ namespace SportsComplex.Application.Controllers
         [HttpGet]
         public ActionResult AllCharges()
         {
-            var list = new List<ChargeViewModel>();
-            for (var i = 0; i < 20; i++)
-            {
-                list.Add(new ChargeViewModel
+            var resourceCharges =
+                ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(1, 1));
+            var gymCharges = ModelConverters.FromGymChargesList(_adminService.GetGymCharges(1, 1));
+            var tournmentCharges =
+                ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(1, 1));
+            return
+                View(new ChargeSheetViewModel
                 {
-                    Name = "employee" + i,
-                    PsNumber = "ps" + i,
-                    Charges = 500 + i,
-                    StartDate = DateTime.Today,
-                    EndDate = DateTime.Today.AddDays(i)
+                    ResourceCharges = resourceCharges,
+                    GymCharges = gymCharges,
+                    TournmentCharges = tournmentCharges
                 });
-            }
-            return View(new ChargeSheetViewModel { ResourceCharges = list, GymCharges = list, TournmentCharges = list });
+        }
+
+        [ActionName("AllCharges")]
+        [HttpPost]
+        public ActionResult AllChargesPost(int selectedMonth, int selectedYear)
+        {
+            var resourceCharges =
+                ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(selectedMonth, selectedYear));
+            var gymCharges = ModelConverters.FromGymChargesList(_adminService.GetGymCharges(selectedMonth, selectedYear));
+            var tournmentCharges =
+                ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(selectedMonth, selectedYear));
+            return
+                View(new ChargeSheetViewModel
+                {
+                    SelectedMonth = selectedMonth,
+                    SelectedYear = selectedYear,
+                    ResourceCharges = resourceCharges,
+                    GymCharges = gymCharges,
+                    TournmentCharges = tournmentCharges
+                });
         }
 
         [HttpGet]
         public ActionResult ChargeTournment()
         {
-            var list = new List<ChargeViewModel>();
-            for (var i = 0; i < 20; i++)
-            {
-                list.Add(new ChargeViewModel
+            var tournmentCharges =
+                 ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(1, 1));
+            return
+                View(new ChargeSheetViewModel
                 {
-                    Name = "employee" + i,
-                    PsNumber = "ps" + i,
-                    Charges = 500 + i,
-                    StartDate = DateTime.Today,
-                    EndDate = DateTime.Today.AddDays(i)
+                    TournmentCharges = tournmentCharges
                 });
-            }
-            return View(new ChargeSheetViewModel { TournmentCharges = list });
+        }
+
+        [ActionName("ChargeTournment")]
+        [HttpPost]
+        public ActionResult ChargeTournmentPost(int selectedMonth, int selectedYear)
+        {
+          
+            var tournmentCharges =
+                ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(selectedMonth, selectedYear));
+            return
+                View(new ChargeSheetViewModel
+                {
+                    SelectedMonth = selectedMonth,
+                    SelectedYear = selectedYear,
+                    TournmentCharges = tournmentCharges
+                });
         }
 
         [HttpGet]
         public ActionResult ChargeGym()
         {
-            var list = new List<ChargeViewModel>();
-            for (var i = 0; i < 20; i++)
-            {
-                list.Add(new ChargeViewModel
+            var gymCharges = ModelConverters.FromGymChargesList(_adminService.GetGymCharges(1, 1));
+            return
+                View(new ChargeSheetViewModel
                 {
-                    Name = "employee" + i,
-                    PsNumber = "ps" + i,
-                    Charges = 500 + i,
-                    StartDate = DateTime.Today,
-                    EndDate = DateTime.Today.AddDays(i)
+                    GymCharges = gymCharges
                 });
-            }
-            return View(new ChargeSheetViewModel { GymCharges = list });
+        }
+
+        [ActionName("ChargeGym")]
+        [HttpPost]
+        public ActionResult ChargeGymPost(int selectedMonth, int selectedYear)
+        {
+            var gymCharges = ModelConverters.FromGymChargesList(_adminService.GetGymCharges(selectedMonth, selectedYear));
+            return
+                View(new ChargeSheetViewModel
+                {
+                    SelectedMonth = selectedMonth,
+                    SelectedYear = selectedYear,
+                    GymCharges = gymCharges
+                });
         }
 
         [HttpGet]
         public ActionResult ChargeResource()
         {
-            var list = new List<ChargeViewModel>();
-            for (var i = 0; i < 20; i++)
-            {
-                list.Add(new ChargeViewModel
+            var resourceCharges =
+                    ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(1,1));
+            return
+                View(new ChargeSheetViewModel
                 {
-                    Name = "employee" + i,
-                    PsNumber = "ps" + i,
-                    Charges = 500 + i,
-                    StartDate = DateTime.Today,
-                    EndDate = DateTime.Today.AddDays(i)
+                    ResourceCharges = resourceCharges
                 });
-            }
-            return View(new ChargeSheetViewModel { ResourceCharges = list });
+        }
+
+        [ActionName("ChargeResource")]
+        [HttpPost]
+        public ActionResult ChargeResourcePost(int selectedMonth, int selectedYear)
+        {
+            var resourceCharges =
+                    ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(selectedMonth, selectedYear));
+            return
+                View(new ChargeSheetViewModel
+                {
+                    SelectedMonth = selectedMonth,
+                    SelectedYear = selectedYear,
+                    ResourceCharges = resourceCharges
+                });
         }
     }
 }

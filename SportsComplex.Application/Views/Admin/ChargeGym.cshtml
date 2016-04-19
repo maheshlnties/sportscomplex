@@ -74,7 +74,7 @@
         </thead>
 
         <tbody>
-        @foreach (var eachModel in Model.Charges)
+        @foreach (var eachModel in Model.GymCharges)
         {
             <tr>
                 <td class="text-center">@eachModel.PsNumber</td>
@@ -89,6 +89,6 @@
     </table>
     <hr />
     <div style="display:block; font-weight:bold">
-        Total charges for the month : @Model.AllTotalCharges
+        Total Gym charges for the month : @Model.GymTotalCharges
     </div>
 </div>

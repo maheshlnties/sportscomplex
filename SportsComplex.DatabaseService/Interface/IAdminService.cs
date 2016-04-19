@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using SportsComplex.Models;
+using SportsComplex.Models.Charges;
 
 namespace SportsComplex.DatabaseService.Interface
 {
@@ -16,5 +17,11 @@ namespace SportsComplex.DatabaseService.Interface
         bool AddTournment(Tournment tournment);
 
         bool DeleteTournments(List<Tournment> listTournments);
+
+        IList<ResourceCharge> GetResourceCharges(int month,int year);
+
+        IList<GymCharge> GetGymCharges(int month, int year);
+
+        IList<TournmentCharge> GetTournmentCharges(int month, int year);
     }
 }

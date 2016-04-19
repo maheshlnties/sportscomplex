@@ -64,27 +64,33 @@
     <table id="table_id"
            class="table table-bordered">
         <thead>
-            <tr>
-                <th class="text-center">PS Number</th>
-                <th class="text-center">Employee Name</th>
-                <th class="text-center">Start Date</th>
-                <th class="text-center">End Date</th>
-                <th class="text-center" style="width: 180px">Charges</th>
-            </tr>
+        <tr>
+            <th class="text-center">PS Number</th>
+            <th class="text-center">Employee Name</th>
+            <th class="text-center">Resource Name</th>
+            <th class="text-center">Slot</th>
+            <th class="text-center">Booked On</th>
+            <th class="text-center" style="width: 180px">Charges</th>
+        </tr>
         </thead>
 
         <tbody>
-            @foreach (var eachModel in Model.Charges)
-            {
-                <tr>
-                    <td class="text-center">@eachModel.PsNumber</td>
-                    <td class="text-center">@eachModel.Name</td>
-                    <td class="text-center">@eachModel.StartDate</td>
-                    <td class="text-center">@eachModel.EndDate</td>
-                    <td class="text-center">@eachModel.Charges</td>
-                </tr>
-            }
+        @foreach (var eachModel in Model.ResourceCharges)
+        {
+            <tr>
+                <td class="text-center">@eachModel.PsNumber</td>
+                <td class="text-center">@eachModel.Name</td>
+                <td class="text-center">@eachModel.ResourceName</td>
+                <td class="text-center">@eachModel.Slot</td>
+                <td class="text-center">@eachModel.TransactionDate</td>
+                <td class="text-center">@eachModel.Charges</td>
+            </tr>
+        }
         </tbody>
 
     </table>
+    <hr />
+    <div style="display:block; font-weight:bold">
+        Total Resource charges for the month : @Model.ResourceTotalCharges
+    </div>
 </div>

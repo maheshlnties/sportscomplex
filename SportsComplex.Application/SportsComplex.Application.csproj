@@ -176,6 +176,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\CustomPrincipal.cs" />
+    <Compile Include="Helper\ModelConverters.cs" />
     <Compile Include="ViewModels\ChargeSheetViewModel.cs" />
     <Compile Include="ViewModels\ChargeViewModel.cs" />
     <Compile Include="ViewModels\EmployeeViewModel.cs" />
