@@ -29,7 +29,7 @@
     {
         <text>
             <p>
-                Your gym membership is active <a style="font-weight: bold; text-decoration: underline; cursor: pointer">Leave</a>
+                Your gym membership is active <a href="@Url.Action("GymLeave", "Module")" style="font-weight: bold; text-decoration: underline; cursor: pointer">Leave</a>
             </p>
         </text>
     }
@@ -37,7 +37,7 @@
     {
         <text>
             <p >
-                You do not have gym membership <a style="font-weight: bold; text-decoration: underline; cursor: pointer">Join</a>
+                You do not have gym membership <a href="@Url.Action("GymJoin","Module")"  style="font-weight: bold; text-decoration: underline; cursor: pointer">Join</a>
             </p>
         </text>
     }

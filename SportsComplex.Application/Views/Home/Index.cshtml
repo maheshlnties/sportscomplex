@@ -9,7 +9,7 @@
     <div class="panel panel-info">
         <div class="panel-heading">
             <div class="panel-title">Login</div>
-            <div style="float: right; font-size: 80%; position: relative; top: -10px">
+            <div style="float: right; font-size: 80%; position: relative; top: -10px" hidden="hidden">
                 <a href="#">Forgot password?</a>
             </div>
         </div>
@@ -58,25 +58,28 @@
         </div>
         <div style="padding-top: 15px" class="panel-body">
             <div style="display: none" id="search-alert" class="alert alert-danger col-sm-12"></div>
-            <form id="searchform" class="form-horizontal" role="form">
+            @using (Html.BeginForm("Search", "Home", FormMethod.Get, new { id = "searchform", @class = "form-horizontal" }))
+            {
+                @*<form id="searchform" class="form-horizontal" role="form">*@
                 <div style="margin-bottom: 15px" class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                    <input id="search-username" type="text" class="form-control" name="Name" value="" placeholder="Name or Email">
+                    @Html.TextBoxFor(m => m.SearchViewModel.Name, new { maxlength = 50, id = "search-username", @class = "form-control", @placeholder = "Name" })
                 </div>
                 <div style="margin-bottom: 15px" class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
-                    <input id="search-password" type="text" class="form-control" name="Number" placeholder="Number">
+                    @Html.TextBoxFor(m => m.SearchViewModel.PsNumber, new { maxlength = 50, id = "search-username", @class = "form-control", @placeholder = "PS Number" })
                 </div>
                 <div style="margin-bottom: 15px" class="input-group">
-                    <span class="input-group-addon"><i class="glyphicon glyphicon-phone-alt"></i></span>
-                    <input id="search-extension" type="text" class="form-control" name="Extension" placeholder="Extension">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-send"></i></span>
+                    @Html.TextBoxFor(m => m.SearchViewModel.Email, new { maxlength = 50, id = "search-username", @class = "form-control", @placeholder = "Email" })
                 </div>
                 <div style="margin-top: 10px" class="form-group">
                     <div class="col-sm-12 controls">
-                        <a id="btn-Search" href="@Url.Action("Search", "Home")" class="btn btn-success">Search </a>
+                        <a id="btn-Search" href="javascript:$('#searchform').submit();" class="btn btn-success">Search</a>
                     </div>
                 </div>
-            </form>
+                @*</form>*@
+            }
         </div>
     </div>
 </div>

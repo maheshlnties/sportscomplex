@@ -14,6 +14,8 @@ namespace SportsComplex.Application
                 cfg.CreateMap<EmployeeViewModel, Employee>();
                 cfg.CreateMap<NewsViewModel, News>();
                 cfg.CreateMap<News, NewsViewModel>();
+                cfg.CreateMap<TournmentViewModel, Tournment>();
+                cfg.CreateMap<Tournment, TournmentViewModel>();
             });
            return configuration.CreateMapper();
         }

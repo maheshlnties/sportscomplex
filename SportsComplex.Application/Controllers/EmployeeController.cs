@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
+using AutoMapper;
 using SportsComplex.Application.Filters;
 using SportsComplex.Application.Helper;
 using SportsComplex.Application.ViewModels;
 using SportsComplex.DatabaseService.Interface;
+using SportsComplex.Models;
 
 namespace SportsComplex.Application.Controllers
 {
@@ -14,14 +17,16 @@ namespace SportsComplex.Application.Controllers
         #region Fields
 
         private readonly IEmployeeService _employeeService;
+        private readonly IMapper _mapper;
 
         #endregion
 
         #region Constructor
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService, IMapper mapper)
         {
             _employeeService = employeeService;
+            _mapper = mapper;
         }
 
         #endregion
@@ -44,9 +49,32 @@ namespace SportsComplex.Application.Controllers
 
         #region Tournment
 
+        [HttpGet]
         public ActionResult Tournment()
         {
-            return View(new List<TournmentViewModel>());
+            var tournments = _employeeService.GetTournments();
+            var tournmentViewModels = new List<TournmentViewModel>();
+            if (tournments != null)
+            {
+                tournmentViewModels.AddRange(
+                    tournments.Select(eachTournment => _mapper.Map<Tournment, TournmentViewModel>(eachTournment)));
+            }
+            return View(tournmentViewModels);
+        }
+
+        [ActionName("Tournment")]
+        [HttpPost]
+        public ActionResult TournmentPost(string tournment)
+        {
+            var result = _employeeService.BookTournment(User.UserId, "tournment");
+            var tournments = _employeeService.GetTournments();
+            var tournmentViewModels = new List<TournmentViewModel>();
+            if (tournments != null)
+            {
+                tournmentViewModels.AddRange(
+                    tournments.Select(eachTournment => _mapper.Map<Tournment, TournmentViewModel>(eachTournment)));
+            }
+            return View(tournmentViewModels);
         }
 
         #endregion
@@ -72,20 +100,22 @@ namespace SportsComplex.Application.Controllers
 
         [ActionName("MyCharges")]
         [HttpPost]
-        public ActionResult MyChargesPost(int selectedMonth, int selectedYear)
+        public ActionResult MyChargesPost(ChargeSheetViewModel chargeSheetViewModel)
         {
-            var resourceCharges =
-                ModelConverters.FromResourceChargesList(_employeeService.GetResourceCharges(selectedMonth, selectedYear));
+            if(!ModelState.IsValid)
+                return View(chargeSheetViewModel);
+
+            var resourceCharges = 
+                ModelConverters.FromResourceChargesList(_employeeService.GetResourceCharges(chargeSheetViewModel.SelectedMonth, chargeSheetViewModel.SelectedYear));
             var gymCharges =
-                ModelConverters.FromGymChargesList(_employeeService.GetGymCharges(selectedMonth, selectedYear));
+                ModelConverters.FromGymChargesList(_employeeService.GetGymCharges(chargeSheetViewModel.SelectedMonth, chargeSheetViewModel.SelectedYear));
             var tournmentCharges =
-                ModelConverters.FromTournmentChargesList(_employeeService.GetTournmentCharges(selectedMonth,
-                    selectedYear));
+                ModelConverters.FromTournmentChargesList(_employeeService.GetTournmentCharges(chargeSheetViewModel.SelectedMonth, chargeSheetViewModel.SelectedYear));
             return
                 View(new ChargeSheetViewModel
                 {
-                    SelectedMonth = selectedMonth,
-                    SelectedYear = selectedYear,
+                    SelectedMonth = chargeSheetViewModel.SelectedMonth,
+                    SelectedYear = chargeSheetViewModel.SelectedYear,
                     ResourceCharges = resourceCharges,
                     GymCharges = gymCharges,
                     TournmentCharges = tournmentCharges

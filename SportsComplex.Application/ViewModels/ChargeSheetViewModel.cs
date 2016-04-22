@@ -6,6 +6,11 @@ namespace SportsComplex.Application.ViewModels
 {
     public class ChargeSheetViewModel
     {
+        public ChargeSheetViewModel()
+        {
+            Reset();
+        }
+
         [Display(Name = "Select Month")]
         public int SelectedMonth { get; set; }
 
@@ -30,6 +35,13 @@ namespace SportsComplex.Application.ViewModels
         public double AllTotalCharges
         {
             get { return ResourceTotalCharges + GymTotalCharges + TournmentTotalCharges; }
+        }
+
+        public void Reset()
+        {
+            ResourceCharges = new List<ChargeViewModel>();
+            GymCharges = new List<ChargeViewModel>();
+            TournmentCharges = new List<ChargeViewModel>();
         }
     }
 }

@@ -5,7 +5,30 @@
     }
     @section scripts
     {
-
+        <script type="text/javascript">
+            $(function() {
+                $(":button").click(function(event) {
+                    event.preventDefault();
+                    if (confirm("Are you sure you want to enroll ?")) {
+                        var jsonArray = [];
+                        $.ajax({
+                            type: "POST",
+                            url: '/Employee/Tournment',
+                            contentType: 'application/json; charset=utf-8',
+                            data: JSON.stringify({ "tournment": this.id }),
+                            success: function(data) {
+                                window.location.reload(true);
+                            },
+                            error: function(data) {
+                                if (data != null) {
+                                    alert(data.statusText);
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
     }
 
 
@@ -29,7 +52,10 @@
                             <td class="text-center">@eachModel.Name</td>
                             <td class="text-center">@eachModel.Fees</td>
                             <td class="text-center">@eachModel.LastDate</td>
-                            <td class="text-center"><input type="checkbox" value="true" @(eachModel.IsEnrolled ? "checked=\"checked\"" : "") /></td>
+                            <td style="text-align: center">
+                                <button type="button" @(eachModel.IsEnrolled ? "disabled" : "") class="btn btn-primary" id="@eachModel.Name" data-toggle="tooltip" data-placement="top">Enroll</button>
+                            </td>
+                            @*<td class="text-center"><input type="checkbox" value="true" @(eachModel.IsEnrolled ? "checked=\"checked\"" : "") /></td>*@
                         </tr>
                     }
                 </tbody>

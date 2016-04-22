@@ -184,6 +184,20 @@ namespace SportsComplex.Application.Controllers
             return View(new GymViewModel() {Jonined = true});
         }
 
+        [HttpPost]
+        public ActionResult GymLeave()
+        {
+            return Redirect("Gym");
+        }
+
+        [HttpPost]
+        public ActionResult GymJoin()
+        {
+            return Redirect("Gym");
+        }
         #endregion
+
+        
+       
     }
 }
