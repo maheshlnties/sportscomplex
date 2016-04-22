@@ -15,14 +15,24 @@ namespace SportsComplex.Application.Controllers
     [UserAuthorize(Roles = "Admin")]
     public class AdminController : BaseController
     {
+        #region Fields
+
         private readonly IAdminService _adminService;
         private readonly IMapper _mapper;
+
+        #endregion
+
+        #region Constructor
 
         public AdminController(IAdminService adminService, IMapper mapper)
         {
             _adminService = adminService;
             _mapper = mapper;
         }
+
+        #endregion
+
+        #region Index And Logout
 
         [HttpGet]
         public ActionResult Index()
@@ -36,6 +46,10 @@ namespace SportsComplex.Application.Controllers
             Session.Abandon();
             return RedirectToAction("Index", "Home");
         }
+
+        #endregion
+
+        #region News
 
         public ActionResult ManageNews()
         {
@@ -87,10 +101,14 @@ namespace SportsComplex.Application.Controllers
             var listNews = newsViewModels.Select(eachNews => _mapper.Map<NewsViewModel, News>(eachNews)).ToList();
             var result = _adminService.DeleteNews(listNews);
             ViewBag.Message = result
-               ? "Deleted successfully"
-               : "Some problem occured while deleting. Try again later.";
+                ? "Deleted successfully"
+                : "Some problem occured while deleting. Try again later.";
             return View("ManageNews");
         }
+
+        #endregion
+
+        #region Tournment
 
         [HttpGet]
         public ActionResult Tournment()
@@ -99,7 +117,8 @@ namespace SportsComplex.Application.Controllers
             var tournmentViewModels = new List<TournmentViewModel>();
             if (tournments != null)
             {
-                tournmentViewModels.AddRange(tournments.Select(eachTournment => _mapper.Map<Tournment, TournmentViewModel>(eachTournment)));
+                tournmentViewModels.AddRange(
+                    tournments.Select(eachTournment => _mapper.Map<Tournment, TournmentViewModel>(eachTournment)));
             }
             return View(tournmentViewModels);
         }
@@ -134,14 +153,20 @@ namespace SportsComplex.Application.Controllers
             {
                 return View();
             }
-            var listTournments = tournmentViewModels.Select(eachTournment => _mapper.Map<TournmentViewModel, Tournment>(eachTournment)).ToList();
+            var listTournments =
+                tournmentViewModels.Select(eachTournment => _mapper.Map<TournmentViewModel, Tournment>(eachTournment))
+                    .ToList();
             var result = _adminService.DeleteTournments(listTournments);
             ViewBag.Message = result
-               ? "Deleted successfully"
-               : "Some problem occured while deleting. Try again later.";
+                ? "Deleted successfully"
+                : "Some problem occured while deleting. Try again later.";
 
             return View();
         }
+
+        #endregion
+
+        #region Sports Report
 
         [HttpGet]
         public ActionResult SportsReport()
@@ -190,7 +215,7 @@ namespace SportsComplex.Application.Controllers
         public ActionResult ChargeTournment()
         {
             var tournmentCharges =
-                 ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(1, 1));
+                ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(1, 1));
             return
                 View(new ChargeSheetViewModel
                 {
@@ -202,7 +227,7 @@ namespace SportsComplex.Application.Controllers
         [HttpPost]
         public ActionResult ChargeTournmentPost(int selectedMonth, int selectedYear)
         {
-          
+
             var tournmentCharges =
                 ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(selectedMonth, selectedYear));
             return
@@ -243,7 +268,7 @@ namespace SportsComplex.Application.Controllers
         public ActionResult ChargeResource()
         {
             var resourceCharges =
-                    ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(1,1));
+                ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(1, 1));
             return
                 View(new ChargeSheetViewModel
                 {
@@ -256,7 +281,7 @@ namespace SportsComplex.Application.Controllers
         public ActionResult ChargeResourcePost(int selectedMonth, int selectedYear)
         {
             var resourceCharges =
-                    ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(selectedMonth, selectedYear));
+                ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(selectedMonth, selectedYear));
             return
                 View(new ChargeSheetViewModel
                 {
@@ -268,9 +293,9 @@ namespace SportsComplex.Application.Controllers
 
         public CsvActionResult<ChargeViewModel> ExportAllCharges()
         {
-            var list=new List<ChargeViewModel>();
+            var list = new List<ChargeViewModel>();
             var resourceCharges =
-                ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(1,1));
+                ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(1, 1));
             var gymCharges = ModelConverters.FromGymChargesList(_adminService.GetGymCharges(1, 1));
             var tournmentCharges =
                 ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(1, 1));
@@ -285,7 +310,7 @@ namespace SportsComplex.Application.Controllers
             var list = new List<ChargeViewModel>();
             var gymCharges = ModelConverters.FromGymChargesList(_adminService.GetGymCharges(1, 1));
             list.AddRange(gymCharges);
-            return new CsvActionResult<ChargeViewModel>(list) { FileDownloadName = "GymCharges.csv" };
+            return new CsvActionResult<ChargeViewModel>(list) {FileDownloadName = "GymCharges.csv"};
         }
 
         public CsvActionResult<ChargeViewModel> ExportResourceCharges()
@@ -294,7 +319,7 @@ namespace SportsComplex.Application.Controllers
             var resourceCharges =
                 ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(1, 1));
             list.AddRange(resourceCharges);
-            return new CsvActionResult<ChargeViewModel>(list) { FileDownloadName = "ResourceCharges.csv" };
+            return new CsvActionResult<ChargeViewModel>(list) {FileDownloadName = "ResourceCharges.csv"};
         }
 
         public CsvActionResult<ChargeViewModel> ExportTournmentCharges()
@@ -303,8 +328,9 @@ namespace SportsComplex.Application.Controllers
             var tournmentCharges =
                 ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(1, 1));
             list.AddRange(tournmentCharges);
-            return new CsvActionResult<ChargeViewModel>(list) { FileDownloadName = "TournmentCharges.csv" };
+            return new CsvActionResult<ChargeViewModel>(list) {FileDownloadName = "TournmentCharges.csv"};
         }
 
+        #endregion
     }
 }

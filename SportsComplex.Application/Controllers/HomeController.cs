@@ -15,14 +15,24 @@ namespace SportsComplex.Application.Controllers
 {
     public class HomeController : BaseController
     {
+        #region Fields
+
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+
+        #endregion
+
+        #region Constructor
 
         public HomeController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
             _mapper = mapper;
         }
+
+        #endregion
+
+        #region Index And Search
 
         public ActionResult Index()
         {
@@ -46,6 +56,19 @@ namespace SportsComplex.Application.Controllers
 
         }
 
+        [HttpGet]
+        public ActionResult Search()
+        {
+            var list = _userService.Search("", "", "");
+            var listEmployeeVm = list.Select(eachEmp => _mapper.Map<Employee, EmployeeViewModel>(eachEmp)).ToList();
+
+            return View(listEmployeeVm);
+        }
+
+        #endregion
+
+        #region Gallery And News
+
         private List<ImageViewModel> GetGallery()
         {
             var images = _userService.GetGalleryImages();
@@ -67,6 +90,10 @@ namespace SportsComplex.Application.Controllers
                 : new List<NewsViewModel>();
         }
 
+        #endregion
+
+        #region About And Contact
+
         public ActionResult About()
         {
             return View();
@@ -76,6 +103,10 @@ namespace SportsComplex.Application.Controllers
         {
             return View();
         }
+
+        #endregion
+
+        #region Register And Login
 
         [HttpGet]
         [ActionName("Register")]
@@ -149,13 +180,6 @@ namespace SportsComplex.Application.Controllers
             return View("Index", homeVewModel);
         }
 
-        [HttpGet]
-        public ActionResult Search()
-        {
-            var list = _userService.Search("", "", "");
-            var listEmployeeVm = list.Select(eachEmp => _mapper.Map<Employee, EmployeeViewModel>(eachEmp)).ToList();
-
-            return View(listEmployeeVm);
-        }
+        #endregion
     }
 }

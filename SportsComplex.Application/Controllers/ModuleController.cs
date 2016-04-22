@@ -17,21 +17,28 @@ namespace SportsComplex.Application.Controllers
     [UserAuthorize(Roles = "Admin , Employee")]
     public class ModuleController : Controller
     {
+        #region Fields
+
         private readonly IModuleService _moduleService;
+
+        #endregion
+
+        #region Constructor
+
         public ModuleController(IModuleService moduleService)
         {
             _moduleService = moduleService;
         }
 
-        //
-        // GET: /Module/
+        #endregion
+
+        #region Resource Booking
+
         public ActionResult ResourceBooking()
         {
             return View();
         }
 
-        //
-        // GET: /Module/
         [HttpGet]
         [ActionName("Badminton")]
         public ActionResult Badminton()
@@ -53,11 +60,11 @@ namespace SportsComplex.Application.Controllers
             if (DateTime.Now.Hour < 16 || DateTime.Now.Hour > 21)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Booking can be done only between 4PM to 9PM");
 
-            var existingBookedList=_moduleService.GetBookedBadmintonList(DateTime.Today);
+            var existingBookedList = _moduleService.GetBookedBadmintonList(DateTime.Today);
             resource.BookedList = existingBookedList ?? new List<BookingItem>();
 
             if (resource.BookedList.FirstOrDefault(x => x.Item == id) == null)
-                resource.BookedList.Add(new BookingItem { Item = id, BookedBy = HttpContext.User.Identity.Name });
+                resource.BookedList.Add(new BookingItem {Item = id, BookedBy = HttpContext.User.Identity.Name});
 
             var resourceModel = new Resource
             {
@@ -67,7 +74,8 @@ namespace SportsComplex.Application.Controllers
                 Date = DateTime.Today
             };
             if (_moduleService.BookBadmintonResource(resourceModel))
-                EmailHandler.SendMail(new MailMessage("test@gmail.com", "maheshniec@gmail.com", "test", "hello test"));//TODO change template and TO address
+                EmailHandler.SendMail(new MailMessage("test@gmail.com", "maheshniec@gmail.com", "test", "hello test"));
+                    //TODO change template and TO address
             return View(resource);
         }
 
@@ -95,8 +103,8 @@ namespace SportsComplex.Application.Controllers
             var existingBookedList = _moduleService.GetBookedBilliardList(DateTime.Today);
             resource.BookedList = existingBookedList ?? new List<BookingItem>();
 
-            if (resource.BookedList.FirstOrDefault(x => x.Item == id)==null)
-                resource.BookedList.Add(new BookingItem { Item = id, BookedBy = HttpContext.User.Identity.Name });
+            if (resource.BookedList.FirstOrDefault(x => x.Item == id) == null)
+                resource.BookedList.Add(new BookingItem {Item = id, BookedBy = HttpContext.User.Identity.Name});
 
             var resourceModel = new Resource
             {
@@ -105,15 +113,20 @@ namespace SportsComplex.Application.Controllers
                 BookedList = resource.BookedList,
                 Date = DateTime.Today
             };
-            if(_moduleService.BookBilliardResource(resourceModel))
-                EmailHandler.SendMail(new MailMessage("test@gmail.com", "maheshniec@gmail.com", "test", "hello test"));//TODO change template and TO address
+            if (_moduleService.BookBilliardResource(resourceModel))
+                EmailHandler.SendMail(new MailMessage("test@gmail.com", "maheshniec@gmail.com", "test", "hello test"));
+                    //TODO change template and TO address
             return View(resource);
         }
+
+        #endregion
+
+        #region Gallery
 
         [HttpGet]
         public ActionResult Gallery()
         {
-            var images=_moduleService.GetGalleryImages();
+            var images = _moduleService.GetGalleryImages();
             var imageViewModels = images.Select(eachImages => new ImageViewModel
             {
                 Name = eachImages.Name,
@@ -121,7 +134,7 @@ namespace SportsComplex.Application.Controllers
                 UploadedOn = eachImages.UploadedOn,
                 IsSelected = true
             }).ToList();
-            
+
             return View(imageViewModels);
         }
 
@@ -145,7 +158,8 @@ namespace SportsComplex.Application.Controllers
                     images.Add(new Image
                     {
                         Name = file.FileName,
-                        EncodedImage = string.Concat(Constants.Base64Extender, StreamHelper.ToBase64String(file.InputStream)),
+                        EncodedImage =
+                            string.Concat(Constants.Base64Extender, StreamHelper.ToBase64String(file.InputStream)),
                         UploadedOn = DateTime.Now.ToShortDateString()
                     });
                 }
@@ -160,10 +174,16 @@ namespace SportsComplex.Application.Controllers
             return View("Gallery");
         }
 
+        #endregion
+
+        #region Gym
+
         [HttpGet]
         public ActionResult Gym()
         {
-            return View(new GymViewModel(){Jonined = true});
+            return View(new GymViewModel() {Jonined = true});
         }
+
+        #endregion
     }
 }
