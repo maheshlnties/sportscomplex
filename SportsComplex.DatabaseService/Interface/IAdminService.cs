@@ -10,13 +10,13 @@ namespace SportsComplex.DatabaseService.Interface
 
         bool AddNews(News news);
 
-        bool DeleteNews(IList<News> news);
+        bool DeleteNews(IList<string> news);
 
         IList<Tournment> GetTournments();
 
         bool AddTournment(Tournment tournment);
 
-        bool DeleteTournments(List<Tournment> listTournments);
+        bool DeleteTournments(IList<string> listTournments);
 
         IList<ResourceCharge> GetResourceCharges(int month,int year);
 

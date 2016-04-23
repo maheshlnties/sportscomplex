@@ -22,6 +22,6 @@ namespace SportsComplex.DatabaseService.Interface
 
         List<Image> GetGalleryImages();
 
-        bool DeleteImages(List<Image> images);
+        bool DeleteImages(List<string> imageId);
     }
 }

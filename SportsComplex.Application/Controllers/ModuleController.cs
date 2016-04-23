@@ -129,10 +129,10 @@ namespace SportsComplex.Application.Controllers
             var images = _moduleService.GetGalleryImages();
             var imageViewModels = images.Select(eachImages => new ImageViewModel
             {
+                Id = eachImages.Id,
                 Name = eachImages.Name,
                 EncodedImage = eachImages.EncodedImage,
-                UploadedOn = eachImages.UploadedOn,
-                IsSelected = true
+                UploadedOn = eachImages.UploadedOn
             }).ToList();
 
             return View(imageViewModels);
@@ -166,12 +166,26 @@ namespace SportsComplex.Application.Controllers
                 result = _moduleService.UploadImages(images);
             }
             return Content(result ? "success" : "failed");
-        }
+        }   
 
+        [ActionName("Gallery")]
         [HttpDelete]
-        public ActionResult DeleteImage()
+        public ActionResult DeleteImage(List<string> selectedList)
         {
-            return View("Gallery");
+            var result = false;
+            if (selectedList!=null)
+            {
+               result =  _moduleService.DeleteImages(selectedList);
+            }
+            var images = _moduleService.GetGalleryImages();
+            var imageViewModels = images.Select(eachImages => new ImageViewModel
+            {
+                Id = eachImages.Id,
+                Name = eachImages.Name,
+                EncodedImage = eachImages.EncodedImage,
+                UploadedOn = eachImages.UploadedOn
+            }).ToList();
+            return View(imageViewModels);
         }
 
         #endregion
@@ -196,8 +210,5 @@ namespace SportsComplex.Application.Controllers
             return Redirect("Gym");
         }
         #endregion
-
-        
-       
     }
 }

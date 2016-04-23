@@ -91,18 +91,21 @@ namespace SportsComplex.Application.Controllers
 
         [HttpDelete]
         [ActionName("ManageNews")]
-        public ActionResult DeleteNews(List<NewsViewModel> newsViewModels)
+        public ActionResult DeleteNews(List<string> selectedList)
         {
-            if (newsViewModels.Count == 0)
+            if (selectedList != null && selectedList.Count == 0)
             {
-                return View("ManageNews");
+                return View();
             }
-            var listNews = newsViewModels.Select(eachNews => _mapper.Map<NewsViewModel, News>(eachNews)).ToList();
-            var result = _adminService.DeleteNews(listNews);
-            ViewBag.Message = result
-                ? "Deleted successfully"
-                : "Some problem occured while deleting. Try again later.";
-            return View("ManageNews");
+            var result = _adminService.DeleteNews(selectedList);
+
+            var listNewsViewModel = new List<NewsViewModel>();
+            var newsList = _adminService.GetNews();
+
+            if (newsList != null)
+                listNewsViewModel.AddRange(newsList.Select(eachNews => _mapper.Map<News, NewsViewModel>(eachNews)));
+
+            return View(listNewsViewModel);
         }
 
         #endregion
@@ -146,21 +149,22 @@ namespace SportsComplex.Application.Controllers
 
         [HttpDelete]
         [ActionName("Tournment")]
-        public ActionResult DeleteTournment(IList<TournmentViewModel> tournmentViewModels)
+        public ActionResult DeleteTournment(IList<string> selectedList)
         {
-            if (tournmentViewModels.Count == 0)
+            if (selectedList != null && selectedList.Count == 0)
             {
                 return View();
             }
-            var listTournments =
-                tournmentViewModels.Select(eachTournment => _mapper.Map<TournmentViewModel, Tournment>(eachTournment))
-                    .ToList();
-            var result = _adminService.DeleteTournments(listTournments);
-            ViewBag.Message = result
-                ? "Deleted successfully"
-                : "Some problem occured while deleting. Try again later.";
-
-            return View();
+            var result = _adminService.DeleteTournments(selectedList);
+            
+            var tournments = _adminService.GetTournments();
+            var tournmentViewModels = new List<TournmentViewModel>();
+            if (tournments != null)
+            {
+                tournmentViewModels.AddRange(
+                    tournments.Select(eachTournment => _mapper.Map<Tournment, TournmentViewModel>(eachTournment)));
+            }
+            return View(tournmentViewModels);
         }
 
         #endregion

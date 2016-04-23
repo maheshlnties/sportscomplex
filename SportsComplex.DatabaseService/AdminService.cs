@@ -15,6 +15,7 @@ namespace SportsComplex.DatabaseService
             {
                 listNews.Add(new News
                 {
+                    Id = i.ToString(),
                     Content = "Wish you a very happy ugadi" + i,
                     PostedOn = DateTime.Today,
                     ExpiresOn = DateTime.Today.AddDays(2),
@@ -29,7 +30,7 @@ namespace SportsComplex.DatabaseService
             return true;
         }
 
-        public bool DeleteNews(IList<News> news)
+        public bool DeleteNews(IList<string> news)
         {
             return true;
         }
@@ -57,7 +58,7 @@ namespace SportsComplex.DatabaseService
             return true;
         }
 
-        public bool DeleteTournments(List<Tournment> listTournments)
+        public bool DeleteTournments(IList<string> listTournments)
         {
             return true;
         }

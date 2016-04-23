@@ -5,6 +5,8 @@ namespace SportsComplex.Application.ViewModels
 {
     public class TournmentViewModel
     {
+        public string Id { get; set; }
+
         [Display(Name = "Tournment Name*")]
         [Required]
         public string Name { get; set; }

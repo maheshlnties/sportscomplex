@@ -164,6 +164,7 @@ namespace SportsComplex.DatabaseService
             {
                 images.Add(new Image
                 {
+                    Id = i.ToString(),
                     Name = "image"+i,
                     EncodedImage = i%2==0? image1:image2,
                 UploadedOn = "temp"
@@ -171,8 +172,8 @@ namespace SportsComplex.DatabaseService
             }
             return images;
         }
-
-        public bool DeleteImages(List<Image> images)
+        
+        public bool DeleteImages(List<string> imageId)
         {
             return true;
         }
