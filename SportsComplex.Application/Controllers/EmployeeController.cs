@@ -66,7 +66,7 @@ namespace SportsComplex.Application.Controllers
         [HttpPost]
         public ActionResult TournmentPost(string tournment)
         {
-            var result = _employeeService.BookTournment(User.UserId, "tournment");
+            var result = _employeeService.BookTournment(User.PsNumber, "tournment");
             var tournments = _employeeService.GetTournments();
             var tournmentViewModels = new List<TournmentViewModel>();
             if (tournments != null)

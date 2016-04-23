@@ -357,5 +357,107 @@ namespace SportsComplex.Database
         }
 
         #endregion
+
+        public bool JoinGym(Gym gym)
+        {
+            if (gym == null) return false;
+            int result;
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (
+                    var cmd =
+                        new SqlCommand(string.Format(SqlQueries.SqlAddGym, gym.PsNumber, gym.TransactionDate, gym.Joined,
+                                gym.JoinedOn, gym.LeftOn), conn))
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+            }
+            return result > 0;
+        }
+
+        public bool LeaveGym(string id, Gym gym)
+        {
+            if (gym == null || string.IsNullOrWhiteSpace(id)) return false;
+            int result;
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (
+                    var cmd =
+                        new SqlCommand(string.Format(SqlQueries.SqlUpdateGym, gym.TransactionDate, gym.Joined, gym.LeftOn,
+                                id), conn))
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+            }
+            return result > 0;
+        }
+
+        public Gym GetGymByPsNumber(string psNumber)
+        {
+            Gym gym = null;
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (
+                    var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectGymByPsNumber, psNumber), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    if (datareader.Read())
+                    {
+                        gym = new Gym
+                        {
+                            Id = datareader["Id"].ToString(),
+                            PsNumber = datareader["PsNumber"].ToString(),
+                            TransactionDate = Convert.ToDateTime(datareader["TransactionDate"].ToString()),
+                            Joined = true,
+                            JoinedOn =
+                                ReferenceEquals(datareader["JoinedOn"], typeof (DBNull))
+                                    ? (DateTime?) null
+                                    : Convert.ToDateTime(datareader["JoinedOn"]),
+                            LeftOn =
+                                ReferenceEquals(datareader["LeftOn"], typeof (DBNull))
+                                    ? (DateTime?) null
+                                    : Convert.ToDateTime(datareader["LeftOn"])
+                        };
+                    }
+                }
+            }
+            return gym;
+        }
+
+        public Gym GetGymById(string id)
+        {
+            Gym gym = null;
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (
+                    var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectGmyById, id), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    if (datareader.Read())
+                    {
+                        gym = new Gym
+                        {
+                            Id = datareader["Id"].ToString(),
+                            PsNumber = datareader["PsNumber"].ToString(),
+                            TransactionDate = Convert.ToDateTime(datareader["TransactionDate"].ToString()),
+                            Joined = Convert.ToBoolean(datareader["Joined"]),
+                            JoinedOn =
+                                ReferenceEquals(datareader["JoinedOn"], typeof(DBNull))
+                                    ? (DateTime?)null
+                                    : Convert.ToDateTime(datareader["JoinedOn"]),
+                            LeftOn =
+                                ReferenceEquals(datareader["LeftOn"], typeof(DBNull))
+                                    ? (DateTime?)null
+                                    : Convert.ToDateTime(datareader["LeftOn"])
+                        };
+                    }
+                }
+            }
+            return gym;
+        }
     }
 }

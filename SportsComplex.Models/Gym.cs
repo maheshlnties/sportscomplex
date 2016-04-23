@@ -4,11 +4,15 @@ namespace SportsComplex.Models
 {
     public class Gym
     {
+        public string Id { get; set; }
+
         public string PsNumber { get; set; }
 
-        public bool Jonined { get; set; }
+        public DateTime TransactionDate { get; set; }
 
-        public DateTime? JoninedOn { get; set; }
+        public bool Joined { get; set; }
+
+        public DateTime? JoinedOn { get; set; }
 
         public DateTime? LeftOn { get; set; }
     }

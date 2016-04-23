@@ -10,8 +10,14 @@ namespace SportsComplex.DatabaseService
 {
     public class ModuleService : IModuleService
     {
+        #region Fields
+
         private readonly SqlDatabaseAccessor _databaseAccessor;
         private readonly List<ResourceSettings> _resourceSettings;
+
+        #endregion
+
+        #region Constructor
 
         public ModuleService()
         {
@@ -41,6 +47,10 @@ namespace SportsComplex.DatabaseService
                 }
             };
         }
+
+        #endregion
+
+        #region Resources
 
         private List<string> GetBadmintonHeaders()
         {
@@ -95,7 +105,7 @@ namespace SportsComplex.DatabaseService
             //    ? new List<BookingItem>()
             //    : bookedList.Items.Split(';').Select(eachItem => new BookingItem(eachItem)).ToList();
 
-            return new List<BookingItem> { new BookingItem { Item = "Badminton 1,7PM - 8PM", BookedBy = "Mahesh" } };
+            return new List<BookingItem> {new BookingItem {Item = "Badminton 1,7PM - 8PM", BookedBy = "Mahesh"}};
         }
 
         public List<BookingItem> GetBookedBilliardList(DateTime date)
@@ -105,16 +115,16 @@ namespace SportsComplex.DatabaseService
             //    ? new List<BookingItem>()
             //    : bookedList.Items.Split(';').Select(eachItem => new BookingItem(eachItem)).ToList();
 
-            return new List<BookingItem> { new BookingItem { Item = "Billiard 1,7PM - 8PM", BookedBy = "Mahesh" } };
+            return new List<BookingItem> {new BookingItem {Item = "Billiard 1,7PM - 8PM", BookedBy = "Mahesh"}};
         }
-        
+
         public bool BookBadmintonResource(Resource resource)
         {
             var resourceBookModel = new ResourceBookModel
             {
                 BookDate = resource.Date,
-                Items = string.Join(";", resource.BookedList.Select(x=>x.GetBookingItem()))
-                
+                Items = string.Join(";", resource.BookedList.Select(x => x.GetBookingItem()))
+
             };
             return _databaseAccessor.BookBadmintonResource(resourceBookModel);
         }
@@ -149,7 +159,37 @@ namespace SportsComplex.DatabaseService
                 BookedList = GetBookedBilliardList(DateTime.Today)
             };
         }
-        
+
+        #endregion
+
+        #region Gym
+
+        public bool JoinGym(Gym gym)
+        {
+           return _databaseAccessor.JoinGym(gym);
+            //return true;
+        }
+
+        public bool LeaveGym(string id)
+        {
+            var gym = _databaseAccessor.GetGymById(id);
+            if (gym == null) return false;
+            gym.Joined = false;
+            gym.LeftOn=DateTime.Now;
+            gym.TransactionDate=DateTime.Now;
+            return _databaseAccessor.LeaveGym(id, gym);
+            //return true;
+        }
+
+        public Gym GetGymDetails(string psNumber)
+        {
+            return _databaseAccessor.GetGymByPsNumber(psNumber);
+        }
+
+        #endregion
+
+        #region Gallery
+
         public bool UploadImages(List<Image> images)
         {
             return _databaseAccessor.AddImage(images);
@@ -173,13 +213,15 @@ namespace SportsComplex.DatabaseService
             //}
             //return images;
 
-            return _databaseAccessor.GetImages(); 
+            return _databaseAccessor.GetImages();
         }
-        
+
         public bool DeleteImages(List<string> images)
         {
             //return true;
             return _databaseAccessor.DeleteImages(images);
         }
+
+        #endregion
     }
 }

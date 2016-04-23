@@ -30,7 +30,7 @@ namespace SportsComplex.Application
             var principalModel = JsonConvert.DeserializeObject<PrincipalModel>(authTicket.UserData);
             var newUser = new CustomPrincipal(authTicket.Name)
             {
-                UserId = principalModel.UserId,
+                PsNumber = principalModel.PsNumber,
                 Name = principalModel.Name,
                 Role = principalModel.Role
             };

@@ -23,5 +23,11 @@ namespace SportsComplex.DatabaseService.Interface
         List<Image> GetGalleryImages();
 
         bool DeleteImages(List<string> imageId);
+
+        bool JoinGym(Gym gym);
+
+        bool LeaveGym(string id);
+
+        Gym GetGymDetails(string psNumber);
     }
 }

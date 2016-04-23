@@ -16,7 +16,51 @@
 
 @section scripts
 {
-    <link href="~/Content/largeButton.css" rel="stylesheet" />
+    <link href="~/Content/largeButton.css" rel="stylesheet"/>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#btnJoin').click(function(event) {
+                event.preventDefault();
+                if (confirm("Are you sure you want to JOIN GYM?")) {
+                    $.ajax({
+                        type: "POST",
+                        url: '/Module/Gym',
+                        contentType: 'application/json; charset=utf-8',
+                        success: function(data) {
+                            window.location.reload(true);
+                        },
+                        error: function(data) {
+                            if (data != null) {
+                                alert(data.statusText);
+                            }
+                        }
+                    });
+                }
+            });
+
+            $('#btnLeave').click(function(event) {
+                event.preventDefault();
+                if (confirm("Are you sure you want to LEAVE GYM?")) {
+                    var value = $('#hiddenValue').val();
+                    $.ajax({
+                        type: "PUT",
+                        url: '/Module/Gym',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify({ "id": value }),
+                        success: function(data) {
+                            window.location.reload(true);
+                        },
+                        error: function(data) {
+                            if (data != null) {
+                                alert(data.statusText);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 }
 
 
@@ -25,11 +69,11 @@
         Gym Membership
     </div>
     <br />
-    @if (Model.Jonined)
+    @if (Model.Joined)
     {
         <text>
             <p>
-                Your gym membership is active <a href="@Url.Action("GymLeave", "Module")" style="font-weight: bold; text-decoration: underline; cursor: pointer">Leave</a>
+                Your gym membership is active <a id="btnLeave" href="" style="font-weight: bold; text-decoration: underline; cursor: pointer">Leave</a>
             </p>
         </text>
     }
@@ -37,10 +81,11 @@
     {
         <text>
             <p >
-                You do not have gym membership <a href="@Url.Action("GymJoin","Module")"  style="font-weight: bold; text-decoration: underline; cursor: pointer">Join</a>
+                You do not have gym membership <a id="btnJoin" href="" style="font-weight: bold; text-decoration: underline; cursor: pointer">Join</a>
             </p>
         </text>
     }
+    <input type="hidden" id="hiddenValue" value="@Model.Id">
     @if (principal.Role == UserRoles.Admin)
     {
         <br/>

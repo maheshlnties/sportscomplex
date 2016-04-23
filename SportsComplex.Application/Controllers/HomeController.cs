@@ -148,7 +148,7 @@ namespace SportsComplex.Application.Controllers
             {
                 var principalModel = new PrincipalModel
                 {
-                    UserId = user.PsNumber,
+                    PsNumber = user.PsNumber,
                     Name = user.Name,
                     Role = user.UserRole
                 };

@@ -2,7 +2,7 @@
 {
     public class PrincipalModel
     {
-        public string UserId { get; set; }
+        public string PsNumber { get; set; }
 
         public string Name { get; set; }
 

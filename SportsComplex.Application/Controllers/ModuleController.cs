@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Web;
 using System.Web.Mvc;
 using SportsComplex.Application.Filters;
 using SportsComplex.Application.ViewModels;
@@ -75,7 +73,7 @@ namespace SportsComplex.Application.Controllers
             };
             if (_moduleService.BookBadmintonResource(resourceModel))
                 EmailHandler.SendMail(new MailMessage("test@gmail.com", "maheshniec@gmail.com", "test", "hello test"));
-                    //TODO change template and TO address
+            //TODO change template and TO address
             return View(resource);
         }
 
@@ -115,7 +113,7 @@ namespace SportsComplex.Application.Controllers
             };
             if (_moduleService.BookBilliardResource(resourceModel))
                 EmailHandler.SendMail(new MailMessage("test@gmail.com", "maheshniec@gmail.com", "test", "hello test"));
-                    //TODO change template and TO address
+            //TODO change template and TO address
             return View(resource);
         }
 
@@ -166,16 +164,16 @@ namespace SportsComplex.Application.Controllers
                 result = _moduleService.UploadImages(images);
             }
             return Content(result ? "success" : "failed");
-        }   
+        }
 
         [ActionName("Gallery")]
         [HttpDelete]
         public ActionResult DeleteImage(List<string> selectedList)
         {
             var result = false;
-            if (selectedList!=null)
+            if (selectedList != null)
             {
-               result =  _moduleService.DeleteImages(selectedList);
+                result = _moduleService.DeleteImages(selectedList);
             }
             var images = _moduleService.GetGalleryImages();
             var imageViewModels = images.Select(eachImages => new ImageViewModel
@@ -195,20 +193,53 @@ namespace SportsComplex.Application.Controllers
         [HttpGet]
         public ActionResult Gym()
         {
-            return View(new GymViewModel() {Jonined = true});
+            return View(GetGymDetails());
         }
-
-        [HttpPost]
-        public ActionResult GymLeave()
+        
+        [ActionName("Gym")]
+        [HttpPut]
+        public ActionResult GymLeave(string id)
         {
-            return Redirect("Gym");
+            var result = _moduleService.LeaveGym(id);
+            return View(GetGymDetails());
         }
 
+        [ActionName("Gym")]
         [HttpPost]
         public ActionResult GymJoin()
         {
-            return Redirect("Gym");
+            var principal = (PrincipalModel) User;
+            var gym = new Gym
+            {
+                Joined = true,
+                PsNumber = principal.PsNumber,
+                JoinedOn = DateTime.Now,
+                TransactionDate = DateTime.Now
+            };
+            var result = _moduleService.JoinGym(gym);
+            return View(GetGymDetails());
         }
+
+        #endregion
+
+        #region Private Methods
+        private GymViewModel GetGymDetails()
+        {
+            var principal = (PrincipalModel) User;
+            var gym = _moduleService.GetGymDetails(principal.PsNumber);
+            var gymViewModel = new GymViewModel();
+            if (gym == null)
+            {
+                gymViewModel.Joined = false;
+            }
+            else
+            {
+                gymViewModel.Joined = true;
+                gymViewModel.Id = gym.Id;
+            }
+            return gymViewModel;
+        }
+
         #endregion
     }
 }
