@@ -119,6 +119,12 @@ END
 
         public const string SqlSelectGmyById = "SELECT * FROM [SportsComplex].[dbo].[Gym] Where Id ='{0}'";
 
+        public const string SqlAddTournment = "INSERT INTO [SportsComplex].[dbo].[Tournment] ([Name],[Fees],[CreatedDate],[LastDate]) VALUES('{0}','{1}','{2}','{3}')";
+
+        public const string SqlDeleteTournment = "DELETE FROM [SportsComplex].[dbo].[Tournment] Where Id = '{0}'";
+
+        public const string SqlSelectTournment = "SELECT * FROM [SportsComplex].[dbo].[Tournment]";
+
         //public const string SqlSelectBadmintonResource = "SELECT * FROM [SportsComplex].[dbo].[BadmintonResource] WHERE BookDate = '{0}'";
 
         //public const string SqlSelectBilliardResource = "SELECT * FROM [SportsComplex].[dbo].[BilliardResource] WHERE BookDate = '{0}'";

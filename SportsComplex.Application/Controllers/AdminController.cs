@@ -129,7 +129,7 @@ namespace SportsComplex.Application.Controllers
         [ActionName("AddTournment")]
         public ActionResult AddTournment()
         {
-            return View();
+            return View(new TournmentViewModel());
         }
 
         [HttpPost]

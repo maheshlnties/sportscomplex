@@ -47,30 +47,33 @@ namespace SportsComplex.DatabaseService
 
         public IList<Tournment> GetTournments()
         {
-            var list = new List<Tournment>();
-            for (var i = 0; i < 5; i++)
-            {
-                list.Add(new Tournment
-                {
-                    CreatedDate = DateTime.Now,
-                    LastDate = DateTime.Now.AddDays(3),
-                    Fees = 50,
-                    Id = i.ToString(),
-                    IsEnrolled = i%2 == 0,
-                    Name = "Tournment" + 1
-                });
-            }
-            return list;
+            //var list = new List<Tournment>();
+            //for (var i = 0; i < 5; i++)
+            //{
+            //    list.Add(new Tournment
+            //    {
+            //        CreatedDate = DateTime.Now,
+            //        LastDate = DateTime.Now.AddDays(3),
+            //        Fees = 50,
+            //        Id = i.ToString(),
+            //        IsEnrolled = i%2 == 0,
+            //        Name = "Tournment" + 1
+            //    });
+            //}
+            //return list;
+            return _databaseAccessor.GetTournments();
         }
 
         public bool AddTournment(Tournment tournment)
         {
-            return true;
+            tournment.CreatedDate = DateTime.Now;
+            return _databaseAccessor.AddTournment(tournment);
         }
 
         public bool DeleteTournments(IList<string> listTournments)
         {
-            return true;
+            return _databaseAccessor.DeleteTournments(listTournments);
+            //return true;
         }
 
         public IList<ResourceCharge> GetResourceCharges(int month, int year)
