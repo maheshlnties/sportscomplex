@@ -14,6 +14,6 @@ namespace SportsComplex.DatabaseService.Interface
 
         List<News> GetNews();
 
-        List<Employee> Search(string name,string psNumber, string extn);
+        List<Employee> Search(string psNumber, string name, string email);
     }
 }

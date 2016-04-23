@@ -16,14 +16,8 @@
                 xhr.open('POST', '/Module/UploadImageMethod');
                 xhr.send(formdata);
                 xhr.onreadystatechange = function () {
-                    if (xhr.readyState == 4 && xhr.status == 200) {
-                        if (xhr.responseText == "Success") {
-                            alert("Upload image successfully.");
-                            parent.jQuery.fancybox.close();
-                        }
-                        else {
-                            alert("Error occurred.! Please try again");
-                        }
+                    if (xhr.readyState == 2  && xhr.status == 200) {
+                        alert("Upload image successfully.");
                     }
                 }
                 return false;

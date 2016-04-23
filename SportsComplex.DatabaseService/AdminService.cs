@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SportsComplex.Database;
 using SportsComplex.DatabaseService.Interface;
 using SportsComplex.Models;
 using SportsComplex.Models.Charges;
@@ -8,31 +9,40 @@ namespace SportsComplex.DatabaseService
 {
     public class AdminService :IAdminService
     {
+        private readonly SqlDatabaseAccessor _databaseAccessor;
+
+        public AdminService()
+        {
+            _databaseAccessor = new SqlDatabaseAccessor();
+        }
+
         public IList<News> GetNews()
         {
-            var listNews = new List<News>();
-            for (var i = 0; i < 5; i++)
-            {
-                listNews.Add(new News
-                {
-                    Id = i.ToString(),
-                    Content = "Wish you a very happy ugadi" + i,
-                    PostedOn = DateTime.Today,
-                    ExpiresOn = DateTime.Today.AddDays(2),
-                    Highlight = i%2==0
-                });
-            }
-            return listNews;
+            //var listNews = new List<News>();
+            //for (var i = 0; i < 5; i++)
+            //{
+            //    listNews.Add(new News
+            //    {
+            //        Id = i.ToString(),
+            //        Content = "Wish you a very happy ugadi" + i,
+            //        PostedOn = DateTime.Today,
+            //        ExpiresOn = DateTime.Today.AddDays(2),
+            //        Highlight = i%2==0
+            //    });
+            //}
+            //return listNews;
+            return _databaseAccessor.GetNews();
         }
 
         public bool AddNews(News news)
         {
-            return true;
+            return _databaseAccessor.AddNews(news);
         }
 
         public bool DeleteNews(IList<string> news)
         {
-            return true;
+            //return true;
+            return _databaseAccessor.DeleteNews(news);
         }
 
         public IList<Tournment> GetTournments()

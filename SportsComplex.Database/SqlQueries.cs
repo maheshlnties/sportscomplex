@@ -91,11 +91,25 @@ END
 
         public const string SqlSelectEmployees = "SELECT * FROM [SportsComplex].[dbo].[Employees] WHERE PsNumber = '{0}' AND [Password] = '{1}'";
 
+        public const string SqlSearchEmployees = "SELECT * FROM [SportsComplex].[dbo].[Employees] WHERE PsNumber LIKE '%{0}%' OR Name LIKE '%{1}%' OR Email LIKE '%{2}%'";
+
         public const string SqlSelectResourceSettings = "SELECT * FROM [SportsComplex].[dbo].[ResourceSettings]";
 
         public const string SqlSelectBadmintonResource = "SELECT * FROM [SportsComplex].[dbo].[BadmintonResource] WHERE BookDate = convert(date , '{0}' , 105)";
 
         public const string SqlSelectBilliardResource = "SELECT * FROM [SportsComplex].[dbo].[BilliardResource] WHERE BookDate = convert(date , '{0}' , 105)";
+
+        public const string SqlAddImage = "INSERT INTO [SportsComplex].[dbo].[Gallery] ([Name],[EncodedImage],[UploadedOn]) VALUES('{0}','{1}','{2}')";
+
+        public const string SqlDeleteImages = "DELETE FROM [SportsComplex].[dbo].[Gallery] Where ID = '{0}'";
+
+        public const string SqlSelectImages = "SELECT * FROM [SportsComplex].[dbo].[Gallery]";
+
+        public const string SqlAddNews = "INSERT INTO [SportsComplex].[dbo].[News] ([Content],[Highlight],[PostedOn],[ExpiresOn]) VALUES('{0}','{1}','{2}','{3}')";
+
+        public const string SqlDeleteNews = "DELETE FROM [SportsComplex].[dbo].[News] Where ID = '{0}'";
+
+        public const string SqlSelectNews = "SELECT * FROM [SportsComplex].[dbo].[News]";
 
         //public const string SqlSelectBadmintonResource = "SELECT * FROM [SportsComplex].[dbo].[BadmintonResource] WHERE BookDate = '{0}'";
 

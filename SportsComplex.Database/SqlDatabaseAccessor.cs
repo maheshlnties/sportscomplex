@@ -35,7 +35,7 @@ namespace SportsComplex.Database
 
         public Employee GetUser(string psNumber, string password)
         {
-            Employee employee=null;
+            Employee employee = null;
 
             if (psNumber == "admin" && password == "admin@123")
                 return new Employee
@@ -74,7 +74,7 @@ namespace SportsComplex.Database
                 conn.Open();
                 using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectEmployees, psNumber, password), conn))
                 {
-                    var datareader=cmd.ExecuteReader();
+                    var datareader = cmd.ExecuteReader();
                     if (datareader.Read())
                     {
                         employee = new Employee
@@ -97,6 +97,86 @@ namespace SportsComplex.Database
             return employee;
         }
 
+        public List<News> GetNews()
+        {
+            var news = new List<News>();
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectNews), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    while (datareader.Read())
+                    {
+                        news.Add(new News
+                        {
+                            Id = datareader["Id"].ToString(),
+                            Content = datareader["Content"].ToString(),
+                            Highlight = Convert.ToBoolean(datareader["Highlight"]),
+                            PostedOn = Convert.ToDateTime(datareader["PostedOn"]),
+                            ExpiresOn = Convert.ToDateTime(datareader["ExpiresOn"])
+                        });
+                    }
+                }
+            }
+            return news;
+        }
+
+        public List<Image> GetImages()
+        {
+            var images = new List<Image>();
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectImages), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    while (datareader.Read())
+                    {
+                        images.Add(new Image
+                        {
+                            Id = datareader["ID"].ToString(),
+                            Name = datareader["Name"].ToString(),
+                            EncodedImage = datareader["EncodedImage"].ToString(),
+                            UploadedOn = datareader["UploadedOn"].ToString()
+                        });
+                    }
+                }
+            }
+            return images;
+        }
+
+        public List<Employee> SearchUser(string psNumber, string name, string email)
+        {
+            var employees = new List<Employee>();
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSearchEmployees, psNumber, name, email), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    if (datareader.Read())
+                    {
+                        employees.Add(new Employee
+                        {
+                            PsNumber = datareader["PsNumber"].ToString(),
+                            Name = datareader["Name"].ToString(),
+                            Gender = (Gender)Convert.ToInt32(datareader["Gender"]),
+                            DateOfBirth = Convert.ToDateTime(datareader["DateOfBirth"]),
+                            Email = datareader["Email"].ToString(),
+                            BuisnessUnit = (BuisnessUnit)Convert.ToInt32(datareader["BuisnessUnit"]),
+                            DeskPhoneNumber = datareader["DeskPhoneNumber"].ToString(),
+                            Mobile = datareader["Mobile"].ToString(),
+                            Address = datareader["Address"].ToString(),
+                            UserRole = (UserRoles)Convert.ToInt32(datareader["UserRole"]),
+                            Password = datareader["Password"].ToString()
+                        });
+                    }
+                }
+            }
+            return employees;
+        }
+
         #endregion
 
         #region Module Operations
@@ -114,7 +194,7 @@ namespace SportsComplex.Database
                     {
                         resourceSettings.Add(new ResourceSettings
                         {
-                            Name = (ResourceSettingKeys)Convert.ToInt32(datareader["Name"]),
+                            Name = (ResourceSettingKeys) Convert.ToInt32(datareader["Name"]),
                             Value = datareader["Value"].ToString()
                         });
                     }
@@ -128,12 +208,16 @@ namespace SportsComplex.Database
             using (var conn = new SqlConnection(SqlQueries.ConnectionString))
             {
                 conn.Open();
-                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectBadmintonResource, date.HasValue?date.Value.Date:DateTime.Today), conn))
+                using (
+                    var cmd =
+                        new SqlCommand(
+                            string.Format(SqlQueries.SqlSelectBadmintonResource,
+                                date.HasValue ? date.Value.Date : DateTime.Today), conn))
                 {
                     var datareader = cmd.ExecuteReader();
                     if (datareader.Read())
                     {
-                        var resourceBookModel=new ResourceBookModel
+                        var resourceBookModel = new ResourceBookModel
                         {
                             BookDate = Convert.ToDateTime(datareader["BookDate"]),
                             Items = datareader["Items"].ToString()
@@ -150,7 +234,11 @@ namespace SportsComplex.Database
             using (var conn = new SqlConnection(SqlQueries.ConnectionString))
             {
                 conn.Open();
-                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectBilliardResource, date.HasValue ? date.Value.Date : DateTime.Today), conn))
+                using (
+                    var cmd =
+                        new SqlCommand(
+                            string.Format(SqlQueries.SqlSelectBilliardResource,
+                                date.HasValue ? date.Value.Date : DateTime.Today), conn))
                 {
                     var datareader = cmd.ExecuteReader();
                     if (datareader.Read())
@@ -179,8 +267,6 @@ namespace SportsComplex.Database
             }
         }
 
-        #endregion
-
         public bool BookBilliardResource(ResourceBookModel resourceBookModel)
         {
             if (resourceBookModel == null) return false;
@@ -192,5 +278,84 @@ namespace SportsComplex.Database
                 return SqlHelper.ExecuteNonQueryCommand(cmd);
             }
         }
+
+        #endregion
+        
+        #region Admin Operations
+
+        public bool AddImage(List<Image> image)
+        {
+            if (image == null) return false;
+            var result=0;
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                foreach (var eachImage in image)
+                {
+                    using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlAddImage, eachImage.Name, eachImage.EncodedImage, eachImage.UploadedOn),conn))
+                    {
+                        result += cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            return result == image.Count;
+        }
+
+        public bool DeleteImages(List<string> images)
+        {
+            if (images == null) return false;
+            var result = 0;
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                foreach (var eachImage in images)
+                {
+                    using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlDeleteImages,eachImage), conn))
+                    {
+                        result += cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            return result == images.Count;
+        }
+
+        public bool AddNews(News news)
+        {
+            if (news == null) return false;
+            int result;
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (
+                    var cmd =
+                        new SqlCommand(
+                            string.Format(SqlQueries.SqlAddNews, news.Content, news.Highlight, news.PostedOn,
+                                news.ExpiresOn), conn))
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+            }
+            return result > 0;
+        }
+
+        public bool DeleteNews(IList<string> news)
+        {
+            if (news == null) return false;
+            var result = 0;
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                foreach (var eachNews in news)
+                {
+                    using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlDeleteNews, eachNews), conn))
+                    {
+                        result += cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            return result == news.Count;
+        }
+
+        #endregion
     }
 }
