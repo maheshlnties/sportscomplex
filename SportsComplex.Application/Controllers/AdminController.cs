@@ -230,7 +230,6 @@ namespace SportsComplex.Application.Controllers
         [HttpPost]
         public ActionResult ChargeTournmentPost(int selectedMonth, int selectedYear)
         {
-
             var tournmentCharges =
                 ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(selectedMonth, selectedYear));
             return

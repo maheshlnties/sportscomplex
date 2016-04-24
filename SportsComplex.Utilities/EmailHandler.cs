@@ -5,7 +5,7 @@ namespace SportsComplex.Utilities
 {
     public class EmailHandler
     {
-        public static async void SendMail(MailMessage message)
+        public static void SendMail(MailMessage message)
         {
             var client = new SmtpClient
             {
@@ -16,7 +16,7 @@ namespace SportsComplex.Utilities
                 EnableSsl = true,
                 Credentials = new NetworkCredential("sportscomplexuser@gmail.com", "testuser@123")
             };
-            await client.SendMailAsync(message);
+            client.Send(message);
         }
     }
 }

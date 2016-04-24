@@ -28,5 +28,7 @@ namespace SportsComplex.Application.ViewModels
         public bool IsSelected { get; set; }
 
         public bool IsEnabled { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

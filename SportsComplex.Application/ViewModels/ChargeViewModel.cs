@@ -18,8 +18,10 @@ namespace SportsComplex.Application.ViewModels
 
         public string Slot { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public string GymStatus { get; set; }
 
-        public DateTime EndDate { get; set; }        
+        public DateTime? StartDate { get; set; }
+
+        public DateTime? EndDate { get; set; }        
     }
 }

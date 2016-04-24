@@ -59,10 +59,10 @@ namespace SportsComplex.Application.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Booking can be done only between 4PM to 9PM");
 
             var existingBookedList = _moduleService.GetBookedBadmintonList(DateTime.Today);
-            resource.BookedList = existingBookedList ?? new List<BookingItem>();
+            resource.BookedList = existingBookedList;
 
             if (resource.BookedList.FirstOrDefault(x => x.Item == id) == null)
-                resource.BookedList.Add(new BookingItem {Item = id, BookedBy = HttpContext.User.Identity.Name});
+                resource.BookedList.Add(new BookingItem { Item = id, BookedBy = ((PrincipalModel)User).PsNumber });
 
             var resourceModel = new Resource
             {
@@ -99,10 +99,10 @@ namespace SportsComplex.Application.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Booking can be done only between 4PM to 9PM");
 
             var existingBookedList = _moduleService.GetBookedBilliardList(DateTime.Today);
-            resource.BookedList = existingBookedList ?? new List<BookingItem>();
+            resource.BookedList = existingBookedList;
 
             if (resource.BookedList.FirstOrDefault(x => x.Item == id) == null)
-                resource.BookedList.Add(new BookingItem {Item = id, BookedBy = HttpContext.User.Identity.Name});
+                resource.BookedList.Add(new BookingItem {Item = id, BookedBy = ((PrincipalModel)User).PsNumber});
 
             var resourceModel = new Resource
             {

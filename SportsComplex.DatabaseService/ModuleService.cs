@@ -22,30 +22,30 @@ namespace SportsComplex.DatabaseService
         public ModuleService()
         {
             _databaseAccessor = new SqlDatabaseAccessor();
-            //_resourceSettings = _databaseAccessor.GetResourceSettings();
-            _resourceSettings = new List<ResourceSettings>()
-            {
-                new ResourceSettings
-                {
-                    Name = ResourceSettingKeys.BadmintonHeaders,
-                    Value = "5PM - 6PM;6PM - 7PM;7PM - 8PM;8PM - 9PM;"
-                },
-                new ResourceSettings
-                {
-                    Name = ResourceSettingKeys.BilliardHeaders,
-                    Value = "5PM - 6PM;6PM - 7PM;7PM - 8PM;8PM - 9PM;"
-                },
-                new ResourceSettings
-                {
-                    Name = ResourceSettingKeys.NoOfBadmintonCourt,
-                    Value = "3"
-                },
-                new ResourceSettings
-                {
-                    Name = ResourceSettingKeys.NoOfBilliarCourt,
-                    Value = "6"
-                }
-            };
+            _resourceSettings = _databaseAccessor.GetResourceSettings();
+            //_resourceSettings = new List<ResourceSettings>()
+            //{
+            //    new ResourceSettings
+            //    {
+            //        Name = ResourceSettingKeys.BadmintonHeaders,
+            //        Value = "5PM - 6PM;6PM - 7PM;7PM - 8PM;8PM - 9PM;"
+            //    },
+            //    new ResourceSettings
+            //    {
+            //        Name = ResourceSettingKeys.BilliardHeaders,
+            //        Value = "5PM - 6PM;6PM - 7PM;7PM - 8PM;8PM - 9PM;"
+            //    },
+            //    new ResourceSettings
+            //    {
+            //        Name = ResourceSettingKeys.NoOfBadmintonCourt,
+            //        Value = "3"
+            //    },
+            //    new ResourceSettings
+            //    {
+            //        Name = ResourceSettingKeys.NoOfBilliarCourt,
+            //        Value = "6"
+            //    }
+            //};
         }
 
         #endregion
@@ -54,68 +54,68 @@ namespace SportsComplex.DatabaseService
 
         private List<string> GetBadmintonHeaders()
         {
-            //var headers= _resourceSettings.FirstOrDefault(x => x.Name == ResourceSettingKeys.BadmintonHeaders);
-            //return headers!=null ? headers.Value.Split(';').ToList() : new List<string>();
-            return new List<string>
-            {
-                "5PM - 6PM",
-                "6PM - 7PM",
-                "7PM - 8PM",
-                "8PM - 9PM"
-            };
+            var headers = _resourceSettings.FirstOrDefault(x => x.Name == ResourceSettingKeys.BadmintonHeaders);
+            return headers != null ? headers.Value.Split(';').Where(x=> !string.IsNullOrWhiteSpace(x)).ToList() : new List<string>();
+            //return new List<string>
+            //{
+            //    "5PM - 6PM",
+            //    "6PM - 7PM",
+            //    "7PM - 8PM",
+            //    "8PM - 9PM"
+            //};
         }
 
         private List<string> GetBilliardHeaders()
         {
-            //var headers = _resourceSettings.FirstOrDefault(x => x.Name == ResourceSettingKeys.BilliardHeaders);
-            //return headers != null ? headers.Value.Split(';').ToList() : new List<string>();
-            return new List<string>
-            {
-                "5PM - 6PM",
-                "6PM - 7PM",
-                "7PM - 8PM",
-                "8PM - 9PM"
-            };
+            var headers = _resourceSettings.FirstOrDefault(x => x.Name == ResourceSettingKeys.BilliardHeaders);
+            return headers != null ? headers.Value.Split(';').Where(x => !string.IsNullOrWhiteSpace(x)).ToList() : new List<string>();
+            //return new List<string>
+            //{
+            //    "5PM - 6PM",
+            //    "6PM - 7PM",
+            //    "7PM - 8PM",
+            //    "8PM - 9PM"
+            //};
         }
 
         private int GetNoOfBadmintonCourts()
         {
-            //var headers = _resourceSettings.FirstOrDefault(x => x.Name == ResourceSettingKeys.NoOfBadmintonCourt);
-            //var value = 0;
-            //if (headers != null)
-            //    int.TryParse(headers.Value, out value);
-            //return value;
-            return 3;
+            var headers = _resourceSettings.FirstOrDefault(x => x.Name == ResourceSettingKeys.NoOfBadmintonCourt);
+            var value = 0;
+            if (headers != null)
+                int.TryParse(headers.Value, out value);
+            return value;
+            //return 3;
         }
 
         private int GetNoOfBilliardCourts()
         {
-            //var headers = _resourceSettings.FirstOrDefault(x => x.Name == ResourceSettingKeys.NoOfBilliarCourt);
-            //var value = 0;
-            //if (headers != null)
-            //    int.TryParse(headers.Value, out value);
-            //return value;
-            return 6;
+            var headers = _resourceSettings.FirstOrDefault(x => x.Name == ResourceSettingKeys.NoOfBilliarCourt);
+            var value = 0;
+            if (headers != null)
+                int.TryParse(headers.Value, out value);
+            return value;
+            //return 6;
         }
-
+        
         public List<BookingItem> GetBookedBadmintonList(DateTime date)
         {
-            //var bookedList = _databaseAccessor.GetBookedBadmintonList(date);
-            //return bookedList == null
-            //    ? new List<BookingItem>()
-            //    : bookedList.Items.Split(';').Select(eachItem => new BookingItem(eachItem)).ToList();
+            var bookedList = _databaseAccessor.GetBookedBadmintonList(date);
+            return bookedList == null
+                ? new List<BookingItem>()
+                : bookedList.Items.Split(';').Select(eachItem => new BookingItem(eachItem)).ToList();
 
-            return new List<BookingItem> {new BookingItem {Item = "Badminton 1,7PM - 8PM", BookedBy = "Mahesh"}};
+            //return new List<BookingItem> {new BookingItem {Item = "Badminton 1,7PM - 8PM", BookedBy = "Mahesh"}};
         }
 
         public List<BookingItem> GetBookedBilliardList(DateTime date)
         {
-            //var bookedList = _databaseAccessor.GetBookedBilliardList(date);
-            //return bookedList == null
-            //    ? new List<BookingItem>()
-            //    : bookedList.Items.Split(';').Select(eachItem => new BookingItem(eachItem)).ToList();
+            var bookedList = _databaseAccessor.GetBookedBilliardList(date);
+            return bookedList == null
+                ? new List<BookingItem>()
+                : bookedList.Items.Split(';').Select(eachItem => new BookingItem(eachItem)).ToList();
 
-            return new List<BookingItem> {new BookingItem {Item = "Billiard 1,7PM - 8PM", BookedBy = "Mahesh"}};
+            //return new List<BookingItem> {new BookingItem {Item = "Billiard 1,7PM - 8PM", BookedBy = "Mahesh"}};
         }
 
         public bool BookBadmintonResource(Resource resource)

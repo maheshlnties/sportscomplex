@@ -57,6 +57,7 @@
     <Compile Include="Resource.cs" />
     <Compile Include="ResourceSettings.cs" />
     <Compile Include="Tournment.cs" />
+    <Compile Include="TournmentBooking.cs" />
     <Compile Include="UserRoles.cs" />
   </ItemGroup>
   <ItemGroup />
