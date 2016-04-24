@@ -118,15 +118,15 @@ namespace SportsComplex.Application.Controllers
                 });
         }
 
-        public CsvActionResult<ChargeViewModel> ExportAllCharges()
+        public CsvActionResult<ChargeViewModel> ExportAllCharges(int month, int year)
         {
             var list = new List<ChargeViewModel>();
             var psNumber = User.PsNumber;
             var resourceCharges =
-                ModelConverters.FromResourceChargesList(_employeeService.GetResourceCharges(psNumber, 1, 1));
-            var gymCharges = ModelConverters.FromGymChargesList(_employeeService.GetGymCharges(psNumber, 1, 1));
+                ModelConverters.FromResourceChargesList(_employeeService.GetResourceCharges(psNumber, month, year));
+            var gymCharges = ModelConverters.FromGymChargesList(_employeeService.GetGymCharges(psNumber, month, year));
             var tournmentCharges =
-                ModelConverters.FromTournmentChargesList(_employeeService.GetTournmentCharges(psNumber, 1, 1));
+                ModelConverters.FromTournmentChargesList(_employeeService.GetTournmentCharges(psNumber, month, year));
             list.AddRange(resourceCharges);
             list.AddRange(gymCharges);
             list.AddRange(tournmentCharges);

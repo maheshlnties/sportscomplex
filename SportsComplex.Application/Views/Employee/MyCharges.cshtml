@@ -155,5 +155,5 @@
         Total charges for the month : @Model.AllTotalCharges
     </div>
 
-    @Html.ActionLink("Download CSV", "ExportAllCharges", Model , new { @class = "btn btn-primary", @style = "margin-top: 10px" })
+    @Html.ActionLink("Download CSV", "ExportAllCharges", new { month = Model.SelectedMonth, year = Model.SelectedYear }, new { @class = "btn btn-primary", @style = "margin-top: 10px" })
 </div>

@@ -89,5 +89,5 @@
     <div style="display: block; font-weight: bold">
         Total Tournment charges for the month : @Model.TournmentTotalCharges
     </div>
-    @Html.ActionLink("Download CSV", "ExportTournmentCharges", Model, new { @class = "btn btn-primary", @style = "margin-top: 10px" })
+    @Html.ActionLink("Download CSV", "ExportTournmentCharges", new { month = Model.SelectedMonth, year = Model.SelectedYear }, new { @class = "btn btn-primary", @style = "margin-top: 10px" })
 </div>
