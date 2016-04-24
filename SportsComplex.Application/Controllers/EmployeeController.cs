@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Web.Mvc;
 using System.Web.Security;
 using AutoMapper;
@@ -8,6 +9,7 @@ using SportsComplex.Application.Helper;
 using SportsComplex.Application.ViewModels;
 using SportsComplex.DatabaseService.Interface;
 using SportsComplex.Models;
+using SportsComplex.Utilities;
 
 namespace SportsComplex.Application.Controllers
 {
@@ -74,6 +76,12 @@ namespace SportsComplex.Application.Controllers
                 tournmentViewModels.AddRange(
                     tournments.Select(eachTournment => _mapper.Map<Tournment, TournmentViewModel>(eachTournment)));
             }
+            if (result)
+            {
+                var tournmentName = tournmentViewModels.Where(x => x.Id == tournment).Select(x => x.Name);
+                var body = string.Format(EmailTemplates.TournmentEnrollBody, tournmentName);
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.TournmentEnrollBody, body));
+            }
             return View(tournmentViewModels);
         }
 
@@ -84,11 +92,6 @@ namespace SportsComplex.Application.Controllers
         [HttpGet]
         public ActionResult MyCharges()
         {
-            //var resourceCharges =
-            //    ModelConverters.FromResourceChargesList(_employeeService.GetResourceCharges(1, 1));
-            //var gymCharges = ModelConverters.FromGymChargesList(_employeeService.GetGymCharges(1, 1));
-            //var tournmentCharges =
-            //    ModelConverters.FromTournmentChargesList(_employeeService.GetTournmentCharges(1, 1));
             return
                 View(new ChargeSheetViewModel());
         }

@@ -5,7 +5,7 @@ using SportsComplex.Utilities;
 
 namespace SportsComplex.Application.Helper
 {
-    public class CustomPrincipal : PrincipalModel,IPrincipal
+    public class CustomPrincipal : PrincipalModel, IPrincipal
     {
         public IIdentity Identity { get; private set; }
 
