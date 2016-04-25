@@ -17,7 +17,7 @@
 }
 <div class="container" style="margin-top: 20px">
 
-    @using (Html.BeginForm("AddTournment", "Admin", FormMethod.Post))
+    @using (Html.BeginForm("ChargeResource", "Admin", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
 
@@ -93,5 +93,5 @@
     <div style="display: block; font-weight: bold">
         Total Resource charges for the month : @Model.ResourceTotalCharges
     </div>
-    @Html.ActionLink("Download CSV", "ExportResourceCharges", Model, new { @class = "btn btn-primary", @style = "margin-top: 10px" })
+    @Html.ActionLink("Download CSV", "ExportResourceCharges", new { month = Model.SelectedMonth, year = Model.SelectedYear }, new { @class = "btn btn-primary", @style = "margin-top: 10px" })
 </div>

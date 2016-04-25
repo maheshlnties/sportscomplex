@@ -12,5 +12,7 @@ namespace SportsComplex.Models
         public DateTime Date { get; set; }
 
         public List<BookingItem> BookedList { get; set; }
+
+        public List<BookingItem> OthersBookedList { get; set; }
     }
 }

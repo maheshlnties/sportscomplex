@@ -13,7 +13,7 @@ namespace SportsComplex.DatabaseService.Interface
         Resource GetBadmintonResource();
 
         Resource GetBilliardResource();
-
+        
         List<BookingItem> GetBookedBadmintonList(DateTime date);
 
         List<BookingItem> GetBookedBilliardList(DateTime date);

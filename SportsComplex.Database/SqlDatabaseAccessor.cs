@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using SportsComplex.Models;
 using SportsComplex.Models.Database;
+using SportsComplex.Models.Charges;
 
 namespace SportsComplex.Database
 {
@@ -398,7 +399,149 @@ namespace SportsComplex.Database
                             Name = datareader["Name"].ToString(),
                             Fees = Convert.ToInt32(datareader["Fees"]),
                             CreatedDate = Convert.ToDateTime(datareader["CreatedDate"]),
-                            LastDate = Convert.ToDateTime(datareader["LastDate"])
+                            LastDate = Convert.ToDateTime(datareader["LastDate"]),
+                            IsDeleted = Convert.ToBoolean(datareader["IsDeleted"])
+                        });
+                    }
+                }
+            }
+            return tournments;
+        }
+
+        public bool BookTournment(string psNumber, string tournmentId)
+        {
+            if (string.IsNullOrWhiteSpace(tournmentId) || string.IsNullOrWhiteSpace(psNumber)) return false;
+            var result = 0;
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (
+                    var cmd =
+                        new SqlCommand(
+                            string.Format(SqlQueries.SqlBookTournment, tournmentId, psNumber,DateTime.Now), conn))
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+            }
+            return result > 0;
+        }
+        
+        public IList<TournmentBooking> GetTournmentBookingByPsNumber(string psNumber)
+        {
+            var tournments = new List<TournmentBooking>();
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectTournmentBookingByPsNumber,psNumber), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    while (datareader.Read())
+                    {
+                        tournments.Add(new TournmentBooking
+                        {
+                            Id = datareader["Id"].ToString(),
+                            TournmentId = datareader["TournmentId"].ToString(),
+                            PsNumber = datareader["PsNumber"].ToString(),
+                            TransactionDate = Convert.ToDateTime(datareader["TransactionDate"])
+                        });
+                    }
+                }
+            }
+            return tournments;
+        }
+
+        public IList<ResourceBookModel> GetBadmintonCharges(int selectedMonth, int selectedYear)
+        {
+            var resourceModel = new List<ResourceBookModel>();
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectBadmintonCharge, selectedMonth, selectedYear), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    while (datareader.Read())
+                    {
+                        resourceModel.Add(new ResourceBookModel
+                        {
+                            BookDate = Convert.ToDateTime(datareader["BookDate"]),
+                            Items = datareader["Items"].ToString()
+                        });
+                    }
+                }
+            }
+            return resourceModel;
+        }
+
+        public IList<ResourceBookModel> GetBilliardCharges(int selectedMonth, int selectedYear)
+        {
+            var resourceModel = new List<ResourceBookModel>();
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectBilliardsCharge, selectedMonth, selectedYear), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    while (datareader.Read())
+                    {
+                        resourceModel.Add(new ResourceBookModel
+                        {
+                            BookDate = Convert.ToDateTime(datareader["BookDate"]),
+                            Items = datareader["Items"].ToString()
+                        });
+                    }
+                }
+            }
+            return resourceModel;
+        }
+
+        public IList<Gym> GetGymCharges(string psNumber, int selectedMonth, int selectedYear)
+        {
+            var list =new List<Gym>();
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectGymChargeEmployee,selectedMonth,selectedYear,psNumber), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    if (datareader.Read())
+                    {
+                        list.Add(new Gym
+                        {
+                            Id = datareader["Id"].ToString(),
+                            PsNumber = datareader["PsNumber"].ToString(),
+                            TransactionDate = Convert.ToDateTime(datareader["TransactionDate"].ToString()),
+                            Joined = true,
+                            JoinedOn =
+                                ReferenceEquals(datareader["JoinedOn"], typeof(DBNull))
+                                    ? (DateTime?)null
+                                    : Convert.ToDateTime(datareader["JoinedOn"]),
+                            LeftOn =
+                                ReferenceEquals(datareader["LeftOn"], typeof(DBNull))
+                                    ? (DateTime?)null
+                                    : Convert.ToDateTime(datareader["LeftOn"])
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+        public IList<TournmentCharge> GetTournmentCharges(string psNumber, int selectedMonth, int selectedYear)
+        {
+            var tournments = new List<TournmentCharge>();
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectTournmentChargeEmployee,selectedMonth,selectedYear,psNumber), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    while (datareader.Read())
+                    {
+                        tournments.Add(new TournmentCharge
+                        {
+                            TournmentName = datareader["Name"].ToString(),
+                            Charges = Convert.ToInt32(datareader["Fees"]),
+                            TransactionDate = Convert.ToDateTime(datareader["TransactionDate"])
                         });
                     }
                 }
@@ -494,7 +637,7 @@ namespace SportsComplex.Database
                     var cmd =
                         new SqlCommand(
                             string.Format(SqlQueries.SqlAddTournment, tournment.Name, tournment.Fees, tournment.CreatedDate,
-                                tournment.LastDate), conn))
+                                tournment.LastDate,tournment.IsDeleted), conn))
                 {
                     result = cmd.ExecuteNonQuery();
                 }
@@ -511,7 +654,10 @@ namespace SportsComplex.Database
                 conn.Open();
                 foreach (var eachTournment in tournments)
                 {
-                    using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlDeleteTournment, eachTournment), conn))
+                    using (
+                        var cmd =
+                            new SqlCommand(string.Format(SqlQueries.SqlUpdateTournmentForDelete, true, eachTournment),
+                                conn))
                     {
                         result += cmd.ExecuteNonQuery();
                     }
@@ -520,7 +666,67 @@ namespace SportsComplex.Database
             return result == tournments.Count;
         }
 
+        public IList<GymCharge> GetGymCharges(int selectedMonth, int selectedYear)
+        {
+            var list = new List<GymCharge>();
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectGymChargeAdmin, selectedMonth, selectedYear), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    if (datareader.Read())
+                    {
+                        list.Add(new GymCharge
+                        {
+                            PsNumber = datareader["PsNumber"].ToString(),
+                            Name = datareader["Name"].ToString(),
+                            Charges = 50, //ToDo: read charges from app config
+                            TransactionDate = Convert.ToDateTime(datareader["TransactionDate"].ToString()),
+                            Joined = true,
+                            JoinedOn =
+                                ReferenceEquals(datareader["JoinedOn"], typeof(DBNull))
+                                    ? (DateTime?)null
+                                    : Convert.ToDateTime(datareader["JoinedOn"]),
+                            LeftOn =
+                                ReferenceEquals(datareader["LeftOn"], typeof(DBNull))
+                                    ? (DateTime?)null
+                                    : Convert.ToDateTime(datareader["LeftOn"])
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+
+        public IList<TournmentCharge> GetTournmentCharges(int selectedMonth, int selectedYear)
+        {
+            var tournments = new List<TournmentCharge>();
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectTournmentChargeAdmin, selectedMonth, selectedYear), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    while (datareader.Read())
+                    {
+                        tournments.Add(new TournmentCharge
+                        {
+                            PsNumber = datareader["PsNumber"].ToString(),
+                            Name = datareader["Name"].ToString(),
+                            TournmentName = datareader["Name"].ToString(),
+                            Charges = Convert.ToInt32(datareader["Fees"]),
+                            TransactionDate = Convert.ToDateTime(datareader["TransactionDate"])
+                        });
+                    }
+                }
+            }
+            return tournments;
+        }
+
         #endregion
+
+
         
     }
 }

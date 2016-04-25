@@ -95,9 +95,13 @@ END
 
         public const string SqlSelectResourceSettings = "SELECT * FROM [SportsComplex].[dbo].[ResourceSettings]";
 
-        public const string SqlSelectBadmintonResource = "SELECT * FROM [SportsComplex].[dbo].[BadmintonResource] WHERE BookDate = convert(date , '{0}' , 105)";
+        public const string SqlSelectBadmintonResource = "SELECT * FROM [SportsComplex].[dbo].[BadmintonResource] WHERE BookDate = '{0}'";
 
-        public const string SqlSelectBilliardResource = "SELECT * FROM [SportsComplex].[dbo].[BilliardResource] WHERE BookDate = convert(date , '{0}' , 105)";
+        //public const string SqlSelectBadmintonResource = "SELECT * FROM [SportsComplex].[dbo].[BadmintonResource] WHERE BookDate = convert(date , '{0}' , 105)";
+
+        public const string SqlSelectBilliardResource = "SELECT * FROM [SportsComplex].[dbo].[BilliardResource] WHERE BookDate = '{0}'";
+
+        //public const string SqlSelectBilliardResource = "SELECT * FROM [SportsComplex].[dbo].[BilliardResource] WHERE BookDate = convert(date , '{0}' , 105)";
 
         public const string SqlAddImage = "INSERT INTO [SportsComplex].[dbo].[Gallery] ([Name],[EncodedImage],[UploadedOn]) VALUES('{0}','{1}','{2}')";
 
@@ -119,16 +123,30 @@ END
 
         public const string SqlSelectGmyById = "SELECT * FROM [SportsComplex].[dbo].[Gym] Where Id ='{0}'";
 
-        public const string SqlAddTournment = "INSERT INTO [SportsComplex].[dbo].[Tournment] ([Name],[Fees],[CreatedDate],[LastDate]) VALUES('{0}','{1}','{2}','{3}')";
+        public const string SqlAddTournment = "INSERT INTO [SportsComplex].[dbo].[Tournment] ([Name],[Fees],[CreatedDate],[LastDate],[IsDeleted]) VALUES('{0}','{1}','{2}','{3}','{4}')";
 
         public const string SqlDeleteTournment = "DELETE FROM [SportsComplex].[dbo].[Tournment] Where Id = '{0}'";
 
+        public const string SqlUpdateTournmentForDelete = "UPDATE [SportsComplex].[dbo].[Tournment] SET [IsDeleted] = '{0}' Where Id = '{1}'";
+
         public const string SqlSelectTournment = "SELECT * FROM [SportsComplex].[dbo].[Tournment]";
 
-        //public const string SqlSelectBadmintonResource = "SELECT * FROM [SportsComplex].[dbo].[BadmintonResource] WHERE BookDate = '{0}'";
+        public const string SqlBookTournment = "INSERT INTO [SportsComplex].[dbo].[TournmentBooking] ([TournmentId],[PsNumber],[TransactionDate]) VALUES('{0}','{1}','{2}')";
 
-        //public const string SqlSelectBilliardResource = "SELECT * FROM [SportsComplex].[dbo].[BilliardResource] WHERE BookDate = '{0}'";
+        public const string SqlSelectTournmentBookingByPsNumber = "SELECT * FROM [SportsComplex].[dbo].[TournmentBooking] Where PsNumber='{0}'";
 
+        public const string SqlSelectBadmintonCharge = "SELECT * FROM [SportsComplex].[dbo].[BadmintonResource] Where MONTH([BOOKDATE])='{0}' AND YEAR([BOOKDATE])='{1}'";
+
+        public const string SqlSelectBilliardsCharge = "SELECT * FROM [SportsComplex].[dbo].[BilliardResource] Where MONTH([BOOKDATE])='{0}' AND YEAR([BOOKDATE])='{1}'";
+
+        public const string SqlSelectGymChargeEmployee = "SELECT * FROM [SportsComplex].[dbo].[Gym] Where MONTH([TransactionDate])='{0}' AND YEAR([TransactionDate])='{1}' AND PsNumber='{2}'";
+
+        public const string SqlSelectTournmentChargeEmployee = "SELECT T.Name, T.Fees, B.TransactionDate FROM [SportsComplex].[dbo].[TournmentBooking] as B INNER JOIN [SportsComplex].[dbo].[Tournment] as T ON B.TournmentId = T.Id Where MONTH(B.TransactionDate)='{0}' AND YEAR(B.TransactionDate)='{1}' AND PsNumber='{2}'";
+
+        public const string SqlSelectGymChargeAdmin = "SELECT G.Joined, G.JoinedOn,G.LeftOn, G.TransactionDate, E.Name, E.PsNumber FROM [SportsComplex].[dbo].[Gym] as G INNER JOIN [SportsComplex].[dbo].[Employees] as E ON G.PsNumber = E.PsNumber Where MONTH(G.TransactionDate)='{0}' AND YEAR(G.TransactionDate)='{1}'";
+
+        public const string SqlSelectTournmentChargeAdmin = "SELECT T.Name, T.Fees, B.TransactionDate, E.Name,E.PsNumber FROM [SportsComplex].[dbo].[TournmentBooking] as B INNER JOIN [SportsComplex].[dbo].[Tournment] as T ON B.TournmentId = T.Id INNER JOIN [SportsComplex].[dbo].[Employees] as E ON B.PsNumber = E.PsNumber Where MONTH(B.TransactionDate)='{0}' AND YEAR(B.TransactionDate)='{1}'";
+        
         #endregion
     }
 }

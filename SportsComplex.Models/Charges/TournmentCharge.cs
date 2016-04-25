@@ -8,6 +8,7 @@ namespace SportsComplex.Models.Charges
 {
     public class TournmentCharge : ChargeBase
     {
+        public string TournmentId { get; set; }
         public string TournmentName { get; set; }
     }
 }

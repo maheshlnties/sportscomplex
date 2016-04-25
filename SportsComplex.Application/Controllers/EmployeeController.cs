@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Web.Mvc;
 using System.Web.Security;
 using AutoMapper;
@@ -8,6 +9,7 @@ using SportsComplex.Application.Helper;
 using SportsComplex.Application.ViewModels;
 using SportsComplex.DatabaseService.Interface;
 using SportsComplex.Models;
+using SportsComplex.Utilities;
 
 namespace SportsComplex.Application.Controllers
 {
@@ -52,7 +54,7 @@ namespace SportsComplex.Application.Controllers
         [HttpGet]
         public ActionResult Tournment()
         {
-            var tournments = _employeeService.GetTournments();
+            var tournments = _employeeService.GetTournments(User.PsNumber);
             var tournmentViewModels = new List<TournmentViewModel>();
             if (tournments != null)
             {
@@ -66,13 +68,19 @@ namespace SportsComplex.Application.Controllers
         [HttpPost]
         public ActionResult TournmentPost(string tournment)
         {
-            var result = _employeeService.BookTournment(User.PsNumber, "tournment");
-            var tournments = _employeeService.GetTournments();
+            var result = _employeeService.BookTournment(User.PsNumber, tournment);
+            var tournments = _employeeService.GetTournments(User.PsNumber);
             var tournmentViewModels = new List<TournmentViewModel>();
             if (tournments != null)
             {
                 tournmentViewModels.AddRange(
                     tournments.Select(eachTournment => _mapper.Map<Tournment, TournmentViewModel>(eachTournment)));
+            }
+            if (result)
+            {
+                var tournmentName = tournmentViewModels.Where(x => x.Id == tournment).Select(x => x.Name);
+                var body = string.Format(EmailTemplates.TournmentEnrollBody, tournmentName);
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.TournmentEnrollBody, body));
             }
             return View(tournmentViewModels);
         }
@@ -84,18 +92,8 @@ namespace SportsComplex.Application.Controllers
         [HttpGet]
         public ActionResult MyCharges()
         {
-            var resourceCharges =
-                ModelConverters.FromResourceChargesList(_employeeService.GetResourceCharges(1, 1));
-            var gymCharges = ModelConverters.FromGymChargesList(_employeeService.GetGymCharges(1, 1));
-            var tournmentCharges =
-                ModelConverters.FromTournmentChargesList(_employeeService.GetTournmentCharges(1, 1));
             return
-                View(new ChargeSheetViewModel
-                {
-                    ResourceCharges = resourceCharges,
-                    GymCharges = gymCharges,
-                    TournmentCharges = tournmentCharges
-                });
+                View(new ChargeSheetViewModel());
         }
 
         [ActionName("MyCharges")]
@@ -105,12 +103,13 @@ namespace SportsComplex.Application.Controllers
             if(!ModelState.IsValid)
                 return View(chargeSheetViewModel);
 
+            var psNumber = User.PsNumber;
             var resourceCharges = 
-                ModelConverters.FromResourceChargesList(_employeeService.GetResourceCharges(chargeSheetViewModel.SelectedMonth, chargeSheetViewModel.SelectedYear));
+                ModelConverters.FromResourceChargesList(_employeeService.GetResourceCharges(psNumber,chargeSheetViewModel.SelectedMonth, chargeSheetViewModel.SelectedYear));
             var gymCharges =
-                ModelConverters.FromGymChargesList(_employeeService.GetGymCharges(chargeSheetViewModel.SelectedMonth, chargeSheetViewModel.SelectedYear));
+                ModelConverters.FromGymChargesList(_employeeService.GetGymCharges(psNumber, chargeSheetViewModel.SelectedMonth, chargeSheetViewModel.SelectedYear));
             var tournmentCharges =
-                ModelConverters.FromTournmentChargesList(_employeeService.GetTournmentCharges(chargeSheetViewModel.SelectedMonth, chargeSheetViewModel.SelectedYear));
+                ModelConverters.FromTournmentChargesList(_employeeService.GetTournmentCharges(psNumber, chargeSheetViewModel.SelectedMonth, chargeSheetViewModel.SelectedYear));
             return
                 View(new ChargeSheetViewModel
                 {
@@ -122,14 +121,15 @@ namespace SportsComplex.Application.Controllers
                 });
         }
 
-        public CsvActionResult<ChargeViewModel> ExportAllCharges()
+        public CsvActionResult<ChargeViewModel> ExportAllCharges(int month, int year)
         {
             var list = new List<ChargeViewModel>();
+            var psNumber = User.PsNumber;
             var resourceCharges =
-                ModelConverters.FromResourceChargesList(_employeeService.GetResourceCharges(1, 1));
-            var gymCharges = ModelConverters.FromGymChargesList(_employeeService.GetGymCharges(1, 1));
+                ModelConverters.FromResourceChargesList(_employeeService.GetResourceCharges(psNumber, month, year));
+            var gymCharges = ModelConverters.FromGymChargesList(_employeeService.GetGymCharges(psNumber, month, year));
             var tournmentCharges =
-                ModelConverters.FromTournmentChargesList(_employeeService.GetTournmentCharges(1, 1));
+                ModelConverters.FromTournmentChargesList(_employeeService.GetTournmentCharges(psNumber, month, year));
             list.AddRange(resourceCharges);
             list.AddRange(gymCharges);
             list.AddRange(tournmentCharges);

@@ -230,7 +230,6 @@ namespace SportsComplex.Application.Controllers
         [HttpPost]
         public ActionResult ChargeTournmentPost(int selectedMonth, int selectedYear)
         {
-
             var tournmentCharges =
                 ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(selectedMonth, selectedYear));
             return
@@ -294,42 +293,42 @@ namespace SportsComplex.Application.Controllers
                 });
         }
 
-        public CsvActionResult<ChargeViewModel> ExportAllCharges()
+        public CsvActionResult<ChargeViewModel> ExportAllCharges(int month, int year)
         {
             var list = new List<ChargeViewModel>();
             var resourceCharges =
-                ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(1, 1));
-            var gymCharges = ModelConverters.FromGymChargesList(_adminService.GetGymCharges(1, 1));
+                ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(month, year));
+            var gymCharges = ModelConverters.FromGymChargesList(_adminService.GetGymCharges(month, year));
             var tournmentCharges =
-                ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(1, 1));
+                ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(month, year));
             list.AddRange(resourceCharges);
             list.AddRange(gymCharges);
             list.AddRange(tournmentCharges);
             return new CsvActionResult<ChargeViewModel>(list) {FileDownloadName = "AllCharges.csv"};
         }
 
-        public CsvActionResult<ChargeViewModel> ExportGymCharges()
+        public CsvActionResult<ChargeViewModel> ExportGymCharges(int month, int year)
         {
             var list = new List<ChargeViewModel>();
-            var gymCharges = ModelConverters.FromGymChargesList(_adminService.GetGymCharges(1, 1));
+            var gymCharges = ModelConverters.FromGymChargesList(_adminService.GetGymCharges(month, year));
             list.AddRange(gymCharges);
             return new CsvActionResult<ChargeViewModel>(list) {FileDownloadName = "GymCharges.csv"};
         }
 
-        public CsvActionResult<ChargeViewModel> ExportResourceCharges()
+        public CsvActionResult<ChargeViewModel> ExportResourceCharges(int month, int year)
         {
             var list = new List<ChargeViewModel>();
             var resourceCharges =
-                ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(1, 1));
+                ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(month, year));
             list.AddRange(resourceCharges);
             return new CsvActionResult<ChargeViewModel>(list) {FileDownloadName = "ResourceCharges.csv"};
         }
 
-        public CsvActionResult<ChargeViewModel> ExportTournmentCharges()
+        public CsvActionResult<ChargeViewModel> ExportTournmentCharges(int month, int year)
         {
             var list = new List<ChargeViewModel>();
             var tournmentCharges =
-                ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(1, 1));
+                ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(month, year));
             list.AddRange(tournmentCharges);
             return new CsvActionResult<ChargeViewModel>(list) {FileDownloadName = "TournmentCharges.csv"};
         }

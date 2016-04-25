@@ -13,7 +13,7 @@ using SportsComplex.Utilities;
 namespace SportsComplex.Application.Controllers
 {
     [UserAuthorize(Roles = "Admin , Employee")]
-    public class ModuleController : Controller
+    public class ModuleController : BaseController
     {
         #region Fields
 
@@ -59,10 +59,10 @@ namespace SportsComplex.Application.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Booking can be done only between 4PM to 9PM");
 
             var existingBookedList = _moduleService.GetBookedBadmintonList(DateTime.Today);
-            resource.BookedList = existingBookedList ?? new List<BookingItem>();
+            resource.BookedList = existingBookedList;
 
             if (resource.BookedList.FirstOrDefault(x => x.Item == id) == null)
-                resource.BookedList.Add(new BookingItem {Item = id, BookedBy = HttpContext.User.Identity.Name});
+                resource.BookedList.Add(new BookingItem { Item = id, BookedBy = User.PsNumber });
 
             var resourceModel = new Resource
             {
@@ -72,8 +72,10 @@ namespace SportsComplex.Application.Controllers
                 Date = DateTime.Today
             };
             if (_moduleService.BookBadmintonResource(resourceModel))
-                EmailHandler.SendMail(new MailMessage("test@gmail.com", "maheshniec@gmail.com", "test", "hello test"));
-            //TODO change template and TO address
+            {
+                var body = string.Format(EmailTemplates.ResourceBookingBody, id);
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.ResourceBookingSubject,body));
+            }
             return View(resource);
         }
 
@@ -99,10 +101,10 @@ namespace SportsComplex.Application.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Booking can be done only between 4PM to 9PM");
 
             var existingBookedList = _moduleService.GetBookedBilliardList(DateTime.Today);
-            resource.BookedList = existingBookedList ?? new List<BookingItem>();
+            resource.BookedList = existingBookedList;
 
             if (resource.BookedList.FirstOrDefault(x => x.Item == id) == null)
-                resource.BookedList.Add(new BookingItem {Item = id, BookedBy = HttpContext.User.Identity.Name});
+                resource.BookedList.Add(new BookingItem {Item = id, BookedBy = User.PsNumber});
 
             var resourceModel = new Resource
             {
@@ -112,8 +114,10 @@ namespace SportsComplex.Application.Controllers
                 Date = DateTime.Today
             };
             if (_moduleService.BookBilliardResource(resourceModel))
-                EmailHandler.SendMail(new MailMessage("test@gmail.com", "maheshniec@gmail.com", "test", "hello test"));
-            //TODO change template and TO address
+            {
+                var body = string.Format(EmailTemplates.ResourceBookingBody, id);
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.ResourceBookingSubject, body));
+            }
             return View(resource);
         }
 
@@ -201,6 +205,10 @@ namespace SportsComplex.Application.Controllers
         public ActionResult GymLeave(string id)
         {
             var result = _moduleService.LeaveGym(id);
+            if (result)
+            {
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.GymLeavingSubject, EmailTemplates.GymLeavingBody));
+            }
             return View(GetGymDetails());
         }
 
@@ -217,6 +225,10 @@ namespace SportsComplex.Application.Controllers
                 TransactionDate = DateTime.Now
             };
             var result = _moduleService.JoinGym(gym);
+            if (result)
+            {
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.GymJoiningSubject, EmailTemplates.GymJoiningBody));
+            }
             return View(GetGymDetails());
         }
 

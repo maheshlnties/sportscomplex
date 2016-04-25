@@ -45,6 +45,7 @@ namespace SportsComplex.Application.Helper
                 PsNumber = gymCharge.PsNumber,
                 Charges = gymCharge.Charges,
                 StartDate = gymCharge.JoinedOn,
+                GymStatus = gymCharge.Joined ? "Joined" : "Left",
                 EndDate = gymCharge.LeftOn,
                 TransactionDate = gymCharge.TransactionDate
             };
