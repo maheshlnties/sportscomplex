@@ -10,6 +10,8 @@ namespace SportsComplex.DatabaseService.Interface
 
         Task<bool> RegisterEmployee(Employee employee);
 
+        bool IsUserExists(string psNumber);
+
         List<Image> GetGalleryImages();
 
         List<News> GetNews();

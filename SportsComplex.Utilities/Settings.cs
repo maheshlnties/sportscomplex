@@ -23,5 +23,25 @@ namespace SportsComplex.Utilities
         {
             get { return ConfigurationManager.AppSettings["BadmintonFee"]; }
         }
+
+        public static string BadmintonHeaders
+        {
+            get { return ConfigurationManager.AppSettings["BadmintonHeaders"]; }
+        }
+
+        public static string BilliardHeaders
+        {
+            get { return ConfigurationManager.AppSettings["BilliardHeaders"]; }
+        }
+
+        public static string NoOfBadmintonCourt
+        {
+            get { return ConfigurationManager.AppSettings["NoOfBadmintonCourt"]; }
+        }
+
+        public static string NoOfBilliarCourt
+        {
+            get { return ConfigurationManager.AppSettings["NoOfBilliarCourt"]; }
+        }
     }
 }

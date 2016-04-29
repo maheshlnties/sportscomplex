@@ -127,6 +127,12 @@ namespace SportsComplex.Application.Controllers
                 ViewBag.Message = "Password and Confirm Password fields doesn't match";
                 return View(employeeViewModel);
             }
+            var userExists = _userService.IsUserExists(employeeViewModel.PsNumber);
+            if (userExists)
+            {
+                ViewBag.Message = "User with same PS Number already exists.";
+                return View(employeeViewModel);
+            }
             var employee = _mapper.Map<EmployeeViewModel, Employee>(employeeViewModel);
             var result = await _userService.RegisterEmployee(employee).ConfigureAwait(false);
             ViewBag.Message = result

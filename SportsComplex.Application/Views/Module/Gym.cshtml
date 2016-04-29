@@ -34,6 +34,9 @@
                             if (data != null) {
                                 alert(data.statusText);
                             }
+                            else {
+                                alert("Some problem occured on updating data");
+                            }
                         }
                     });
                 }
@@ -54,6 +57,9 @@
                         error: function(data) {
                             if (data != null) {
                                 alert(data.statusText);
+                            }
+                            else {
+                                alert("Some problem occured on updating data");
                             }
                         }
                     });

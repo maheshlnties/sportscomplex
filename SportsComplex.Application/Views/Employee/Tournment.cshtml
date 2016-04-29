@@ -34,7 +34,10 @@
                             },
                             error: function(data) {
                                 if (data != null) {
-                                    alert(data.statusText);
+                                    alert("Problem occured while enrolling: "+data.statusText);
+                                }
+                                else {
+                                    alert("Some problem occured while enrolling");
                                 }
                             }
                         });

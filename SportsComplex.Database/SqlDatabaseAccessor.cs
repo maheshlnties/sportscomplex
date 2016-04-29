@@ -178,31 +178,22 @@ namespace SportsComplex.Database
             return employees;
         }
 
-        #endregion
-
-        #region Module Operations
-
-        public List<ResourceSettings> GetResourceSettings()
+        public bool IsUserExisting(string psNumber)
         {
-            var resourceSettings = new List<ResourceSettings>();
             using (var conn = new SqlConnection(SqlQueries.ConnectionString))
             {
                 conn.Open();
-                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectResourceSettings), conn))
+                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectEmployeesByPsNumber,psNumber), conn))
                 {
                     var datareader = cmd.ExecuteReader();
-                    while (datareader.Read())
-                    {
-                        resourceSettings.Add(new ResourceSettings
-                        {
-                            Name = (ResourceSettingKeys) Convert.ToInt32(datareader["Name"]),
-                            Value = datareader["Value"].ToString()
-                        });
-                    }
+                    return datareader.HasRows;
                 }
             }
-            return resourceSettings;
         }
+
+        #endregion
+
+        #region Module Operations
 
         public ResourceBookModel GetBookedBadmintonList(DateTime? date)
         {
@@ -411,7 +402,7 @@ namespace SportsComplex.Database
         public bool BookTournment(string psNumber, string tournmentId)
         {
             if (string.IsNullOrWhiteSpace(tournmentId) || string.IsNullOrWhiteSpace(psNumber)) return false;
-            var result = 0;
+            int result;
             using (var conn = new SqlConnection(SqlQueries.ConnectionString))
             {
                 conn.Open();
@@ -725,8 +716,5 @@ namespace SportsComplex.Database
         }
 
         #endregion
-
-
-        
     }
 }

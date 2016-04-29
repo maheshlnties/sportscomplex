@@ -5,6 +5,7 @@ using SportsComplex.Database;
 using SportsComplex.DatabaseService.Interface;
 using SportsComplex.Models;
 using SportsComplex.Models.Database;
+using SportsComplex.Utilities;
 
 namespace SportsComplex.DatabaseService
 {
@@ -22,31 +23,9 @@ namespace SportsComplex.DatabaseService
         public ModuleService()
         {
             _databaseAccessor = new SqlDatabaseAccessor();
-            _resourceSettings = _databaseAccessor.GetResourceSettings();
-            //_resourceSettings = new List<ResourceSettings>()
-            //{
-            //    new ResourceSettings
-            //    {
-            //        Name = ResourceSettingKeys.BadmintonHeaders,
-            //        Value = "5PM - 6PM;6PM - 7PM;7PM - 8PM;8PM - 9PM;"
-            //    },
-            //    new ResourceSettings
-            //    {
-            //        Name = ResourceSettingKeys.BilliardHeaders,
-            //        Value = "5PM - 6PM;6PM - 7PM;7PM - 8PM;8PM - 9PM;"
-            //    },
-            //    new ResourceSettings
-            //    {
-            //        Name = ResourceSettingKeys.NoOfBadmintonCourt,
-            //        Value = "3"
-            //    },
-            //    new ResourceSettings
-            //    {
-            //        Name = ResourceSettingKeys.NoOfBilliarCourt,
-            //        Value = "6"
-            //    }
-            //};
+            _resourceSettings = GetResourceSettings();
         }
+
 
         #endregion
 
@@ -76,6 +55,33 @@ namespace SportsComplex.DatabaseService
             //    "7PM - 8PM",
             //    "8PM - 9PM"
             //};
+        }
+
+        private List<ResourceSettings> GetResourceSettings()
+        {
+            return new List<ResourceSettings>
+            {
+                new ResourceSettings
+                {
+                    Name = ResourceSettingKeys.BadmintonHeaders,
+                    Value = Settings.BadmintonHeaders
+                },
+                new ResourceSettings
+                {
+                    Name = ResourceSettingKeys.BilliardHeaders,
+                    Value = Settings.BilliardHeaders
+                },
+                new ResourceSettings
+                {
+                    Name = ResourceSettingKeys.NoOfBadmintonCourt,
+                    Value =  Settings.NoOfBadmintonCourt
+                },
+                new ResourceSettings
+                {
+                    Name = ResourceSettingKeys.NoOfBilliarCourt,
+                    Value =  Settings.NoOfBilliarCourt
+                }
+            };
         }
 
         private int GetNoOfBadmintonCourts()

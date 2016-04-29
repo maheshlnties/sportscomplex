@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using SportsComplex.Database;
 using SportsComplex.DatabaseService.Interface;
@@ -60,6 +59,11 @@ namespace SportsComplex.DatabaseService
 
             return _databaseAccessor.SearchUser(psNumber,name,email);
         }
+        
+        public bool IsUserExists(string psNumber)
+        {
+            return _databaseAccessor.IsUserExisting(psNumber);
+        }
 
         public List<Image> GetGalleryImages()
         {
@@ -79,6 +83,7 @@ namespace SportsComplex.DatabaseService
 
             return _databaseAccessor.GetImages(); 
         }
+
 
     }
 }

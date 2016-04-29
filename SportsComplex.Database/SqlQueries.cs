@@ -91,6 +91,8 @@ END
 
         public const string SqlSelectEmployees = "SELECT * FROM [SportsComplex].[dbo].[Employees] WHERE PsNumber = '{0}' AND [Password] = '{1}'";
 
+        public const string SqlSelectEmployeesByPsNumber = "SELECT * FROM [SportsComplex].[dbo].[Employees] WHERE PsNumber = '{0}'";
+
         public const string SqlSearchEmployees = "SELECT * FROM [SportsComplex].[dbo].[Employees] WHERE PsNumber LIKE '%{0}%' OR Name LIKE '%{1}%' OR Email LIKE '%{2}%'";
 
         public const string SqlSelectResourceSettings = "SELECT * FROM [SportsComplex].[dbo].[ResourceSettings]";
