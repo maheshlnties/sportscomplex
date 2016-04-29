@@ -58,6 +58,10 @@
       <Project>{2ec329d5-2faa-4322-b1e6-9f66f2f6f414}</Project>
       <Name>SportsComplex.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SportsComplex.Utilities\SportsComplex.Utilities.csproj">
+      <Project>{d04697f2-00d2-4364-b8bf-d43b446d2525}</Project>
+      <Name>SportsComplex.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
