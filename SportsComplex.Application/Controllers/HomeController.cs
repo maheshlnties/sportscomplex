@@ -156,7 +156,8 @@ namespace SportsComplex.Application.Controllers
                 {
                     PsNumber = user.PsNumber,
                     Name = user.Name,
-                    Role = user.UserRole
+                    Role = user.UserRole,
+                    Email = user.Email
                 };
 
                 var userData = JsonConvert.SerializeObject(principalModel);

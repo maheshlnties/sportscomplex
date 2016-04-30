@@ -218,6 +218,7 @@
     <Content Include="Images\admin_button.ico" />
     <Content Include="Images\badmintonResource.ico" />
     <Content Include="Images\billiardsResource.ico" />
+    <Content Include="Images\cancel.ico" />
     <Content Include="Images\gallery_button.ico" />
     <Content Include="Images\gym_button.ico" />
     <Content Include="Images\Badminton.jpg" />
@@ -225,6 +226,7 @@
     <Content Include="Images\logo_larsen_toubro.jpg" />
     <Content Include="Images\myCharges.ico" />
     <Content Include="Images\news.ico" />
+    <Content Include="Images\ok.ico" />
     <Content Include="Images\report_button.ico" />
     <Content Include="Images\resourceBook_button.ico" />
     <Content Include="Images\tournament_button.ico" />

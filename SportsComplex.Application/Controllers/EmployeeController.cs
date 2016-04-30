@@ -78,9 +78,12 @@ namespace SportsComplex.Application.Controllers
             }
             if (result)
             {
-                var tournmentName = tournmentViewModels.Where(x => x.Id == tournment).Select(x => x.Name);
-                var body = string.Format(EmailTemplates.TournmentEnrollBody, tournmentName);
-                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.TournmentEnrollBody, body));
+                var enrolledTournment = tournmentViewModels.First(x => x.Id == tournment);
+                var body = string.Format(EmailTemplates.TournmentEnrollBody, enrolledTournment.Name,enrolledTournment.Fees);
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.TournmentEnrollSubject, body));
+
+                var payrollbody = string.Format(EmailTemplates.PayrollTournmentEnrollBody, User.PsNumber, enrolledTournment.Name, enrolledTournment.Fees);
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.TournmentEnrollSubject, payrollbody));
             }
             return View(tournmentViewModels);
         }

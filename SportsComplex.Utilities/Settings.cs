@@ -4,6 +4,26 @@ namespace SportsComplex.Utilities
 {
     public static class Settings
     {
+        public static string NetworkEmailId
+        {
+            get { return ConfigurationManager.AppSettings["NetworkEmailId"]; }
+        }
+
+        public static string NetworkPassword
+        {
+            get { return ConfigurationManager.AppSettings["NetworkPassword"]; }
+        }
+
+        public static string EmailHost
+        {
+            get { return ConfigurationManager.AppSettings["EmailHost"]; }
+        }
+
+        public static string EmailHostPort
+        {
+            get { return ConfigurationManager.AppSettings["EmailHostPort"]; }
+        }
+
         public static string FromEmailId
         {
             get { return ConfigurationManager.AppSettings["FromEmailId"]; }
@@ -22,6 +42,11 @@ namespace SportsComplex.Utilities
         public static string BadmintonFee
         {
             get { return ConfigurationManager.AppSettings["BadmintonFee"]; }
+        }
+
+        public static string BilliardFee
+        {
+            get { return ConfigurationManager.AppSettings["BilliardFee"]; }
         }
 
         public static string BadmintonHeaders

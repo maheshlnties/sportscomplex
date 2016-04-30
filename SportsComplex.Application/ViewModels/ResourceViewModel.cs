@@ -21,6 +21,7 @@ namespace SportsComplex.Application.ViewModels
         [Display(Name = "P.S. Number*")]
         public string PsNumber { get; set; }
 
+
         public bool IsBooked(string id)
         {
             return BookedList!=null && BookedList.Any(x => x.Item == id);

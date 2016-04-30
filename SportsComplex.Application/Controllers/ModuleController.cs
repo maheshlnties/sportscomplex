@@ -37,6 +37,17 @@ namespace SportsComplex.Application.Controllers
             return View();
         }
 
+        [HttpPost]
+        public JsonResult SelectEmployee(string psNumber)
+        {
+            if (string.IsNullOrWhiteSpace(psNumber))
+            {
+                return Json(false);
+            }
+            var result = _moduleService.IsUserExists(psNumber);
+            return Json(result);
+        }
+        
         [HttpGet]
         [ActionName("Badminton")]
         public ActionResult Badminton()
@@ -57,12 +68,16 @@ namespace SportsComplex.Application.Controllers
         {
             if (DateTime.Now.Hour < 16 || DateTime.Now.Hour > 21)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Booking can be done only between 4PM to 9PM");
+            
+            var psNumber = User.Role == UserRoles.Admin && !string.IsNullOrEmpty(resource.PsNumber)
+               ? resource.PsNumber
+               : User.PsNumber;
 
             var existingBookedList = _moduleService.GetBookedBadmintonList(DateTime.Today);
             resource.BookedList = existingBookedList;
 
             if (resource.BookedList.FirstOrDefault(x => x.Item == id) == null)
-                resource.BookedList.Add(new BookingItem { Item = id, BookedBy = User.PsNumber });
+                resource.BookedList.Add(new BookingItem { Item = id, BookedBy = psNumber });
 
             var resourceModel = new Resource
             {
@@ -73,8 +88,11 @@ namespace SportsComplex.Application.Controllers
             };
             if (_moduleService.BookBadmintonResource(resourceModel))
             {
-                var body = string.Format(EmailTemplates.ResourceBookingBody, id);
+                var body = string.Format(EmailTemplates.ResourceBookingBody, id,Settings.BadmintonFee);
                 EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.ResourceBookingSubject,body));
+
+                var payrollbody = string.Format(EmailTemplates.PayrollResourceBookingBody, psNumber, "Badmiton" + id, Settings.BadmintonFee);
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.ResourceBookingSubject, payrollbody));
             }
             return View(resource);
         }
@@ -100,11 +118,15 @@ namespace SportsComplex.Application.Controllers
             if (DateTime.Now.Hour < 16 || DateTime.Now.Hour > 21)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Booking can be done only between 4PM to 9PM");
 
+            var psNumber = User.Role == UserRoles.Admin && !string.IsNullOrEmpty(resource.PsNumber)
+                ? resource.PsNumber
+                : User.PsNumber;
+
             var existingBookedList = _moduleService.GetBookedBilliardList(DateTime.Today);
             resource.BookedList = existingBookedList;
 
             if (resource.BookedList.FirstOrDefault(x => x.Item == id) == null)
-                resource.BookedList.Add(new BookingItem {Item = id, BookedBy = User.PsNumber});
+                resource.BookedList.Add(new BookingItem { Item = id, BookedBy = psNumber });
 
             var resourceModel = new Resource
             {
@@ -115,8 +137,12 @@ namespace SportsComplex.Application.Controllers
             };
             if (_moduleService.BookBilliardResource(resourceModel))
             {
-                var body = string.Format(EmailTemplates.ResourceBookingBody, id);
+                var body = string.Format(EmailTemplates.ResourceBookingBody, id,Settings.BilliardFee);
                 EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.ResourceBookingSubject, body));
+
+
+                var payrollbody = string.Format(EmailTemplates.PayrollResourceBookingBody, psNumber, "Billiard" + id, Settings.BilliardFee);
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.ResourceBookingSubject, payrollbody));
             }
             return View(resource);
         }
@@ -208,26 +234,36 @@ namespace SportsComplex.Application.Controllers
             if (result)
             {
                 EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.GymLeavingSubject, EmailTemplates.GymLeavingBody));
+
+                var payrollBody = string.Format(EmailTemplates.PayrollGymLeavingBody, User.PsNumber,Settings.GymFee);
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.GymLeavingSubject, payrollBody));
             }
             return View(GetGymDetails());
         }
 
         [ActionName("Gym")]
         [HttpPost]
-        public ActionResult GymJoin()
+        public ActionResult GymJoin(string psNumber)
         {
-            var principal = (PrincipalModel) User;
+            var userPsNumber = User.Role == UserRoles.Admin && !string.IsNullOrEmpty(psNumber)
+              ? psNumber
+              : User.PsNumber;
+
             var gym = new Gym
             {
                 Joined = true,
-                PsNumber = principal.PsNumber,
+                PsNumber = userPsNumber,
                 JoinedOn = DateTime.Now,
                 TransactionDate = DateTime.Now
             };
             var result = _moduleService.JoinGym(gym);
             if (result)
             {
-                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.GymJoiningSubject, EmailTemplates.GymJoiningBody));
+                var body = string.Format(EmailTemplates.GymJoiningBody, Settings.GymFee);
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.GymJoiningSubject, body));
+                
+                var payrollbody= string.Format(EmailTemplates.PayrollGymJoiningBody, psNumber,Settings.GymFee);
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.GymJoiningSubject, payrollbody));
             }
             return View(GetGymDetails());
         }

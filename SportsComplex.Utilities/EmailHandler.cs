@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Diagnostics;
+using System.Net;
 using System.Net.Mail;
 
 namespace SportsComplex.Utilities
@@ -7,16 +9,23 @@ namespace SportsComplex.Utilities
     {
         public static void SendMail(MailMessage message)
         {
-            var client = new SmtpClient
+            try
             {
-                Host = "smtp.googlemail.com",
-                Port = 587,
-                UseDefaultCredentials = false,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                EnableSsl = true,
-                Credentials = new NetworkCredential("sportscomplexuser@gmail.com", "testuser@123")
-            };
-            client.Send(message);
+                var client = new SmtpClient
+                {
+                    Host = Settings.EmailHost,
+                    Port = Convert.ToInt32(Settings.EmailHostPort),
+                    UseDefaultCredentials = false,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    EnableSsl = true,
+                    Credentials = new NetworkCredential(Settings.NetworkEmailId, Settings.NetworkPassword)
+                };
+                client.Send(message);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex);
+            }
         }
     }
 }

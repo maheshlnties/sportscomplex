@@ -32,7 +32,8 @@ namespace SportsComplex.Application
             {
                 PsNumber = principalModel.PsNumber,
                 Name = principalModel.Name,
-                Role = principalModel.Role
+                Role = principalModel.Role,
+                Email = principalModel.Email
             };
 
             HttpContext.Current.User = newUser;

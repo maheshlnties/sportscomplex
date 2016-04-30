@@ -30,7 +30,10 @@ namespace SportsComplex.DatabaseService
         #endregion
 
         #region Resources
-
+        public bool IsUserExists(string psNumber)
+        {
+            return _databaseAccessor.IsUserExisting(psNumber);
+        }
         private List<string> GetBadmintonHeaders()
         {
             var headers = _resourceSettings.FirstOrDefault(x => x.Name == ResourceSettingKeys.BadmintonHeaders);
