@@ -34,6 +34,12 @@ namespace SportsComplex.DatabaseService
         {
             return _databaseAccessor.IsUserExisting(psNumber);
         }
+
+        public string GetUserName(string psNumber)
+        {
+            return _databaseAccessor.GetUserName(psNumber);
+        }
+        
         private List<string> GetBadmintonHeaders()
         {
             var headers = _resourceSettings.FirstOrDefault(x => x.Name == ResourceSettingKeys.BadmintonHeaders);

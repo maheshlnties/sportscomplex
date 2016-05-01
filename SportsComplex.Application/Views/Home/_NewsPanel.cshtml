@@ -14,16 +14,9 @@
                     <ul class="demo1" style="overflow-y: hidden; height: 210px;">
                         @foreach (var eachNews in Model)
                     {
-                            <li class="news-item">
-                                <table cellpadding="4">
-                                    <tbody>
-                                        <tr>
-                                            <td><img src="~/Images/Badminton.jpg" width="60" class="img-circle"></td>
-                                            <td style="@(eachNews.Highlight? "font-weight: bold" : "font-weight: normal")">@eachNews.Content</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </li>
+                        <li class="news-item" style="margin-bottom: 20px">
+                            <span style="@(eachNews.Highlight ? "font-weight: bold" : "font-weight: normal")">@eachNews.Content</span>
+                        </li>
                     }
                     </ul>
                 </div>

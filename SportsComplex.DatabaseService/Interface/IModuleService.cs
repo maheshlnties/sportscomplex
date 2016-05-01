@@ -31,5 +31,7 @@ namespace SportsComplex.DatabaseService.Interface
         Gym GetGymDetails(string psNumber);
 
         bool IsUserExists(string psNumber);
+
+        string GetUserName(string psNumber);
     }
 }

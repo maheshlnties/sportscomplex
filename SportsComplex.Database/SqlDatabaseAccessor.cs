@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using SportsComplex.Models;
 using SportsComplex.Models.Database;
 using SportsComplex.Models.Charges;
+using SportsComplex.Utilities;
 
 namespace SportsComplex.Database
 {
@@ -66,6 +67,24 @@ namespace SportsComplex.Database
             return employee;
         }
 
+        public string GetUserName(string psNumber)
+        {
+
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectEmployeesByPsNumber, psNumber), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    if (datareader.Read())
+                    {
+                        return datareader["Name"].ToString();
+                    }
+                }
+            }
+            return null;
+        }
+
         public List<News> GetNews()
         {
             var news = new List<News>();
@@ -124,7 +143,7 @@ namespace SportsComplex.Database
                 using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSearchEmployees, psNumber, name, email), conn))
                 {
                     var datareader = cmd.ExecuteReader();
-                    if (datareader.Read())
+                    while (datareader.Read())
                     {
                         employees.Add(new Employee
                         {
@@ -462,7 +481,7 @@ namespace SportsComplex.Database
                 using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectGymChargeEmployee,selectedMonth,selectedYear,psNumber), conn))
                 {
                     var datareader = cmd.ExecuteReader();
-                    if (datareader.Read())
+                    while (datareader.Read())
                     {
                         list.Add(new Gym
                         {
@@ -634,13 +653,13 @@ namespace SportsComplex.Database
                 using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectGymChargeAdmin, selectedMonth, selectedYear), conn))
                 {
                     var datareader = cmd.ExecuteReader();
-                    if (datareader.Read())
+                    while (datareader.Read())
                     {
                         list.Add(new GymCharge
                         {
                             PsNumber = datareader["PsNumber"].ToString(),
                             Name = datareader["Name"].ToString(),
-                            Charges = 50, //ToDo: read charges from app config
+                            Charges = Settings.GymFee, //ToDo: read charges from app config
                             TransactionDate = Convert.ToDateTime(datareader["TransactionDate"].ToString()),
                             Joined = true,
                             JoinedOn =
@@ -672,8 +691,8 @@ namespace SportsComplex.Database
                         tournments.Add(new TournmentCharge
                         {
                             PsNumber = datareader["PsNumber"].ToString(),
-                            Name = datareader["Name"].ToString(),
-                            TournmentName = datareader["Name"].ToString(),
+                            Name = datareader["EName"].ToString(),
+                            TournmentName = datareader["TName"].ToString(),
                             Charges = Convert.ToInt32(datareader["Fees"]),
                             TransactionDate = Convert.ToDateTime(datareader["TransactionDate"])
                         });

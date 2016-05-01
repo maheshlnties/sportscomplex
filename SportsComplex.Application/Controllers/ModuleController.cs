@@ -76,8 +76,12 @@ namespace SportsComplex.Application.Controllers
             var existingBookedList = _moduleService.GetBookedBadmintonList(DateTime.Today);
             resource.BookedList = existingBookedList;
 
+            var userName = User.Role == UserRoles.Admin && !string.IsNullOrEmpty(resource.PsNumber)
+                ? _moduleService.GetUserName(resource.PsNumber)
+                : User.Name;
+
             if (resource.BookedList.FirstOrDefault(x => x.Item == id) == null)
-                resource.BookedList.Add(new BookingItem { Item = id, BookedBy = psNumber });
+                resource.BookedList.Add(new BookingItem { Item = id, BookedBy = psNumber, EmployeeName = userName });
 
             var resourceModel = new Resource
             {
@@ -125,8 +129,12 @@ namespace SportsComplex.Application.Controllers
             var existingBookedList = _moduleService.GetBookedBilliardList(DateTime.Today);
             resource.BookedList = existingBookedList;
 
+            var userName = User.Role == UserRoles.Admin && !string.IsNullOrEmpty(resource.PsNumber)
+                ? _moduleService.GetUserName(resource.PsNumber)
+                : User.Name;
+
             if (resource.BookedList.FirstOrDefault(x => x.Item == id) == null)
-                resource.BookedList.Add(new BookingItem { Item = id, BookedBy = psNumber });
+                resource.BookedList.Add(new BookingItem { Item = id, BookedBy = psNumber,EmployeeName=userName });
 
             var resourceModel = new Resource
             {

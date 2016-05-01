@@ -71,7 +71,7 @@
                 <th class="text-center">Tournment Name</th>
                 <th class="text-center">Tournment Fees</th>
                 <th class="text-center">Last Date for Registration</th>
-                <th class="text-center" style="width: 180px">Enable</th>
+                @*<th class="text-center" style="width: 180px">Enable</th>*@
             </tr>
             </thead>
 
@@ -86,7 +86,7 @@
                         <td class="text-center">@eachModel.Name</td>
                         <td class="text-center">@eachModel.Fees</td>
                         <td class="text-center">@eachModel.LastDate</td>
-                        <td class="text-center"><input type="checkbox" value="true" @(eachModel.IsEnabled ? "checked=\"checked\"" : "")/></td>
+                        @*<td class="text-center"><input type="checkbox" value="true" @(eachModel.IsEnabled ? "checked=\"checked\"" : "")/></td>*@
                     </tr>
                 }
             }

@@ -5,6 +5,7 @@ using SportsComplex.Database;
 using SportsComplex.DatabaseService.Interface;
 using SportsComplex.Models;
 using SportsComplex.Models.Charges;
+using SportsComplex.Utilities;
 
 namespace SportsComplex.DatabaseService
 {
@@ -41,7 +42,9 @@ namespace SportsComplex.DatabaseService
                         .ToList();
                 list.AddRange(bookingItems.Select(eachBooking => new ResourceCharge
                 {
-                    PsNumber = psNumber, Charges = 50, ResourceName = "Badminton", Slot = "Slot -" + eachBooking.Item, TransactionDate = eachResource.BookDate
+                    PsNumber = psNumber,
+                    Name = eachBooking.EmployeeName,
+                    Charges = Settings.BadmintonFee, ResourceName = "Badminton", Slot = "Slot -" + eachBooking.Item, TransactionDate = eachResource.BookDate
                 })); //TODO: read charge from app config
             }
 
@@ -55,7 +58,8 @@ namespace SportsComplex.DatabaseService
                 list.AddRange(bookingItems.Select(eachBooking => new ResourceCharge
                 {
                     PsNumber = psNumber,
-                    Charges = 50,
+                    Name = eachBooking.EmployeeName,
+                    Charges = Settings.BilliardFee,
                     ResourceName = "Billiard",
                     Slot = "Slot -" + eachBooking.Item,
                     TransactionDate = eachResource.BookDate
@@ -83,7 +87,7 @@ namespace SportsComplex.DatabaseService
             var gymList = _databaseAccessor.GetGymCharges(psNumber,selectedMonth, selectedYear);
             var gymCharges= gymList.Select(eachGym => new GymCharge
             {
-                Charges = 500, JoinedOn = eachGym.JoinedOn, LeftOn = eachGym.LeftOn, TransactionDate = eachGym.TransactionDate, Joined = eachGym.Joined
+                Charges = Settings.GymFee, JoinedOn = eachGym.JoinedOn, LeftOn = eachGym.LeftOn, TransactionDate = eachGym.TransactionDate, Joined = eachGym.Joined
             }).ToList();
             return gymCharges;
         }

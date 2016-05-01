@@ -5,6 +5,7 @@ using SportsComplex.Database;
 using SportsComplex.DatabaseService.Interface;
 using SportsComplex.Models;
 using SportsComplex.Models.Charges;
+using SportsComplex.Utilities;
 
 namespace SportsComplex.DatabaseService
 {
@@ -91,7 +92,8 @@ namespace SportsComplex.DatabaseService
                 list.AddRange(bookingItems.Select(eachBooking => new ResourceCharge
                 {
                     PsNumber = eachBooking.BookedBy,
-                    Charges = 50,
+                    Name = eachBooking.EmployeeName,
+                    Charges = Settings.BadmintonFee,
                     ResourceName = "Badminton",
                     Slot = "Slot -" + eachBooking.Item,
                     TransactionDate = eachResource.BookDate
@@ -107,7 +109,8 @@ namespace SportsComplex.DatabaseService
                 list.AddRange(bookingItems.Select(eachBooking => new ResourceCharge
                 {
                     PsNumber = eachBooking.BookedBy,
-                    Charges = 50,
+                    Name = eachBooking.EmployeeName,
+                    Charges = Settings.BilliardFee,
                     ResourceName = "Billiard",
                     Slot = "Slot -" + eachBooking.Item,
                     TransactionDate = eachResource.BookDate

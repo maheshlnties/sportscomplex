@@ -14,10 +14,11 @@ namespace SportsComplex.Models
                 throw new ArgumentException("Argument can not be empty");
 
             var split = bookingItem.Split(Delimiter);
-            if (split.Length == 2)
+            if (split.Length == 3)
             {
                 Item = split[0];
                 BookedBy = split[1];
+                EmployeeName = split[2];
             }
         }
         
@@ -25,9 +26,11 @@ namespace SportsComplex.Models
 
         public string BookedBy { get; set; }
 
+        public string EmployeeName { get; set; }
+
         public string GetBookingItem()
         {
-            return string.Format("{0}{1}{2}", Item, Delimiter, BookedBy);
+            return string.Format("{0}{1}{2}{3}{4}", Item, Delimiter, BookedBy,Delimiter,EmployeeName);
         }
     }
 }

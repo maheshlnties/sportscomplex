@@ -196,8 +196,13 @@ namespace SportsComplex.Application.Controllers
 
         [ActionName("AllCharges")]
         [HttpPost]
-        public ActionResult AllChargesPost(int selectedMonth, int selectedYear)
+        public ActionResult AllChargesPost(ChargeSheetViewModel chargeSheetViewModel)
         {
+            if (!ModelState.IsValid)
+                return View(chargeSheetViewModel);
+
+            var selectedMonth = chargeSheetViewModel.SelectedMonth;
+            var selectedYear =chargeSheetViewModel.SelectedYear;
             var resourceCharges =
                 ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(selectedMonth, selectedYear));
             var gymCharges = ModelConverters.FromGymChargesList(_adminService.GetGymCharges(selectedMonth, selectedYear));
@@ -228,8 +233,14 @@ namespace SportsComplex.Application.Controllers
 
         [ActionName("ChargeTournment")]
         [HttpPost]
-        public ActionResult ChargeTournmentPost(int selectedMonth, int selectedYear)
+        public ActionResult ChargeTournmentPost(ChargeSheetViewModel chargeSheetViewModel)
         {
+            if (!ModelState.IsValid)
+                return View(chargeSheetViewModel);
+
+            var selectedMonth = chargeSheetViewModel.SelectedMonth;
+            var selectedYear = chargeSheetViewModel.SelectedYear;
+
             var tournmentCharges =
                 ModelConverters.FromTournmentChargesList(_adminService.GetTournmentCharges(selectedMonth, selectedYear));
             return
@@ -254,8 +265,14 @@ namespace SportsComplex.Application.Controllers
 
         [ActionName("ChargeGym")]
         [HttpPost]
-        public ActionResult ChargeGymPost(int selectedMonth, int selectedYear)
+        public ActionResult ChargeGymPost(ChargeSheetViewModel chargeSheetViewModel)
         {
+            if (!ModelState.IsValid)
+                return View(chargeSheetViewModel);
+
+            var selectedMonth = chargeSheetViewModel.SelectedMonth;
+            var selectedYear = chargeSheetViewModel.SelectedYear;
+
             var gymCharges = ModelConverters.FromGymChargesList(_adminService.GetGymCharges(selectedMonth, selectedYear));
             return
                 View(new ChargeSheetViewModel
@@ -280,8 +297,14 @@ namespace SportsComplex.Application.Controllers
 
         [ActionName("ChargeResource")]
         [HttpPost]
-        public ActionResult ChargeResourcePost(int selectedMonth, int selectedYear)
+        public ActionResult ChargeResourcePost(ChargeSheetViewModel chargeSheetViewModel)
         {
+            if (!ModelState.IsValid)
+                return View(chargeSheetViewModel);
+
+            var selectedMonth = chargeSheetViewModel.SelectedMonth;
+            var selectedYear = chargeSheetViewModel.SelectedYear;
+
             var resourceCharges =
                 ModelConverters.FromResourceChargesList(_adminService.GetResourceCharges(selectedMonth, selectedYear));
             return

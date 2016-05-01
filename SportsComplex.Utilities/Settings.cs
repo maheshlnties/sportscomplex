@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 
 namespace SportsComplex.Utilities
 {
@@ -34,19 +35,19 @@ namespace SportsComplex.Utilities
             get { return ConfigurationManager.AppSettings["PayrollEmailId"]; }
         }
 
-        public static string GymFee
+        public static int GymFee
         {
-            get { return ConfigurationManager.AppSettings["GymFee"]; }
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["GymFee"]); }
         }
 
-        public static string BadmintonFee
+        public static int BadmintonFee
         {
-            get { return ConfigurationManager.AppSettings["BadmintonFee"]; }
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["BadmintonFee"]); }
         }
 
-        public static string BilliardFee
+        public static int BilliardFee
         {
-            get { return ConfigurationManager.AppSettings["BilliardFee"]; }
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["BilliardFee"]); }
         }
 
         public static string BadmintonHeaders

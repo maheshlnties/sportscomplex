@@ -42,6 +42,8 @@ namespace SportsComplex.Application.ViewModels
 
         [Display(Name = "Mobile*")]
         [Required]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Mobile number")]
         public string Mobile { get; set; }
 
         [Display(Name = "Password*")]
