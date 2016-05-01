@@ -38,38 +38,6 @@ namespace SportsComplex.Database
         {
             Employee employee = null;
 
-            if (psNumber == "admin" && password == "admin@123")
-                return new Employee
-                {
-                    PsNumber = psNumber,
-                    Name = "Administrator",
-                    Gender = Gender.Male,
-                    DateOfBirth = DateTime.Today,
-                    Email = "admin@gmail.com",
-                    BuisnessUnit = BuisnessUnit.MPS,
-                    DeskPhoneNumber = "1234",
-                    Mobile = "9902232454",
-                    Address = "Bangalore",
-                    UserRole = UserRoles.Admin,
-                    Password = password
-                };
-
-            if (psNumber == "user" && password == "user@123")
-                return new Employee
-                {
-                    PsNumber = psNumber,
-                    Name = "Test Employee",
-                    Gender = Gender.Male,
-                    DateOfBirth = DateTime.Today,
-                    Email = "testemployee@gmail.com",
-                    BuisnessUnit = BuisnessUnit.MPS,
-                    DeskPhoneNumber = "1234",
-                    Mobile = "9902232454",
-                    Address = "Bangalore",
-                    UserRole = UserRoles.Employee,
-                    Password = password
-                };
-
             using (var conn = new SqlConnection(SqlQueries.ConnectionString))
             {
                 conn.Open();
