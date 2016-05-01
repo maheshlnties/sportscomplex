@@ -83,7 +83,7 @@ namespace SportsComplex.Application.Controllers
                 EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.TournmentEnrollSubject, body));
 
                 var payrollbody = string.Format(EmailTemplates.PayrollTournmentEnrollBody, User.PsNumber, enrolledTournment.Name, enrolledTournment.Fees);
-                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.TournmentEnrollSubject, payrollbody));
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, Settings.PayrollEmailId, EmailTemplates.TournmentEnrollSubject, payrollbody));
             }
             return View(tournmentViewModels);
         }

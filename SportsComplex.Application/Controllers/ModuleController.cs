@@ -92,7 +92,7 @@ namespace SportsComplex.Application.Controllers
                 EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.ResourceBookingSubject,body));
 
                 var payrollbody = string.Format(EmailTemplates.PayrollResourceBookingBody, psNumber, "Badmiton" + id, Settings.BadmintonFee);
-                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.ResourceBookingSubject, payrollbody));
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, Settings.PayrollEmailId, EmailTemplates.ResourceBookingSubject, payrollbody));
             }
             return View(resource);
         }
@@ -142,7 +142,7 @@ namespace SportsComplex.Application.Controllers
 
 
                 var payrollbody = string.Format(EmailTemplates.PayrollResourceBookingBody, psNumber, "Billiard" + id, Settings.BilliardFee);
-                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.ResourceBookingSubject, payrollbody));
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, Settings.PayrollEmailId, EmailTemplates.ResourceBookingSubject, payrollbody));
             }
             return View(resource);
         }
@@ -236,7 +236,7 @@ namespace SportsComplex.Application.Controllers
                 EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.GymLeavingSubject, EmailTemplates.GymLeavingBody));
 
                 var payrollBody = string.Format(EmailTemplates.PayrollGymLeavingBody, User.PsNumber,Settings.GymFee);
-                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.GymLeavingSubject, payrollBody));
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, Settings.PayrollEmailId, EmailTemplates.GymLeavingSubject, payrollBody));
             }
             return View(GetGymDetails());
         }
@@ -263,7 +263,7 @@ namespace SportsComplex.Application.Controllers
                 EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.GymJoiningSubject, body));
                 
                 var payrollbody= string.Format(EmailTemplates.PayrollGymJoiningBody, psNumber,Settings.GymFee);
-                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.GymJoiningSubject, payrollbody));
+                EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, Settings.PayrollEmailId, EmailTemplates.GymJoiningSubject, payrollbody));
             }
             return View(GetGymDetails());
         }
