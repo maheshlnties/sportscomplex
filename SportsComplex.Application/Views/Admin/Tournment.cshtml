@@ -70,6 +70,7 @@
                 <th class="text-center"><input type="checkbox" id="checkall"/></th>
                 <th class="text-center">Tournment Name</th>
                 <th class="text-center">Tournment Fees</th>
+                <th class="text-center">Tournment Date</th>
                 <th class="text-center">Last Date for Registration</th>
                 @*<th class="text-center" style="width: 180px">Enable</th>*@
             </tr>
@@ -85,7 +86,8 @@
                         <td class="text-center"><input type="checkbox" id="@eachModel.Id" class="checkthis" value="@eachModel.IsSelected"/></td>
                         <td class="text-center">@eachModel.Name</td>
                         <td class="text-center">@eachModel.Fees</td>
-                        <td class="text-center">@eachModel.LastDate</td>
+                        <td class="text-center">@eachModel.TournmentDate.ToShortDateString()</td>
+                        <td class="text-center">@eachModel.LastDate.ToShortDateString()</td>
                         @*<td class="text-center"><input type="checkbox" value="true" @(eachModel.IsEnabled ? "checked=\"checked\"" : "")/></td>*@
                     </tr>
                 }

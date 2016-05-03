@@ -12,6 +12,8 @@ namespace SportsComplex.Models
 
         public DateTime CreatedDate { get; set; }
 
+        public DateTime TournmentDate { get; set; }
+
         public DateTime LastDate { get; set; }
 
         public bool IsEnrolled { get; set; }

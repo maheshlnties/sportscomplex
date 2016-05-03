@@ -251,11 +251,21 @@ namespace SportsComplex.Application.Controllers
 
         [ActionName("Gym")]
         [HttpPost]
-        public ActionResult GymJoin(string psNumber)
+        public JsonResult GymJoin(string psNumber)
         {
-            var userPsNumber = User.Role == UserRoles.Admin && !string.IsNullOrEmpty(psNumber)
+            var bookingForOthers = User.Role == UserRoles.Admin && !string.IsNullOrEmpty(psNumber);
+            var userPsNumber = bookingForOthers
               ? psNumber
               : User.PsNumber;
+
+            if (bookingForOthers)
+            {
+                var gymDetails = _moduleService.GetGymDetails(userPsNumber);
+                if (gymDetails!=null)
+                {
+                    return Json(string.Format("User with PS Number {0} already joined for gym", userPsNumber));
+                }
+            }
 
             var gym = new Gym
             {
@@ -273,7 +283,7 @@ namespace SportsComplex.Application.Controllers
                 var payrollbody= string.Format(EmailTemplates.PayrollGymJoiningBody, psNumber,Settings.GymFee);
                 EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, Settings.PayrollEmailId, EmailTemplates.GymJoiningSubject, payrollbody));
             }
-            return View(GetGymDetails());
+            return Json(null);
         }
 
         #endregion

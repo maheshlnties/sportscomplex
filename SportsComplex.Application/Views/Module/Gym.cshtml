@@ -19,13 +19,13 @@
     <link href="~/Content/largeButton.css" rel="stylesheet"/>
 
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function() {
 
             $("#okImage").hide();
             $("#cancelImage").hide();
 
 
-            $("#employeeSelected").change(function () {
+            $("#employeeSelected").change(function() {
                 $("#okImage").hide();
                 $("#cancelImage").hide();
             });
@@ -40,13 +40,15 @@
                         contentType: 'application/json; charset=utf-8',
                         data: JSON.stringify({ "psNumber": $("#employeeSelected").val() }),
                         success: function(data) {
+                            if (data != null) {
+                                alert(data);
+                            }
                             window.location.reload(true);
                         },
                         error: function(data) {
                             if (data != null) {
                                 alert(data.statusText);
-                            }
-                            else {
+                            } else {
                                 alert("Some problem occured on updating data");
                             }
                         }
@@ -69,8 +71,7 @@
                         error: function(data) {
                             if (data != null) {
                                 alert(data.statusText);
-                            }
-                            else {
+                            } else {
                                 alert("Some problem occured on updating data");
                             }
                         }
@@ -79,7 +80,7 @@
             });
 
 
-            $("#selectEmp").click(function (event) {
+            $("#selectEmp").click(function(event) {
                 event.preventDefault();
                 var resource = {
                     psNumber: $("#employeeSelected").val()
@@ -89,7 +90,7 @@
                     url: '/Module/SelectEmployee',
                     contentType: 'application/json; charset=utf-8',
                     data: JSON.stringify(resource),
-                    success: function (data) {
+                    success: function(data) {
                         if (data === true) {
                             $("#okImage").show();
                             $("#cancelImage").hide();
@@ -98,7 +99,7 @@
                             $("#cancelImage").show();
                         }
                     },
-                    error: function (data) {
+                    error: function(data) {
                         $("#cancelImage").show();
                         $("#okImage").hide();
                         if (data != null) {
@@ -130,7 +131,7 @@
     else
     {
         <text>
-            <p >
+            <p>
                 You do not have gym membership <a id="btnJoin" href="" style="font-weight: bold; text-decoration: underline; cursor: pointer">Join</a>
             </p>
         </text>
@@ -138,17 +139,17 @@
     <input type="hidden" id="hiddenValue" value="@Model.Id">
     @if (principal.Role == UserRoles.Admin)
     {
-        <br/>
+        <br />
         <div class="panel panel-default" style="float: left;">
             <div class="panel-heading">
                 <b>Enroll/Cancel other Employee for Gym</b>
             </div>
             <div class="panel-body">
                 <div class="form-group" style="margin-top: 10px">
-                    @Html.LabelFor(model => model.PsNumber, new {@class = "col-md-4"})
+                    @Html.LabelFor(model => model.PsNumber, new { @class = "col-md-4" })
                     <div class="col-md-7">
                         @Html.EditorFor(model => model.PsNumber, new { htmlAttributes = new { @class = "form-control", @id = "employeeSelected" } })
-                        @Html.ValidationMessageFor(model => model.PsNumber, "", new {@class = "text-danger"})
+                        @Html.ValidationMessageFor(model => model.PsNumber, "", new { @class = "text-danger" })
                     </div>
                     <img id="okImage" src="~/Images/ok.ico" style="width: 20px; height: 20px;" />
                     <img id="cancelImage" src="~/Images/cancel.ico" style="width: 20px; height: 20px;" />
@@ -161,5 +162,14 @@
                 </div>
             </div>
         </div>
+
+        if (!string.IsNullOrEmpty(@ViewBag.Message))
+        {
+            <br />
+            <div class="col-md-10 text-danger">
+                @ViewBag.Message
+            </div>
+            <br />
+        }
     }
 </div>

@@ -377,6 +377,7 @@ namespace SportsComplex.Database
                             Name = datareader["Name"].ToString(),
                             Fees = Convert.ToInt32(datareader["Fees"]),
                             CreatedDate = Convert.ToDateTime(datareader["CreatedDate"]),
+                            TournmentDate = Convert.ToDateTime(datareader["TournmentDate"]),
                             LastDate = Convert.ToDateTime(datareader["LastDate"]),
                             IsDeleted = Convert.ToBoolean(datareader["IsDeleted"])
                         });
@@ -488,7 +489,7 @@ namespace SportsComplex.Database
                             Id = datareader["Id"].ToString(),
                             PsNumber = datareader["PsNumber"].ToString(),
                             TransactionDate = Convert.ToDateTime(datareader["TransactionDate"].ToString()),
-                            Joined = true,
+                            Joined = Convert.ToBoolean(datareader["Joined"]),
                             JoinedOn =
                                 ReferenceEquals(datareader["JoinedOn"], typeof(DBNull))
                                     ? (DateTime?)null
@@ -614,7 +615,7 @@ namespace SportsComplex.Database
                 using (
                     var cmd =
                         new SqlCommand(
-                            string.Format(SqlQueries.SqlAddTournment, tournment.Name, tournment.Fees, tournment.CreatedDate,
+                            string.Format(SqlQueries.SqlAddTournment, tournment.Name, tournment.Fees, tournment.CreatedDate,tournment.TournmentDate,
                                 tournment.LastDate,tournment.IsDeleted), conn))
                 {
                     result = cmd.ExecuteNonQuery();
@@ -661,7 +662,7 @@ namespace SportsComplex.Database
                             Name = datareader["Name"].ToString(),
                             Charges = Settings.GymFee, //ToDo: read charges from app config
                             TransactionDate = Convert.ToDateTime(datareader["TransactionDate"].ToString()),
-                            Joined = true,
+                            Joined = Convert.ToBoolean(datareader["Joined"]),
                             JoinedOn =
                                 ReferenceEquals(datareader["JoinedOn"], typeof(DBNull))
                                     ? (DateTime?)null

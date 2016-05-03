@@ -15,6 +15,11 @@ namespace SportsComplex.Application.ViewModels
         [Range(0, int.MaxValue, ErrorMessage = "Please enter valid Fees")]
         [Required]
         public int Fees { get; set; }
+
+        [Display(Name = "Tournment Date*")]
+        [DataType(DataType.Date)]
+        [Required]
+        public DateTime TournmentDate { get; set; }
         
         [Display(Name = "Last Date of Registration*")]
         [DataType(DataType.Date)]
