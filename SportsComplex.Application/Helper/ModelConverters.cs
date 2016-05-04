@@ -47,7 +47,7 @@ namespace SportsComplex.Application.Helper
                 StartDate = gymCharge.JoinedOn,
                 GymStatus = gymCharge.Joined ? "Joined" : "Left",
                 EndDate = gymCharge.LeftOn,
-                TransactionDate = gymCharge.TransactionDate
+                TransactionDate = gymCharge.TransactionDate.ToLongDateString()
             };
         }
 
@@ -59,7 +59,7 @@ namespace SportsComplex.Application.Helper
                 PsNumber = tournmentCharge.PsNumber,
                 Charges = tournmentCharge.Charges,
                 TournmentName = tournmentCharge.TournmentName,
-                TransactionDate= tournmentCharge.TransactionDate
+                TransactionDate= tournmentCharge.TransactionDate.ToLongDateString()
             };
         }
 
@@ -72,7 +72,7 @@ namespace SportsComplex.Application.Helper
                 Charges = resourceViewModel.Charges,
                 ResourceName = resourceViewModel.ResourceName,
                 Slot = resourceViewModel.Slot,
-                TransactionDate = resourceViewModel.TransactionDate
+                TransactionDate = resourceViewModel.TransactionDate.ToShortDateString()
             };
         }
     }

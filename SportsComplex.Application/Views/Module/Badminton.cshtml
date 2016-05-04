@@ -38,10 +38,12 @@
                     @foreach (var eachHeader in Model.Headers)
                     {
                         @:jsonArray.push("@eachHeader");
-                    }
+                                        }
+                    var value = $("#employeeSelected").val();
                     var resource = {
                         Headers: jsonArray,
-                        Rows: @(Model.Rows)
+                        Rows: @(Model.Rows),
+                        PsNumber: value
                     };
                     $.ajax({
                         type: "POST",
@@ -49,6 +51,7 @@
                         contentType: 'application/json; charset=utf-8',
                         data: JSON.stringify({ "resource": resource, "id": this.id }),
                         success: function(data) {
+                            alert(data);
                             window.location.reload(true);
                         },
                         error: function(data) {

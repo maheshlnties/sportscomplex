@@ -70,7 +70,7 @@
                             <tr>
                                 <td class="text-center">@eachModel.Name</td>
                                 <td class="text-center">@eachModel.Fees</td>
-                                <td class="text-center">@eachModel.TournmentDate.ToShortDateString()</td>
+                                <td class="text-center">@eachModel.TournmentDate</td>
                                 <td class="text-center">@eachModel.LastDate.ToShortDateString()</td>
                                 <td style="text-align: center">
                                     <button type="button" @(eachModel.IsEnrolled || DateTime.Now > eachModel.LastDate ? "disabled" : "") class="btn btn-primary" id="@eachModel.Id" data-toggle="tooltip" data-placement="top">Enroll</button>

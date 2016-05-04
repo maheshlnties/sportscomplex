@@ -64,11 +64,18 @@ namespace SportsComplex.Application.Controllers
 
         [HttpPost]
         [ActionName("Badminton")]
-        public ActionResult BadmintonPost(ResourceViewModel resource, string id)
+        public JsonResult BadmintonPost(ResourceViewModel resource, string id)
         {
             if (DateTime.Now.Hour < 16 || DateTime.Now.Hour > 21)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Booking can be done only between 4PM to 9PM");
-            
+                return Json("Booking can be done only between 4PM to 9PM");
+
+            var result = IsTimeSlotOver(id);
+            if (result == null)
+                return Json("Not a valid slot");
+
+            if ((bool)result)
+                return Json("Time slot hour is over. Try booking available slots.!");
+
             var psNumber = User.Role == UserRoles.Admin && !string.IsNullOrEmpty(resource.PsNumber)
                ? resource.PsNumber
                : User.PsNumber;
@@ -98,7 +105,7 @@ namespace SportsComplex.Application.Controllers
                 var payrollbody = string.Format(EmailTemplates.PayrollResourceBookingBody, psNumber, "Badmiton" + id, Settings.BadmintonFee);
                 EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, Settings.PayrollEmailId, EmailTemplates.ResourceBookingSubject, payrollbody));
             }
-            return View(resource);
+            return Json("Resource booked successfully!");
         }
 
         [HttpGet]
@@ -117,10 +124,17 @@ namespace SportsComplex.Application.Controllers
 
         [HttpPost]
         [ActionName("Billiards")]
-        public ActionResult BilliardsPost(ResourceViewModel resource, string id)
+        public JsonResult BilliardsPost(ResourceViewModel resource, string id)
         {
             if (DateTime.Now.Hour < 16 || DateTime.Now.Hour > 21)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Booking can be done only between 4PM to 9PM");
+                return Json("Booking can be done only between 4PM to 9PM");
+            
+            var result = IsTimeSlotOver(id);
+            if (result == null)
+                return Json("Not a valid slot");
+
+            if ((bool) result)
+                return Json("Time slot hour has been over. Try booking available slots.!");
 
             var psNumber = User.Role == UserRoles.Admin && !string.IsNullOrEmpty(resource.PsNumber)
                 ? resource.PsNumber
@@ -152,7 +166,7 @@ namespace SportsComplex.Application.Controllers
                 var payrollbody = string.Format(EmailTemplates.PayrollResourceBookingBody, psNumber, "Billiard" + id, Settings.BilliardFee);
                 EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, Settings.PayrollEmailId, EmailTemplates.ResourceBookingSubject, payrollbody));
             }
-            return View(resource);
+            return Json("Resource booked successfully!");
         }
 
         #endregion
@@ -304,6 +318,21 @@ namespace SportsComplex.Application.Controllers
                 gymViewModel.Id = gym.Id;
             }
             return gymViewModel;
+        }
+
+        private static bool? IsTimeSlotOver(string slot)
+        {
+            if (string.IsNullOrEmpty(slot)) return null;
+
+            var start = slot.IndexOf("- ", StringComparison.Ordinal) + 1;
+            int end = slot.IndexOf("PM", start, StringComparison.Ordinal);
+            var output = slot.Substring(start, end - start);
+            int result;
+            var converted = int.TryParse(output, out result);
+            if (converted)
+                return (DateTime.Now.Hour - 12) >= result;
+
+            return null;
         }
 
         #endregion

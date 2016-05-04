@@ -59,7 +59,7 @@ namespace SportsComplex.Application.Controllers
         [HttpGet]
         public ActionResult Search(SearchViewModel searchViewModel)
         {
-            var list = _userService.Search(searchViewModel.Name, searchViewModel.PsNumber, searchViewModel.Email);
+            var list = _userService.Search(searchViewModel.PsNumber, searchViewModel.Name, searchViewModel.Email);
             var listEmployeeVm = list.Select(eachEmp => _mapper.Map<Employee, EmployeeViewModel>(eachEmp)).ToList();
 
             return View(listEmployeeVm);

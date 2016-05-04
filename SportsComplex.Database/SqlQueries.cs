@@ -93,7 +93,7 @@ END
 
         public const string SqlSelectEmployeesByPsNumber = "SELECT * FROM [SportsComplex].[dbo].[Employees] WHERE PsNumber = '{0}'";
 
-        public const string SqlSearchEmployees = "SELECT * FROM [SportsComplex].[dbo].[Employees] WHERE PsNumber LIKE '%{0}%' OR Name LIKE '%{1}%' OR Email LIKE '%{2}%'";
+        public const string SqlSearchEmployees = "SELECT * FROM [SportsComplex].[dbo].[Employees] WHERE PsNumber LIKE '%{0}%' AND Name LIKE '%{1}%' AND Email LIKE '%{2}%'";
 
         public const string SqlSelectResourceSettings = "SELECT * FROM [SportsComplex].[dbo].[ResourceSettings]";
 
@@ -145,7 +145,7 @@ END
 
         //public const string SqlBookTournment = "INSERT INTO [SportsComplex].[dbo].[TournmentBooking] ([TournmentId],[PsNumber],[TransactionDate]) VALUES('{0}','{1}','{2}')";
 
-        public const string SqlBookTournment = "INSERT INTO [SportsComplex].[dbo].[TournmentBooking] ([TournmentId],[PsNumber],[TransactionDate]) VALUES('{0}','{1}','convert(date , '{2}' , 105)')";
+        public const string SqlBookTournment = "INSERT INTO [SportsComplex].[dbo].[TournmentBooking] ([TournmentId],[PsNumber],[TransactionDate]) VALUES('{0}','{1}',convert(date , '{2}' , 105))";
 
         public const string SqlSelectTournmentBookingByPsNumber = "SELECT * FROM [SportsComplex].[dbo].[TournmentBooking] Where PsNumber='{0}'";
 

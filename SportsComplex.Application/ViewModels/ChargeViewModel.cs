@@ -10,7 +10,7 @@ namespace SportsComplex.Application.ViewModels
 
         public double Charges { get; set; }
 
-        public DateTime TransactionDate { get; set; }
+        public string TransactionDate { get; set; }
 
         public string TournmentName { get; set; }
 
