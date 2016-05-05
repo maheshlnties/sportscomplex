@@ -184,6 +184,8 @@ namespace SportsComplex.Application.Controllers
                 }
             }
             ViewBag.Error = "Incorrect username and/or password";
+            homeVewModel.Images = GetGallery();
+            homeVewModel.News = GetNews();
             return View("Index", homeVewModel);
         }
 
