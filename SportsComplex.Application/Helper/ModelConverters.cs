@@ -44,10 +44,10 @@ namespace SportsComplex.Application.Helper
                 Name = gymCharge.Name,
                 PsNumber = gymCharge.PsNumber,
                 Charges = gymCharge.Charges,
-                StartDate = gymCharge.JoinedOn,
+                StartDate = gymCharge.JoinedOn == null ? "-" : gymCharge.JoinedOn.Value.ToShortDateString(),
                 GymStatus = gymCharge.Joined ? "Joined" : "Left",
-                EndDate = gymCharge.LeftOn,
-                TransactionDate = gymCharge.TransactionDate.ToLongDateString()
+                EndDate = gymCharge.LeftOn == null ? "-" : gymCharge.LeftOn.Value.ToShortDateString(),
+                TransactionDate = gymCharge.TransactionDate.ToShortDateString()
             };
         }
 
@@ -59,7 +59,7 @@ namespace SportsComplex.Application.Helper
                 PsNumber = tournmentCharge.PsNumber,
                 Charges = tournmentCharge.Charges,
                 TournmentName = tournmentCharge.TournmentName,
-                TransactionDate= tournmentCharge.TransactionDate.ToLongDateString()
+                TransactionDate = tournmentCharge.TransactionDate.ToShortDateString()
             };
         }
 

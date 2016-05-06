@@ -81,7 +81,7 @@ namespace SportsComplex.DatabaseService
         public IList<ResourceCharge> GetResourceCharges(int selectedMonth, int selectedYear)
         {
             var badmintonResources = _databaseAccessor.GetBadmintonCharges(selectedMonth, selectedYear);
-            var billiardResources = _databaseAccessor.GetBadmintonCharges(selectedMonth, selectedYear);
+            var billiardResources = _databaseAccessor.GetBilliardCharges(selectedMonth, selectedYear);
             var list = new List<ResourceCharge>();
             foreach (var eachResource in badmintonResources)
             {
