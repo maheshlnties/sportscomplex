@@ -145,8 +145,13 @@ namespace SportsComplex.Application.Controllers
         [ActionName("Index")]
         public async Task<ActionResult> Login(HomeViewModel homeVewModel)
         {
+            homeVewModel.Images = GetGallery();
+            homeVewModel.News = GetNews();
             if (!ModelState.IsValid)
-                return View("Index");
+            {
+                ViewBag.Error = "Please enter username and password";
+                return View("Index", homeVewModel);
+            }
 
             var loginViewModel = homeVewModel.LoginViewModel;
             var user = await _userService.GetUser(loginViewModel.Username, loginViewModel.Password);
@@ -184,8 +189,6 @@ namespace SportsComplex.Application.Controllers
                 }
             }
             ViewBag.Error = "Incorrect username and/or password";
-            homeVewModel.Images = GetGallery();
-            homeVewModel.News = GetNews();
             return View("Index", homeVewModel);
         }
 

@@ -9,6 +9,10 @@
             document.getElementById('imageUploadId').onsubmit = function () {
                 var formdata = new FormData();
                 var fileInput = document.getElementById('fileInputType');
+                if (fileInput.files.length === 0) {
+                    alert("Please select images to be uploaded");
+                    return false;
+                }
                 for (i = 0; i < fileInput.files.length; i++) {
                     formdata.append(fileInput.files[i].name, fileInput.files[i]);
                 }

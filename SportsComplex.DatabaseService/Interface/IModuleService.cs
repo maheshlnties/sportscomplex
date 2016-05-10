@@ -33,5 +33,7 @@ namespace SportsComplex.DatabaseService.Interface
         bool IsUserExists(string psNumber);
 
         string GetUserName(string psNumber);
+
+        string GetEmail(string psNumber);
     }
 }

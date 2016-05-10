@@ -39,6 +39,11 @@ namespace SportsComplex.DatabaseService
         {
             return _databaseAccessor.GetUserName(psNumber);
         }
+
+        public string GetEmail(string psNumber)
+        {
+            return _databaseAccessor.GetEmailId(psNumber);
+        }
         
         private List<string> GetBadmintonHeaders()
         {

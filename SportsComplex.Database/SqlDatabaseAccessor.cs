@@ -85,6 +85,24 @@ namespace SportsComplex.Database
             return null;
         }
 
+        public string GetEmailId(string psNumber)
+        {
+
+            using (var conn = new SqlConnection(SqlQueries.ConnectionString))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(string.Format(SqlQueries.SqlSelectEmployeesByPsNumber, psNumber), conn))
+                {
+                    var datareader = cmd.ExecuteReader();
+                    if (datareader.Read())
+                    {
+                        return datareader["Email"].ToString();
+                    }
+                }
+            }
+            return null;
+        }
+
         public List<News> GetNews()
         {
             var news = new List<News>();

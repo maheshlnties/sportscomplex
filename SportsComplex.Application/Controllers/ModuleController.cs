@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Mail;
 using System.Web.Mvc;
 using SportsComplex.Application.Filters;
@@ -75,15 +74,15 @@ namespace SportsComplex.Application.Controllers
 
             if ((bool)result)
                 return Json("Time slot hour is over. Try booking available slots.!");
-
-            var psNumber = User.Role == UserRoles.Admin && !string.IsNullOrEmpty(resource.PsNumber)
+            var bookingForOthers = User.Role == UserRoles.Admin && !string.IsNullOrEmpty(resource.PsNumber);
+            var psNumber = bookingForOthers
                ? resource.PsNumber
                : User.PsNumber;
 
             var existingBookedList = _moduleService.GetBookedBadmintonList(DateTime.Today);
             resource.BookedList = existingBookedList;
 
-            var userName = User.Role == UserRoles.Admin && !string.IsNullOrEmpty(resource.PsNumber)
+            var userName = bookingForOthers
                 ? _moduleService.GetUserName(resource.PsNumber)
                 : User.Name;
 
@@ -101,7 +100,11 @@ namespace SportsComplex.Application.Controllers
             {
                 var body = string.Format(EmailTemplates.ResourceBookingBody, id,Settings.BadmintonFee);
                 EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.ResourceBookingSubject,body));
-
+                if (bookingForOthers)
+                {
+                    var email = _moduleService.GetEmail(psNumber);
+                    EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, email, EmailTemplates.ResourceBookingSubject, body));
+                }
                 var payrollbody = string.Format(EmailTemplates.PayrollResourceBookingBody, psNumber, "Badmiton" + id, Settings.BadmintonFee);
                 EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, Settings.PayrollEmailId, EmailTemplates.ResourceBookingSubject, payrollbody));
             }
@@ -135,15 +138,15 @@ namespace SportsComplex.Application.Controllers
 
             if ((bool) result)
                 return Json("Time slot hour has been over. Try booking available slots.!");
-
-            var psNumber = User.Role == UserRoles.Admin && !string.IsNullOrEmpty(resource.PsNumber)
+            var bookingForOthers = User.Role == UserRoles.Admin && !string.IsNullOrEmpty(resource.PsNumber);
+            var psNumber = bookingForOthers
                 ? resource.PsNumber
                 : User.PsNumber;
 
             var existingBookedList = _moduleService.GetBookedBilliardList(DateTime.Today);
             resource.BookedList = existingBookedList;
 
-            var userName = User.Role == UserRoles.Admin && !string.IsNullOrEmpty(resource.PsNumber)
+            var userName = bookingForOthers
                 ? _moduleService.GetUserName(resource.PsNumber)
                 : User.Name;
 
@@ -161,7 +164,11 @@ namespace SportsComplex.Application.Controllers
             {
                 var body = string.Format(EmailTemplates.ResourceBookingBody, id,Settings.BilliardFee);
                 EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.ResourceBookingSubject, body));
-
+                if (bookingForOthers)
+                {
+                    var email =_moduleService.GetEmail(psNumber);
+                    EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, email, EmailTemplates.ResourceBookingSubject, body));
+                }
 
                 var payrollbody = string.Format(EmailTemplates.PayrollResourceBookingBody, psNumber, "Billiard" + id, Settings.BilliardFee);
                 EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, Settings.PayrollEmailId, EmailTemplates.ResourceBookingSubject, payrollbody));
@@ -293,7 +300,11 @@ namespace SportsComplex.Application.Controllers
             {
                 var body = string.Format(EmailTemplates.GymJoiningBody, Settings.GymFee);
                 EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, User.Email, EmailTemplates.GymJoiningSubject, body));
-                
+                if (bookingForOthers)
+                {
+                    var email = _moduleService.GetEmail(psNumber);
+                    EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, email, EmailTemplates.ResourceBookingSubject, body));
+                }
                 var payrollbody= string.Format(EmailTemplates.PayrollGymJoiningBody, psNumber,Settings.GymFee);
                 EmailHandler.SendMail(new MailMessage(Settings.FromEmailId, Settings.PayrollEmailId, EmailTemplates.GymJoiningSubject, payrollbody));
             }
